@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  mariadb:
+    image: mariadb:latest
+    container_name: mariadbInjob
+    volumes:
+      - ./volumes/mariadb/datadir:/var/lib/mysql
+      - ./volumes/mariadb/config:/etc/mysql/conf.d
+    restart: unless-stopped
+    ports:
+      - 3306:3306
+    environment:
+      MARIADB_ROOT_PASSWORD: root
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+    networks:
+      db:
+
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadminInjob
+    restart: unless-stopped
+    ports:
+      - 8081:80
+    environment:
+      - PMA_HOST=mariadb
+      - PMA_PORT=3306
+    networks:
+      db:
+
+
+networks:
+  db:
+    driver: bridge
