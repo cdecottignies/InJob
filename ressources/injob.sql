@@ -1,9 +1,7 @@
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET time_zone = "+00:00";
-
+create database injob;
+USE injob;
 
 CREATE TABLE IF NOT EXISTS `advertisements` (
-  'comp' INT NOT NULL,
   `id` int AUTO_INCREMENT NOT NULL PRIMARY KEY,
   `titre` varchar(30) NOT NULL,
   `descshort` varchar(255) NOT NULL,
@@ -25,7 +23,7 @@ CREATE TABLE IF NOT EXISTS `companies` (
 );
 
 CREATE TABLE IF NOT EXISTS `user` (
-  `id` int AUTO_INCREMENT=3 NOT NULL PRIMARY KEY,
+  `id` int AUTO_INCREMENT NOT NULL PRIMARY KEY,
   `name` varchar(50) NOT NULL,
   `cv` TEXT NOT NULL,
   `mail` TEXT NOT NULL,
@@ -35,6 +33,8 @@ CREATE TABLE IF NOT EXISTS `user` (
   `contrat` ENUM ('CDI','CDD','ALTERNANCE')
 );
 
-
+/*
 ALTER TABLE `advertisements`
-  ADD FOREIGN KEY (`id`);
+  ADD CONSTRAINT 'comp' FOREIGN KEY (`id`) REFERENCES 'companies';
+
+ALTER TABLE advertisements ADD CONSTRAINT com_id FOREIGN KEY (id) REFERENCES companies(id);*/
