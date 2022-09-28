@@ -1,4 +1,5 @@
-create database injob;
+create database IF NOT EXISTS injob;
+
 USE injob;
 
 CREATE TABLE IF NOT EXISTS `advertisements` (
@@ -32,7 +33,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `formation` TEXT NOT NULL,
   `contrat` ENUM ('CDI','CDD','ALTERNANCE')
 );
-
+/* docker exec -i [mysql_container_name] mysql -u[username] -p[password] [DB name] < [path/to/sql/file]*/
 /*
 ALTER TABLE `advertisements`
   ADD CONSTRAINT 'comp' FOREIGN KEY (`id`) REFERENCES 'companies';
