@@ -1,16 +1,25 @@
-version: '3.8'
+version: '3.1'
 
 services:
-  mysqldb:
+  db:
     image: mysql:5.7
-    container_name: mysqlInjob
+    # NOTE: use of "mysql_native_password" is not recommended: https://dev.mysql.com/doc/refman/8.0/en/upgrading-from-previous-series.html#upgrade-caching-sha2-password
+    # (this is just an example, not intended to be a production configuration)
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    volumes:
+      - ./ressources/injob.sql:/docker-entrypoint-initdb.d/injob.sql
+      - /var/lib/mysql
     environment:
       MYSQL_ROOT_PASSWORD: admin
       MYSQL_USER: admin
       MYSQL_PASSWORD: admin 
-      MYSQL_DATABASE: ajax
+      MYSQL_DATABASE: injob
+
+  adminer:
+    image: adminer
+    container_name: admirerInjob
+    restart: always
     ports:
-      - "3306:3306"
-    volumes:
-      - ./ressources/ajax_products.sql:/docker-entrypoint-initdb.d/ajax_products.sql
-      - /var/lib/mysql
+      - 8080:8080
+ 
