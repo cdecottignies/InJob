@@ -24,7 +24,7 @@ module.exports = (sequelize, Sequelize) => {
             workingTime: {
                 type: Sequelize.JSON
             },
-            contrat: {
+            contract: {
                 type: Sequelize.ENUM('CDI', 'CDD', 'ALTERNANCE')
             },
             published: {

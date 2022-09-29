@@ -20,7 +20,7 @@ exports.create = (req, res) => {
     salary: req.body.salary,
     place: req.body.place,
     workingTime: req.body.workingTime,
-    contrat: req.body.contrat,
+    contract: req.body.contrat,
     published: req.body.published ? req.body.published : false
   };
 
