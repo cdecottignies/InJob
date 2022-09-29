@@ -30,8 +30,8 @@ app.get("/", (req, res) => {
 });
 
 // Our routes
-require("./routes/tutorials.routes")(app);
-require("./routes/advertisements.routes")(app);
+require("./routes/tutorials.route")(app);
+require("./routes/advertisements.route")(app);
 
 
 // set port, listen for requests
