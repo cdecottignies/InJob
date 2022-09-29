@@ -21,9 +21,7 @@
         <b-nav-form class="mx-auto">
           <b-form-input class="mx-10" placeholder="Search"></b-form-input>
 
-          <b-button variant="warning" size="sm"
-            >RECHERCHE</b-button
-          >
+          <b-button variant="warning" size="sm">RECHERCHE</b-button>
         </b-nav-form>
       </div>
       <div>
@@ -46,12 +44,18 @@
         </b-dropdown>
       </div>
     </div>
+    <Affichage-Advert> </Affichage-Advert>
   </div>
 </template>
 
   
 <script>
+import AffichageAdvert from "@/components/AffichageAdvert.vue";
+
 export default {
-  name: "IndexPage",
+  name: "index",
+  components: {
+    AffichageAdvert,
+  },
 };
 </script>
