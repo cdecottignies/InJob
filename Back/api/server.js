@@ -4,7 +4,7 @@ const cors = require("cors");
 const app = express();
 
 var corsOptions = {
-  origin: "http://localhost:8091"
+  origin: "http://localhost:3000"
 };
 
 app.use(cors(corsOptions));
@@ -18,7 +18,7 @@ app.use(express.urlencoded({ extended: true }));
 // Raccord Sequelize
 const db = require("./models");
 // TODO: En prod ne pas drop la database à chaque connexion
-db.sequelize.sync({ force: false }).then(() => {
+db.sequelize.sync({ force: true }).then(() => {
     console.log("Successfully connected to the database.");
 })
 .catch(err => {

@@ -5,22 +5,22 @@ export default class Api {
         this.url = 'http://localhost:8090/api/'
     }
 
-    GetAllAdvert(key) {
+    GetAllAdvert() {
         return new Promise((resolve, reject) => {
             try {
                 axios
-                    .get(`${this.url}advertissements`)
+                    .get(`${this.url}advertisements`)
                     .then((response) => { resolve(response.data) })
             } catch (e) {
                 reject(e)
             }
         })
     }
-    GetAllAdvert(key) {
+    GetAdvert(key) {
         return new Promise((resolve, reject) => {
             try {
                 axios
-                    .get(`${this.url}advertissements/${key}`)
+                    .get(`${this.url}advertisement/${key}`)
                     .then((response) => { resolve(response.data) })
             } catch (e) {
                 reject(e)
@@ -28,7 +28,7 @@ export default class Api {
         })
     }
 
-    AddByKey(key) {
+    AddAdvert(key) {
         return new Promise((resolve, reject) => {
             try {
                 axios
@@ -40,17 +40,17 @@ export default class Api {
         })
     }
 
-    GetAllIssue() {
-        return new Promise((resolve, reject) => {
-            try {
-                axios
-                    .get(`${this.url}all`)
-                    .then((response) => { resolve(response.data) })
-            } catch (e) {
-                reject(e)
-            }
-        }, 2000)
-    }
+    // GetAllIssue() {
+    //     return new Promise((resolve, reject) => {
+    //         try {
+    //             axios
+    //                 .get(`${this.url}all`)
+    //                 .then((response) => { resolve(response.data) })
+    //         } catch (e) {
+    //             reject(e)
+    //         }
+    //     }, 2000)
+    // }
 
     Delete(key) {
         return new Promise((resolve, reject) => {
@@ -81,18 +81,6 @@ export default class Api {
             try {
                 axios
                     .get(`${this.url}reset`)
-                    .then((response) => { resolve(response.data) })
-            } catch (e) {
-                reject(e)
-            }
-        })
-    }
-
-    History() {
-        return new Promise((resolve, reject) => {
-            try {
-                axios
-                    .get(`${this.url}history`)
                     .then((response) => { resolve(response.data) })
             } catch (e) {
                 reject(e)
