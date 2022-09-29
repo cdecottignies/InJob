@@ -3,7 +3,7 @@
     <b-button v-b-toggle.collapse-1 variant="primary">Toggle Collapse</b-button>
     <b-collapse id="collapse-1" class="mt-2">
       <b-card>
-        <p class="card-text" :items="title"></p>
+        <p class="card-text">{{ this.objet }}</p>
         <b-button v-b-toggle.collapse-1-inner size="sm"
           >Toggle Inner Collapse</b-button
         >
@@ -26,52 +26,42 @@ export default {
   },
   data() {
     return {
-      title: "",
-      descshort: "",
-      descslong: "",
-      salary: Float32Array,
-      place: [
+      objet: [
         {
-          key: "city",
-        },
-        {
-          key: "street",
+          title: "",
+          descshort: "",
+          descslong: "",
+          salary: Float32Array,
+          place: [
+            {
+              key: "city",
+            },
+            {
+              key: "street",
+            },
+          ],
+          workingTime: null,
+          contract: "",
+          published: "",
         },
       ],
-      workingTime: null,
-      contract: "",
-      published: "",
     };
   },
   mounted() {
     this.GetAllAdvert();
-    this.Issuehistory();
   },
   methods: {
     GetAllAdvert() {
       api.GetAllAdvert().then((result) => {
-        this.title = result.title;
-        this.descshort = result.descshort;
-        this.descslong = result.descslong;
+        this.objet=result;
+   
       });
     },
-    historyUpdate() {
-      api.Update().then(() => {
-        api.History().then((result) => {
-          this.history = result.issues;
-        });
-      });
-    },
-    async Issuehistory() {
-      api.History().then((result) => {
-        this.history = result.issues;
-      });
-    },
-    async GetAll() {
-      api.GetAllIssue().then((result) => {
-        this.IssueWeekly = result.issues;
-      });
-    },
+    // async GetAll() {
+    //   api.GetAllIssue().then((result) => {
+    //     this.IssueWeekly = result.issues;
+    //   });
+    // },
   },
 };
 </script>
