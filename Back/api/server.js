@@ -31,6 +31,8 @@ app.get("/", (req, res) => {
 
 // Our routes
 require("./routes/tutorials.routes")(app);
+require("./routes/advertisements.routes")(app);
+
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8090;
