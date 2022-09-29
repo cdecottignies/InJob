@@ -4,28 +4,36 @@ module.exports = (sequelize, Sequelize) => {
             id: {
                 type: Sequelize.INTEGER,
                 autoIncrement: true,
-                primaryKey: true
+                primaryKey: true,
+                allowNull: false
             },
             title: {
-                type: Sequelize.STRING(100)
+                type: Sequelize.STRING(100),
+                allowNull: false
             },
             descshort: {
-                type: Sequelize.STRING
+                type: Sequelize.STRING,
+                allowNull: true
             },
             desclong: {
-                type: Sequelize.TEXT
+                type: Sequelize.TEXT,
+                allowNull: false
             },
             salary: {
-                type: Sequelize.DECIMAL
+                type: Sequelize.DECIMAL,
+                allowNull: true
             },
             place: {
-                type: Sequelize.JSON
+                type: Sequelize.JSON,
+                allowNull: false
             },
             workingTime: {
-                type: Sequelize.JSON
+                type: Sequelize.JSON,
+                allowNull: true
             },
             contract: {
-                type: Sequelize.ENUM('CDI', 'CDD', 'ALTERNANCE')
+                type: Sequelize.ENUM('CDI', 'CDD', 'ALTERNANCE'),
+                allowNull: false
             },
             published: {
                 type: Sequelize.BOOLEAN
