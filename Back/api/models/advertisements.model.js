@@ -26,6 +26,9 @@ module.exports = (sequelize, Sequelize) => {
             },
             contrat: {
                 type: Sequelize.ENUM('CDI', 'CDD', 'ALTERNANCE')
+            },
+            published: {
+                type: Sequelize.BOOLEAN
             }
 });
 return Advertisements;
