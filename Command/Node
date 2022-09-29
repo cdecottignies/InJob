@@ -1,0 +1,7 @@
+Au téléchargement d'un nouveau Node Project, cd into it
+Il faut installer les Packages
+
+npm i
+
+Pour l'api il faut lancer le fichier server.js, avec la commande
+nodemon server.js

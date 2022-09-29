@@ -1,0 +1,5 @@
+alias restart_injob='docker rm -f $(docker ps -aqf "name=mysqlInjob") $(docker ps -aqf "name=admirerInjob") && docker volume prune && docker network prune && docker compose -f /home/musubi/Documents/Epitech/Year1/injob/Database/docker-compose.yml up -d'
+alias start_injob="docker compose -f /home/musubi/Documents/Epitech/Year1/injob/Database/docker-compose.yml up -d"
+
+alias restart_tutorial='docker rm -f $(docker ps -aqf "name=mysqlTutorial") $(docker ps -aqf "name=admirerTutorial") && docker volume prune && docker network prune && docker compose -f /home/musubi/Documents/Epitech/Year1/injob/Database/docker-compose-test.yml up -d'
+alias start_tutorial="docker compose -f /home/musubi/Documents/Epitech/Year1/injob/Database/docker-compose-test.yml up -d"
