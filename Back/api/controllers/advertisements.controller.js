@@ -20,7 +20,7 @@ exports.create = (req, res) => {
     salary: req.body.salary,
     place: req.body.place,
     workingTime: req.body.workingTime,
-    contract: req.body.contrat,
+    contract: req.body.contract,
     published: req.body.published ? req.body.published : false
   };
 
@@ -79,33 +79,30 @@ exports.findOne = (req, res) => {
 exports.update = (req, res) => {
     const id = req.params.id;
 
-    Advertisements.update(req.body, {
+    Advertisements.update({
+      title: req.body.title,
+      descshort: req.body.descshort,
+      desclong: req.body.desclong,
+      salary: req.body.salary,
+      place: req.body.place,
+      workingTime: req.body.workingTime,
+      contract: req.body.contract,
+      published: req.body.published ? req.body.published : false
+    },
+    {
       where: { id: id }
-    })
-      .then(num => {
-        if (num == 1) {
-          res.send({
-            message: "Tutorial was updated successfully."
-          });
-        } else {
-          res.send({
-            message: `Cannot update Tutorial with id=${id}. Maybe Tutorial was not found or req.body is empty!`
-          });
-        }
-      })
-      .catch(err => {
-        res.status(500).send({
-          message: "Error updating Tutorial with id=" + id
-        });
-      });
+    }).then( (data) => { res.send(data) })
+    .catch( (err) => { res.json(err) });
 };
 
-// Delete a Tutorial with the specified id in the request
+// Delete a Advertisement with the specified id in the request
 exports.delete = (req, res) => {
     const id = req.params.id;
 
     Advertisements.destroy({
-      where: { id: id }
+      where: {
+        id: id
+      }
     })
       .then(num => {
         if (num == 1) {
