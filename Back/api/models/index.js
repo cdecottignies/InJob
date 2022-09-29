@@ -23,6 +23,6 @@ db.sequelize = sequelize;
 // db.tutorials = require("./tutorial.models.js")(sequelize, Sequelize);
 
 // Models Advertisements
-db.advertisements = require("./advertisements.models.js")(sequelize, Sequelize);
+db.advertisements = require("./advertisements.model.js")(sequelize, Sequelize);
 
 module.exports = db;
