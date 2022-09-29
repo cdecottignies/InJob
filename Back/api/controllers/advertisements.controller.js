@@ -13,14 +13,19 @@ exports.create = (req, res) => {
   }
 
   // Create a Tutorial
-  const tutorial = {
+  const advertisements = {
     title: req.body.title,
-    description: req.body.description,
+    descshort: req.body.descshort,
+    desclong: req.body.desclong,
+    salary: req.body.salary,
+    place: req.body.place,
+    workingTime: req.body.workingTime,
+    contrat: req.body.contrat,
     published: req.body.published ? req.body.published : false
   };
 
   // Save Tutorial in the database
-  Advertisements.create(tutorial)
+  Advertisements.create(advertisements)
     .then(data => {
       res.send(data);
     })
