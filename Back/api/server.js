@@ -17,7 +17,8 @@ app.use(express.urlencoded({ extended: true }));
 
 // Raccord Sequelize
 const db = require("./models");
-db.sequelize.sync({ force: true }).then(() => {
+// TODO: En prod ne pas drop la database à chaque connexion
+db.sequelize.sync({ force: false }).then(() => {
     console.log("Successfully connected to the database.");
 })
 .catch(err => {
