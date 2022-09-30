@@ -32,7 +32,7 @@ export default class Api {
         return new Promise((resolve, reject) => {
             try {
                 axios
-                    .get(`${this.url}add/${key}`)
+                    .get(`${this.url}advertisement/add/${key}`)
                     .then((response) => { resolve(response.data) })
             } catch (e) {
                 reject(e)
@@ -52,11 +52,11 @@ export default class Api {
     //     }, 2000)
     // }
 
-    Delete(key) {
+    DeleteAdvert(key) {
         return new Promise((resolve, reject) => {
             try {
                 axios
-                    .get(`${this.url}delete/${key}`)
+                    .delete(`${this.url}advertisement${key}`)
                     .then((response) => { resolve(response.data) })
             } catch (e) {
                 reject(e)
@@ -64,7 +64,7 @@ export default class Api {
         })
     }
 
-    Update() {
+    UpdateAdvert() {
         return new Promise((resolve, reject) => {
             try {
                 axios
@@ -76,7 +76,7 @@ export default class Api {
         })
     }
 
-    Reset() {
+    ResetAdvert() {
         return new Promise((resolve, reject) => {
             try {
                 axios

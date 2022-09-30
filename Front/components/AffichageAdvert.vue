@@ -1,34 +1,64 @@
 <template>
-  <div class="AffichageAdvert">
-    <b-button v-b-toggle.collapse-1 variant="primary">Toggle Collapse</b-button>
-    <b-collapse id="collapse-1" class="mt-2">
-      <b-card>
-        <p class="card-text">{{ this.objet }}</p>
-        <b-button v-b-toggle.collapse-1-inner size="sm"
-          >Toggle Inner Collapse</b-button
-        >
-        <b-collapse id="collapse-1-inner" class="mt-2">
-          <b-card>Hello!</b-card>
+  <div>
+    <div class="card AffichageAdvert mx-5">
+      <p class="card-text text-center">{{ this.objet.title }}</p>
+      <div>
+        <b-button v-b-toggle.collapse-1>learn more</b-button>
+        <b-collapse id="collapse-1" class="mt-2">
+          <p class="card-text">learn more working</p>
         </b-collapse>
-      </b-card>
-    </b-collapse>
+      </div>
+    </div>
+    <div class="card AffichageAdvert mx-5">
+      <p class="card-text text-center">{{ this.objet.title }}</p>
+      <div>
+        <b-button v-b-toggle.collapse-2>learn more</b-button>
+        <b-collapse id="collapse-2" class="mt-2">
+          <p class="card-text">learn more working</p>
+        </b-collapse>
+      </div>
+    </div>
+    <div class="card AffichageAdvert mx-5">
+      <p class="card-text text-center">{{ this.objet.title }}</p>
+      <div>
+        <b-button v-b-toggle.collapse-3>learn more</b-button>
+        <b-collapse id="collapse-3" class="mt-2">
+          <p class="card-text">learn more working</p>
+        </b-collapse>
+      </div>
+    </div>
+    <div class="card AffichageAdvert mx-5">
+      <p class="card-text text-center">{{ this.objet.title }}</p>
+      <div>
+        <b-button v-b-toggle.collapse-4>learn more</b-button>
+        <b-collapse id="collapse-4" class="mt-2">
+          <p class="card-text">learn more working</p>
+        </b-collapse>
+      </div>
+    </div>
+    <div class="card AffichageAdvert mx-5">
+      <p class="card-text text-center">{{ this.objet.title }}</p>
+      <div>
+        <b-button v-b-toggle.collapse-5>learn more</b-button>
+        <b-collapse id="collapse-5" class="mt-2">
+          <p class="card-text">learn more working</p>
+        </b-collapse>
+      </div>
+    </div>
   </div>
 </template>
 <script>
 import Api from "@/services/ServiceMysql";
-
 const api = new Api();
 
 export default {
   name: "AffichageAdvert",
-  props: {
-    res: String,
-  },
+
   data() {
     return {
       objet: [
         {
-          title: "",
+          title: "test",
           descshort: "",
           descslong: "",
           salary: Float32Array,
@@ -53,8 +83,12 @@ export default {
   methods: {
     GetAllAdvert() {
       api.GetAllAdvert().then((result) => {
-        this.objet=result;
-   
+        this.objet = result;
+      });
+    },
+    GetAdvert(res) {
+      api.GetAdvert(res).then((result) => {
+        this.objet = result;
       });
     },
     // async GetAll() {
