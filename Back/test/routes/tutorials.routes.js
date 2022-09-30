@@ -25,9 +25,4 @@ module.exports = app => {
     router.delete("/", tutorials.deleteAll);
   
     app.use('/api/tutorials', router);
-
-    // Advertisements routes
-    router.post("/", advertisements.create);
-
-    app.use('/api/advertisements', router);
   };

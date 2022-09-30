@@ -16,24 +16,24 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Raccord Sequelize
-const db = require("./models");
-db.sequelize.sync({ force: true }).then(() => {
-    console.log("Successfully connected to the database.");
-})
-.catch(err => {
-    console.log('Could not connect to the database. Exiting now...', err);
-});
+// const db = require("./models");
+// db.sequelize.sync({ force: true }).then(() => {
+//     console.log("Successfully connected to the database.");
+// })
+// .catch(err => {
+//     console.log('Could not connect to the database. Exiting now...', err);
+// });
 
 // simple route
 app.get("/", (req, res) => {
   res.json({ message: "Welcome to bezkoder application." });
 });
 
-// Our routes
-require("./routes/tutorials.routes")(app);
+// // Our routes
+// require("./routes/tutorials.routes")(app);
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8090;
 app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}.`);
+  // console.log(`Server is running on port ${PORT}.`);
 });
