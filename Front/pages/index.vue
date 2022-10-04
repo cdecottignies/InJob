@@ -16,34 +16,7 @@
         </b-navbar>
       </div>
     </header>
-    <div class="d-flex my-3 mx-auto justify-content-center bg-secondary">
-      <div class="mx-10">
-        <b-nav-form class="mx-auto">
-          <b-form-input class="mx-10" placeholder="Search"></b-form-input>
-
-          <b-button variant="warning" size="sm">RECHERCHE</b-button>
-        </b-nav-form>
-      </div>
-      <div>
-        <b-dropdown class="mx-1" variant="warning" right text="Experiences">
-          <b-dropdown-item>0</b-dropdown-item>
-          <b-dropdown-item>1</b-dropdown-item>
-          <b-dropdown-item>2+</b-dropdown-item> </b-dropdown
-        ><b-dropdown class="mx-1" variant="warning" right text="Poste">
-          <b-dropdown-item>0</b-dropdown-item>
-          <b-dropdown-item>1</b-dropdown-item>
-          <b-dropdown-item>2+</b-dropdown-item> </b-dropdown
-        ><b-dropdown class="mx-1" variant="warning" right text="Date">
-          <b-dropdown-item>0</b-dropdown-item>
-          <b-dropdown-item>1</b-dropdown-item>
-          <b-dropdown-item>2+</b-dropdown-item> </b-dropdown
-        ><b-dropdown class="mx-1" variant="warning" right text="Formation">
-          <b-dropdown-item>0</b-dropdown-item>
-          <b-dropdown-item>1</b-dropdown-item>
-          <b-dropdown-item>2+</b-dropdown-item>
-        </b-dropdown>
-      </div>
-    </div>
+    
     <Affichage-Advert> </Affichage-Advert>
 
   </div>

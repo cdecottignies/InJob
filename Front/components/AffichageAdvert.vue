@@ -1,46 +1,40 @@
 <template>
   <div>
-    <div class="card AffichageAdvert mx-5">
-      <p class="card-text text-center">{{ this.objet.title }}</p>
+    <div class="d-flex my-3 mx-auto justify-content-center bg-secondary">
+      <div class="mx-10">
+        <b-nav-form class="mx-auto">
+          <b-form-input class="mx-10" placeholder="Search"></b-form-input>
+
+          <b-button variant="warning" size="sm">RECHERCHE</b-button>
+        </b-nav-form>
+      </div>
       <div>
-        <b-button v-b-toggle.collapse-1>learn more</b-button>
-        <b-collapse id="collapse-1" class="mt-2">
-          <p class="card-text">learn more working</p>
-        </b-collapse>
+        <b-dropdown class="mx-1" variant="warning" right text="Experiences">
+          <b-dropdown-item>0</b-dropdown-item>
+          <b-dropdown-item>1</b-dropdown-item>
+          <b-dropdown-item>2+</b-dropdown-item> </b-dropdown
+        ><b-dropdown class="mx-1" variant="warning" right text="Poste">
+          <b-dropdown-item>0</b-dropdown-item>
+          <b-dropdown-item>1</b-dropdown-item>
+          <b-dropdown-item>2+</b-dropdown-item> </b-dropdown
+        ><b-dropdown class="mx-1" variant="warning" right text="Date">
+          <b-dropdown-item>0</b-dropdown-item>
+          <b-dropdown-item>1</b-dropdown-item>
+          <b-dropdown-item>2+</b-dropdown-item> </b-dropdown
+        ><b-dropdown class="mx-1" variant="warning" right text="Formation">
+          <b-dropdown-item>0</b-dropdown-item>
+          <b-dropdown-item>1</b-dropdown-item>
+          <b-dropdown-item>2+</b-dropdown-item>
+        </b-dropdown>
       </div>
     </div>
     <div class="card AffichageAdvert mx-5">
-      <p class="card-text text-center">{{ this.objet.title }}</p>
+      <p class="card-text text-center">{{ res }}</p>
       <div>
-        <b-button v-b-toggle.collapse-2>learn more</b-button>
-        <b-collapse id="collapse-2" class="mt-2">
-          <p class="card-text">learn more working</p>
-        </b-collapse>
-      </div>
-    </div>
-    <div class="card AffichageAdvert mx-5">
-      <p class="card-text text-center">{{ this.objet.title }}</p>
-      <div>
-        <b-button v-b-toggle.collapse-3>learn more</b-button>
-        <b-collapse id="collapse-3" class="mt-2">
-          <p class="card-text">learn more working</p>
-        </b-collapse>
-      </div>
-    </div>
-    <div class="card AffichageAdvert mx-5">
-      <p class="card-text text-center">{{ this.objet.title }}</p>
-      <div>
-        <b-button v-b-toggle.collapse-4>learn more</b-button>
-        <b-collapse id="collapse-4" class="mt-2">
-          <p class="card-text">learn more working</p>
-        </b-collapse>
-      </div>
-    </div>
-    <div class="card AffichageAdvert mx-5">
-      <p class="card-text text-center">{{ this.objet.title }}</p>
-      <div>
-        <b-button v-b-toggle.collapse-5>learn more</b-button>
-        <b-collapse id="collapse-5" class="mt-2">
+        <b-button v-b-toggle="`collapse-${this.objet.title}`"
+          >learn more</b-button
+        >
+        <b-collapse :id="`collapse-${this.objet.title}`" class="mt-2">
           <p class="card-text">learn more working</p>
         </b-collapse>
       </div>
@@ -51,30 +45,28 @@
 import Api from "@/services/ServiceMysql";
 const api = new Api();
 
+// var advert = {
+//   id: null,
+//   title: "test",
+//   descshort: "salut",
+//   descslong: "",
+//   salary: Float32Array,
+//   place: {
+//     city: "",
+//     street: "",
+//   },
+//   workingTime: null,
+//   contract: "",
+//   published: "",
+// };
+var sample = new Array();
+
 export default {
   name: "AffichageAdvert",
-
   data() {
     return {
-      objet: [
-        {
-          title: "test",
-          descshort: "",
-          descslong: "",
-          salary: Float32Array,
-          place: [
-            {
-              key: "city",
-            },
-            {
-              key: "street",
-            },
-          ],
-          workingTime: null,
-          contract: "",
-          published: "",
-        },
-      ],
+      res: "error",
+      objet: sample,
     };
   },
   mounted() {
@@ -83,11 +75,14 @@ export default {
   methods: {
     GetAllAdvert() {
       api.GetAllAdvert().then((result) => {
-        this.objet = result;
+        //for key
+        console.log(result[0].title);
+        sample.push(result[0]);
+        this.res = result[0].title;
       });
     },
-    GetAdvert(res) {
-      api.GetAdvert(res).then((result) => {
+    GetAdvert(id) {
+      api.GetAdvert(id).then((result) => {
         this.objet = result;
       });
     },
