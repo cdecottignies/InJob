@@ -11,7 +11,7 @@ services:
     volumes:
     # Je crée Tables directement avec Sequelize
       # - ./ressources/injob.sql:/docker-entrypoint-initdb.d/injob.sql
-      - /var/lib/mysql
+      - ./ressources/mysql:/var/lib/mysql
     environment:
       MYSQL_ROOT_PASSWORD: admin
       MYSQL_USER: admin
