@@ -2,10 +2,16 @@
   <div>
     <div class="d-flex my-3 mx-auto justify-content-center bg-secondary">
       <div class="mx-10">
-        <b-nav-form class="mx-auto">
-          <b-form-input class="mx-10" placeholder="Search"></b-form-input>
+        <b-nav-form @submit.stop.prevent="GetAdvert(search)" class="mx-auto">
+          <b-form-input
+            class="mx-10"
+            v-model="search"
+            placeholder="Search"
+          ></b-form-input>
 
-          <b-button variant="warning" size="sm">RECHERCHE</b-button>
+          <b-button type="submit" variant="warning" size="sm"
+            >RECHERCHE</b-button
+          >
         </b-nav-form>
       </div>
       <div>
@@ -28,15 +34,23 @@
         </b-dropdown>
       </div>
     </div>
-    <div class="card AffichageAdvert mx-5">
-      <p class="card-text text-center">{{ res }}</p>
-      <div>
-        <b-button v-b-toggle="`collapse-${this.objet.title}`"
-          >learn more</b-button
-        >
-        <b-collapse :id="`collapse-${this.objet.title}`" class="mt-2">
-          <p class="card-text">learn more working</p>
-        </b-collapse>
+    <div v-for="value in advertlist" :key="value.id">
+      <div class="card AffichageAdvert mx-5">
+        <h2 class="card-text text-center">{{ value.title }}</h2>
+        <h4>
+          {{ "contract: " + value.contract + " published: " + value.published }}
+        </h4>
+        <p>{{ value.descshort }}</p>
+        <div>
+          <b-button v-b-toggle="`collapse-${value.id}`">learn more</b-button>
+          <b-collapse :id="`collapse-${value.id}`" class="mt-2">
+            <p class="card-text">
+              {{ "salaire: " + value.salary }}<br />{{
+                "working Time: " + value.workingTime
+              }}<br />{{ value.desclong }}
+            </p>
+          </b-collapse>
+        </div>
       </div>
     </div>
   </div>
@@ -45,28 +59,25 @@
 import Api from "@/services/ServiceMysql";
 const api = new Api();
 
-// var advert = {
-//   id: null,
-//   title: "test",
-//   descshort: "salut",
-//   descslong: "",
-//   salary: Float32Array,
-//   place: {
-//     city: "",
-//     street: "",
-//   },
-//   workingTime: null,
-//   contract: "",
-//   published: "",
-// };
-var sample = new Array();
-
 export default {
   name: "AffichageAdvert",
   data() {
     return {
-      res: "error",
-      objet: sample,
+      search: null,
+      advertlist: null,
+      // {
+      //   title: "error",
+      //   descshort: "",
+      //   desclong: "",
+      //   salary: Float32Array,
+      //   place: {
+      //     city: "",
+      //     street: "",
+      //   },
+      //   workingTime: "",
+      //   contract: "",
+      //   published: "",
+      // },
     };
   },
   mounted() {
@@ -75,15 +86,53 @@ export default {
   methods: {
     GetAllAdvert() {
       api.GetAllAdvert().then((result) => {
-        //for key
-        console.log(result[0].title);
-        sample.push(result[0]);
-        this.res = result[0].title;
+        const advertlist = result.map((r) => ({
+          id: r.id,
+          title: r.title,
+          descshort: r.descshort,
+          desclong: r.desclong,
+          salary: r.salary,
+          place: r.place,
+          workingTime: r.workingTime,
+          contract: r.contract,
+          published: r.published,
+        }));
+        //console.log(advertlist[0]);
+        this.advertlist = advertlist;
+        //this.res = advertlist[1].title;
+        //this.id = advertlist[0].id;
       });
     },
-    GetAdvert(id) {
-      api.GetAdvert(id).then((result) => {
-        this.objet = result;
+    GetAdvert(key) {
+      api.GetAdvert(key).then((result) => {
+        const advert = {
+          id: result.id,
+          title: result.title,
+          descshort: result.descshort,
+          desclong: result.desclong,
+          salary: result.salary,
+          place: result.place,
+          workingTime: result.workingTime,
+          contract: result.contract,
+          published: result.published,
+        };
+        console.log(advert);
+      });
+    },
+    GetAdvertMap(key) {
+      api.GetAdvert(key).then((result) => {
+        const advert = result.map((r) => ({
+          id: r.id,
+          title: r.title,
+          descshort: r.descshort,
+          desclong: r.desclong,
+          salary: r.salary,
+          place: r.place,
+          workingTime: r.workingTime,
+          contract: r.contract,
+          published: r.published,
+        }));
+        console.log(advert);
       });
     },
     // async GetAll() {
