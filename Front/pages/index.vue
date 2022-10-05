@@ -16,8 +16,8 @@
         </b-navbar>
       </div>
     </header>
-    
-    <Affichage-Advert> </Affichage-Advert>
+  
+    <SearchAdvert> </SearchAdvert>
 
   </div>
 </template>
@@ -25,11 +25,13 @@
   
 <script>
 import AffichageAdvert from "@/components/AffichageAdvert.vue";
+import SearchAdvert from '@/components/SearchAdvert.vue';
 
 export default {
   name: "index",
   components: {
     AffichageAdvert,
+    SearchAdvert,
   },
 };
 </script>
