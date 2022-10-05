@@ -1,42 +1,60 @@
 <template>
   <div>
-    <div class="d-flex my-3 mx-auto justify-content-center bg-secondary">
-      <div class="mx-10">
-        <b-nav-form class="mx-auto">
-          <b-form-input class="mx-10" placeholder="Search"></b-form-input>
+    <div v-for="value in advertlist" :key="value.id">
+      <div class="card AffichageAdvert mx-5">
+        <h2 class="card-text text-center">{{ value.title }}</h2>
+        <h4>
+          {{ "contract: " + value.contract + " published: " + value.published }}
+        </h4>
+        <p>{{ value.descshort }}</p>
+        <div>
+          <b-button v-b-toggle="`collapse-${value.id}`">learn more</b-button>
+          <div>
+            <b-button v-b-modal="`modal-${value.id}`">Apply</b-button>
 
-          <b-button variant="warning" size="sm">RECHERCHE</b-button>
-        </b-nav-form>
-      </div>
-      <div>
-        <b-dropdown class="mx-1" variant="warning" right text="Experiences">
-          <b-dropdown-item>0</b-dropdown-item>
-          <b-dropdown-item>1</b-dropdown-item>
-          <b-dropdown-item>2+</b-dropdown-item> </b-dropdown
-        ><b-dropdown class="mx-1" variant="warning" right text="Poste">
-          <b-dropdown-item>0</b-dropdown-item>
-          <b-dropdown-item>1</b-dropdown-item>
-          <b-dropdown-item>2+</b-dropdown-item> </b-dropdown
-        ><b-dropdown class="mx-1" variant="warning" right text="Date">
-          <b-dropdown-item>0</b-dropdown-item>
-          <b-dropdown-item>1</b-dropdown-item>
-          <b-dropdown-item>2+</b-dropdown-item> </b-dropdown
-        ><b-dropdown class="mx-1" variant="warning" right text="Formation">
-          <b-dropdown-item>0</b-dropdown-item>
-          <b-dropdown-item>1</b-dropdown-item>
-          <b-dropdown-item>2+</b-dropdown-item>
-        </b-dropdown>
-      </div>
-    </div>
-    <div class="card AffichageAdvert mx-5">
-      <p class="card-text text-center">{{ res }}</p>
-      <div>
-        <b-button v-b-toggle="`collapse-${this.objet.title}`"
-          >learn more</b-button
-        >
-        <b-collapse :id="`collapse-${this.objet.title}`" class="mt-2">
-          <p class="card-text">learn more working</p>
-        </b-collapse>
+            <b-modal :id="`modal-${value.id}`" title="BootstrapVue">
+              <p class="my-4">Hello from modal!</p>
+              <b-form @submit="onSubmit" @reset="onReset">
+                <b-form-group
+                  id="input-group-1"
+                  label="Email address:"
+                  label-for="input-1"
+                  description="We'll never share your email with anyone else."
+                >
+                  <b-form-input
+                    id="input-1"
+                    v-model="form.email"
+                    type="email"
+                    placeholder="Enter email"
+                    required
+                  ></b-form-input>
+                </b-form-group>
+
+                <b-form-group
+                  id="input-group-2"
+                  label="Your Name:"
+                  label-for="input-2"
+                >
+                  <b-form-input
+                    id="input-2"
+                    v-model="form.name"
+                    placeholder="Enter name"
+                    required
+                  ></b-form-input>
+                </b-form-group>
+                <b-button type="submit" variant="primary">Submit</b-button>
+                <b-button type="reset" variant="danger">Reset</b-button>
+              </b-form>
+            </b-modal>
+          </div>
+          <b-collapse :id="`collapse-${value.id}`" class="mt-2">
+            <p class="card-text">
+              {{ "salaire: " + value.salary }}<br />{{
+                "working Time: " + value.workingTime
+              }}<br />{{ value.desclong }}
+            </p>
+          </b-collapse>
+        </div>
       </div>
     </div>
   </div>
@@ -44,29 +62,15 @@
 <script>
 import Api from "@/services/ServiceMysql";
 const api = new Api();
-
-// var advert = {
-//   id: null,
-//   title: "test",
-//   descshort: "salut",
-//   descslong: "",
-//   salary: Float32Array,
-//   place: {
-//     city: "",
-//     street: "",
-//   },
-//   workingTime: null,
-//   contract: "",
-//   published: "",
-// };
-var sample = new Array();
-
 export default {
   name: "AffichageAdvert",
   data() {
     return {
-      res: "error",
-      objet: sample,
+      advertlist: null,
+      form: {
+          email: '',
+          name: '',
+        },
     };
   },
   mounted() {
@@ -75,22 +79,37 @@ export default {
   methods: {
     GetAllAdvert() {
       api.GetAllAdvert().then((result) => {
-        //for key
-        console.log(result[0].title);
-        sample.push(result[0]);
-        this.res = result[0].title;
+        const advertlist = result.map((r) => ({
+          id: r.id,
+          title: r.title,
+          descshort: r.descshort,
+          desclong: r.desclong,
+          salary: r.salary,
+          place: r.place,
+          workingTime: r.workingTime,
+          contract: r.contract,
+          published: r.published,
+        }));
+        this.advertlist = advertlist;
       });
     },
-    GetAdvert(id) {
-      api.GetAdvert(id).then((result) => {
-        this.objet = result;
+    onSubmit(event) {
+      event.preventDefault();
+      alert(JSON.stringify(this.form));
+    },
+    onReset(event) {
+      event.preventDefault();
+      // Reset our form values
+      this.form.email = "";
+      this.form.name = "";
+      this.form.food = null;
+      this.form.checked = [];
+      // Trick to reset/clear native browser form validation state
+      this.show = false;
+      this.$nextTick(() => {
+        this.show = true;
       });
     },
-    // async GetAll() {
-    //   api.GetAllIssue().then((result) => {
-    //     this.IssueWeekly = result.issues;
-    //   });
-    // },
   },
 };
 </script>
