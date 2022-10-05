@@ -8,7 +8,7 @@ module.exports = {
       lastName: 'Doe',
       email: 'john.doe@example.com',
       password: 'p@ssword',
-      phone: 0102030405,
+      phone: '0102030405',
       createdAt: new Date(),
       updatedAt: new Date()
     },
@@ -17,7 +17,7 @@ module.exports = {
       lastName: 'Dae',
       email: 'jane.dae@example.com',
       password: 'p@ssword',
-      phone: 0102030405,
+      phone: '0102030405',
       createdAt: new Date(),
       updatedAt: new Date()
     },
@@ -26,7 +26,7 @@ module.exports = {
       lastName: 'Mark',
       email: 'nick.mark@example.com',
       password: 'p@ssword',
-      phone: 0102030405,
+      phone: '0102030405',
       createdAt: new Date(),
       updatedAt: new Date()
     }], {});
