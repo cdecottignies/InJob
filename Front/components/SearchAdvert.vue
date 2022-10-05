@@ -94,20 +94,24 @@ export default {
   mounted() {},
   methods: {
     GetAdvert(key) {
-      api.GetAdvert(key).then((result) => {
-        this.advert = {
-          id: result.id,
-          title: result.title,
-          descshort: result.descshort,
-          desclong: result.desclong,
-          salary: result.salary,
-          place: result.place,
-          workingTime: result.workingTime,
-          contract: result.contract,
-          published: result.published,
-        };
-        this.searchbool = true;
-      });
+      if (key != "" && key != null) {
+        api.GetAdvert(key).then((result) => {
+          this.advert = {
+            id: result.id,
+            title: result.title,
+            descshort: result.descshort,
+            desclong: result.desclong,
+            salary: result.salary,
+            place: result.place,
+            workingTime: result.workingTime,
+            contract: result.contract,
+            published: result.published,
+          };
+            this.searchbool = true;
+        });
+      } else {
+        alert("error invalid input");
+      }
     },
     GetAdvertMap(key) {
       api.GetAdvert(key).then((result) => {
