@@ -9,7 +9,9 @@ module.exports = {
        SIRET: 'ERA56YGVIU',
        desc: 'I am Microsoft',
        link: 'https://www.microsoft.com/en-us',
-       logo: 'jiddna'
+       logo: 'jiddna',
+       createdAt: new Date(),
+       updatedAt: new Date()
      }
      ,
      {
@@ -17,7 +19,9 @@ module.exports = {
       SIRET: 'zfboz_çç_hàah',
       desc: 'I am IBM',
       link: 'https://www.ibm.com/us-en/',
-      logo: 'dzddzzda'
+      logo: 'dzddzzda',
+      createdAt: new Date(),
+      updatedAt: new Date()
     }
     ,
     ], {});
