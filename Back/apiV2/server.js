@@ -10,8 +10,8 @@ app.use(express.json());
 
 // Import API routes
 app.use('/api/advertisements', routes.advertisements);
-// app.use('/api', routes.companies);
-// app.use('/api', routes.users);
+app.use('/api.companies', routes.companies);
+app.use('/api/users', routes.users);
 
 // Start the server
 app.listen(PORT, () => console.log(`Listening on port: ${PORT}`))
