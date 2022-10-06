@@ -26,6 +26,7 @@ fs
     db[model.name] = model;
   });
 
+// Ca ne fonctionne pas des masses
 Object.keys(db).forEach(modelName => {
   if (db[modelName].associate) {
     db[modelName].associate(db);
@@ -34,5 +35,9 @@ Object.keys(db).forEach(modelName => {
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
+
+// Ca fonctionnel
+db.advertisements = require("./advertisements.js")(sequelize, Sequelize);
+
 
 module.exports = db;
