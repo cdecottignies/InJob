@@ -40,21 +40,21 @@
         <h4>
           {{
             "contract: " +
-            advert.contract +
-            " published: " +
-            advert.published
+            advert.contractType +
+            " place: " +
+            JSON.stringify(advert.place)
           }}
         </h4>
-        <p>{{ advert.descshort }}</p>
+        <p>{{ advert.descShort }}</p>
         <div>
           <b-button v-b-toggle="`collapse-${advert.id}`"
             >learn more</b-button
           >
           <b-collapse :id="`collapse-${advert.id}`" class="mt-2">
             <p class="card-text">
-              {{ "salaire: " + advert.salary }}<br />{{
+              {{ "salaire: " + advert.wages }}<br />{{
                 "working Time: " + advert.workingTime
-              }}<br />{{ advert.desclong }}
+              }}<br />{{ advert.descLong }}
             </p>
           </b-collapse>
         </div>
@@ -73,12 +73,16 @@ const api = new Api();
 var advert = {
   id: "",
   title: "",
-  descshort: "",
-  desclong: "",
-  salary: "",
+  descShort: "",
+  descLong: "",
+  wages: "",
   place: "",
+  degree: "",
   workingTime: "",
-  contract: "",
+  workingLocation: "",
+  contractType: "",
+  contractStart: "",
+  createdAt: "",
   published: "",
 };
 export default {
@@ -99,15 +103,19 @@ export default {
           this.advert = {
             id: result.id,
             title: result.title,
-            descshort: result.descshort,
-            desclong: result.desclong,
-            salary: result.salary,
+            descShort: result.descShort,
+            descLong: result.descLong,
+            wages: result.wages,
             place: result.place,
+            degree: result.degree,
             workingTime: result.workingTime,
-            contract: result.contract,
+            workingLocation: result.workingLocation,
+            contractType: result.contractType,
+            contractStart: result.contractStart,
+            createdAt: result.createdAt,
             published: result.published,
           };
-            this.searchbool = true;
+          this.searchbool = true;
         });
       } else {
         alert("error invalid input");
@@ -115,16 +123,20 @@ export default {
     },
     GetAdvertMap(key) {
       api.GetAdvert(key).then((result) => {
-        advert = result.map((r) => ({
-          id: r.id,
-          title: r.title,
-          descshort: r.descshort,
-          desclong: r.desclong,
-          salary: r.salary,
-          place: r.place,
-          workingTime: r.workingTime,
-          contract: r.contract,
-          published: r.published,
+        advert = result.map((result) => ({
+          id: result.id,
+          title: result.title,
+          descShort: result.descShort,
+          descLong: result.descLong,
+          wages: result.wages,
+          place: result.place,
+          degree: result.degree,
+          workingTime: result.workingTime,
+          workingLocation: result.workingLocation,
+          contractType: result.contractType,
+          contractStart: result.contractStart,
+          createdAt: result.createdAt,
+          published: result.published,
         }));
         searchbool = true;
         console.log(advert);
