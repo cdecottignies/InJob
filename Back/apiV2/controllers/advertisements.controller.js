@@ -1,6 +1,7 @@
 const db = require("../models");
 const Advertisements = db.advertisements;
 const Op = db.Sequelize.Op;
+const validator = require("../validators/index").advertisements;
 
 // Create and Save a new Tutorial
 exports.create = (req, res) => {
@@ -29,8 +30,13 @@ exports.create = (req, res) => {
     published: req.body.published ? req.body.published : false
   };
 
-  // Save Tutorial in the database
-  Advertisements.create(advertisements)
+  if (validator.createSchema.validate(req.body).error) {
+    res.send(validator.createSchema.validate(req.body).error.details);
+  }
+
+  else {
+    // Save Tutorial in the database
+    Advertisements.create(advertisements)
     .then(data => {
       res.send(data);
     })
@@ -40,6 +46,7 @@ exports.create = (req, res) => {
           err.message || "Some error occurred while creating the Tutorial."
       });
     });
+  } 
 };
 
 // Retrieve all Tutorials from the database.
