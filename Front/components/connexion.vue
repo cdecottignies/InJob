@@ -3,7 +3,7 @@
     <H2 class="text-center">Connexion</H2>
     <div>
       <b-form @submit="onSubmit" @reset="onReset" v-if="show">
-        <b-form-group 
+        <b-form-group
           id="input-group-1"
           label="Email address:"
           label-for="input-1"
@@ -17,20 +17,41 @@
             required
           ></b-form-input>
         </b-form-group>
-
-        <b-form-group id="input-group-2" label="Your Name:" label-for="input-2">
+        <b-form-group id="input-group-2" label="Password" label-for="input-2">
           <b-form-input
             id="input-2"
-            v-model="form.name"
-            placeholder="Enter name"
+            type="password"
+            v-model="form.password"
+            placeholder="Enter password"
             required
           ></b-form-input>
         </b-form-group>
 
+        <div v-if="boolregistre">
+          <b-form-group id="input-group-3" label="name" label-for="input-3">
+            <b-form-input
+              id="input-3"
+              v-model="form.name"
+              placeholder="Enter name"
+              required
+            ></b-form-input> </b-form-group
+          ><b-form-group id="input-group-4" label="phone" label-for="input-4">
+            <b-form-input
+              id="input-4"
+              type="tel"
+              v-model="form.phone"
+              placeholder="Enter phone"
+              required
+            ></b-form-input>
+          </b-form-group>
+        </div>
+
         <b-button type="submit" variant="primary">Submit</b-button>
         <b-button type="reset" variant="danger">Reset</b-button>
+      <b-button :pressed.sync="boolregistre" variant="warning"
+        >Register</b-button
+      >
       </b-form>
-        <b-button type="register" variant="warning">Register</b-button>
     </div>
   </div>
 </template>
@@ -42,8 +63,10 @@ export default {
       form: {
         email: "",
         name: "",
-        food: null,
+        password: "",
+        phone: "",
       },
+      boolregistre: false,
       show: true,
     };
   },
@@ -58,8 +81,8 @@ export default {
       // Reset our form values
       this.form.email = "";
       this.form.name = "";
-      this.form.food = null;
-      this.form.checked = [];
+      this.form.password = null;
+      this.form.phone = null;
       // Trick to reset/clear native browser form validation state
       this.show = false;
       this.$nextTick(() => {
