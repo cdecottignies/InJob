@@ -44,17 +44,8 @@ module.exports = {
         type: Sequelize.ENUM('remote', 'office', 'hybrid'),
         allowNull: false
       },
-      hybrid: {
-        type: Sequelize.ENUM('0', '1 day remote, 4 days office', '2 days remote, 3 days office', '3 days remote, 2 days office', '4 days remote, 1 day office'),
-        defaultValue: '0',
-        allowNull: false
-      },
       contractType: {
         type: Sequelize.ENUM('CDI', 'CDD', 'ALTERNANCE'),
-        allowNull: false
-      },
-      contractLength: {
-        type: Sequelize.STRING,
         allowNull: false
       },
       contractStart: {
