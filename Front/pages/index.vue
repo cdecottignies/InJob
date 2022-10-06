@@ -10,28 +10,39 @@
               <b-nav-item>Link</b-nav-item>
             </b-navbar-nav>
             <b-navbar-nav class="ml-auto">
-              <b-button size="sm">connexion</b-button>
+              <b-button :pressed.sync="connex" size="sm">connexion</b-button>
             </b-navbar-nav>
           </b-collapse>
         </b-navbar>
       </div>
     </header>
-  
-    <SearchAdvert> </SearchAdvert>
-
+    <div v-if="connex">
+      <connexion></connexion>
+    </div>
+    <div v-else>
+      <SearchAdvert> </SearchAdvert>
+    </div>
   </div>
 </template>
 
-  
+
 <script>
 import AffichageAdvert from "@/components/AffichageAdvert.vue";
-import SearchAdvert from '@/components/SearchAdvert.vue';
+import SearchAdvert from "@/components/SearchAdvert.vue";
+import Connexion from "../components/connexion.vue";
 
+let connex = false;
 export default {
   name: "index",
   components: {
     AffichageAdvert,
     SearchAdvert,
+    Connexion,
+  },
+  data() {
+    return {
+      connex,
+    };
   },
 };
 </script>

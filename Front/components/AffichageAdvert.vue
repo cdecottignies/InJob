@@ -68,9 +68,9 @@ export default {
     return {
       advertlist: null,
       form: {
-          email: '',
-          name: '',
-        },
+        email: "",
+        name: "",
+      },
     };
   },
   mounted() {
