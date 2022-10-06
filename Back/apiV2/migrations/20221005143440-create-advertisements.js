@@ -26,8 +26,7 @@ module.exports = {
       },
       wages: {
         type: Sequelize.BIGINT,
-        allowNull: false,
-        defaultValue: 2000
+        allowNull: false
       },
       place: {
         type: Sequelize.JSON,
