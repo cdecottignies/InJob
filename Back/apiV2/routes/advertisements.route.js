@@ -23,6 +23,4 @@ router.delete("/:id", advertisementsController.delete);
 // Delete all Advertisements
 router.delete("/", advertisementsController.deleteAll);
 
-// app.use('/api/advertisements', router);
-
 module.exports = router;
