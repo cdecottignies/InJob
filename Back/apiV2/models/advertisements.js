@@ -23,7 +23,7 @@ module.exports = (sequelize, DataTypes) => {
     place: DataTypes.JSON,
     degree: DataTypes.ENUM('BAC+1', 'BAC+2', 'BAC+3', 'BAC+4', 'BAC+5'),
     workingTime: DataTypes.ENUM('flexible', '9 to 5'),
-    workLocation: DataTypes.ENUM('remote', 'office', 'hybrid'),
+    workingLocation: DataTypes.ENUM('remote', 'office', 'hybrid'),
     hybrid: DataTypes.ENUM('0', '1 day remote, 4 days office', '2 days remote, 3 days office', '3 days remote, 2 days office', '4 days remote, 1 day office'),
     contractType: DataTypes.ENUM('CDI', 'CDD', 'ALTERNANCE'),
     contractLength: DataTypes.STRING,
