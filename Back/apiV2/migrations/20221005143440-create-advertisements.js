@@ -41,7 +41,7 @@ module.exports = {
         allowNull: false
       },
       workingLocation: {
-        type: Sequelize.ENUM('remote', 'office', 'hybrid'),
+        type: Sequelize.ENUM('remote', 'office'),
         allowNull: false
       },
       contractType: {
@@ -59,6 +59,11 @@ module.exports = {
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE
+      },
+      published: {
+        allowNull: false,
+        type: Sequelize.BOOLEAN,
+        defaultValue: false
       }
     });
   },

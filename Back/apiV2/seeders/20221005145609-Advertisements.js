@@ -16,9 +16,7 @@ module.exports = {
       ]),
       workingTime: 'flexible',
       workingLocation: 'remote',
-      hybrid: '0',
       contractType: 'CDI',
-      contractLength: '6 mois',
       contractStart: new Date(),
       createdAt: new Date(),
       updatedAt: new Date()
@@ -35,9 +33,7 @@ module.exports = {
       }]),
       workingTime: 'flexible',
       workingLocation: 'remote',
-      hybrid: '0',
       contractType: 'CDI',
-      contractLength: '42 mois',
       contractStart: new Date(),
       createdAt: new Date(),
       updatedAt: new Date()
@@ -54,9 +50,7 @@ module.exports = {
       }]),
       workingTime: 'flexible',
       workingLocation: 'remote',
-      hybrid: '1 day remote, 4 days office',
       contractType: 'Alternance',
-      contractLength: '42 mois',
       contractStart: new Date(),
       createdAt: new Date(),
       updatedAt: new Date()

@@ -32,9 +32,7 @@ exports.create = (req, res) => {
 
   if (validator.createSchema.validate(req.body).error) {
     res.send(validator.createSchema.validate(req.body).error.details);
-  }
-
-  else {
+  }  else {
     // Save Tutorial in the database
     Advertisements.create(advertisements)
     .then(data => {
