@@ -26,10 +26,15 @@ module.exports = {
       },
       wages: {
         type: Sequelize.BIGINT,
-        allowNull: false
+        allowNull: false,
+        defaultValue: 2000
       },
       place: {
         type: Sequelize.JSON,
+        allowNull: false
+      },
+      degree: {
+        type: Sequelize.ENUM('BAC+1', 'BAC+2', 'BAC+3', 'BAC+4', 'BAC+5'),
         allowNull: false
       },
       workingTime: {
