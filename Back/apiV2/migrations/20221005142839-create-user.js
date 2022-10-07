@@ -24,6 +24,11 @@ module.exports = {
       phone: {
         type: Sequelize.BIGINT
       },
+      isAdmin: {
+        allowNull: false,
+        type: Sequelize.BOOLEAN,
+        defaultValue: false
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
