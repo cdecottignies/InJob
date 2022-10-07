@@ -4,35 +4,21 @@ const Op = db.Sequelize.Op;
 
 // Create and Save a new Tutorial
 exports.create = (req, res) => {
-  // Validate request
-  if (!req.body.title) {
-    res.status(400).send({
-      message: "Content can not be empty!"
-    });
-    return;
-  }
-
-  // Create a Tutorial
-  const advertisements = {
-    title: req.body.title,
-    descShort: req.body.descShort,
-    descLong: req.body.descLong,
-    wages: req.body.wages,
-    place: req.body.place,
-    degree: req.body.degree,
-    workingTime: req.body.workingTime,
-    workingLocation: req.body.workLocation,
-    hybrid: req.body.hybrid,
-    contractType: req.body.contractType,
-    contractLength: req.body.contractLength,
-    contractStart: req.body.contractStart,
-    published: req.body.published ? req.body.published : false
+  // Create a User
+  const user = {
+    firstName: req.body.firstName,
+    lastName: req.body.lastName,
+    email: req.body.email,
+    password: req.body.password,
+    phone: req.body.phone
   };
 
-  // Save Tutorial in the database
-  Users.create(advertisements)
+  // Save User in the database
+  Users.create(user)
     .then(data => {
-      res.send(data);
+      res
+        .status(201)
+        .send(data)
     })
     .catch(err => {
       res.status(500).send({
@@ -69,7 +55,7 @@ exports.findOne = (req, res) => {
           res.send(data);
         } else {
           res.status(404).send({
-            message: `Cannot find Tutorial with id=${id}.`
+            message: `Cannot find User with id=${id}.`
           });
         }
       })
@@ -84,44 +70,51 @@ exports.findOne = (req, res) => {
 exports.update = (req, res) => {
     const id = req.params.id;
 
-    Users.update({
-      title: req.body.title,
-      descshort: req.body.descshort,
-      desclong: req.body.desclong,
-      salary: req.body.salary,
-      place: req.body.place,
-      workingTime: req.body.workingTime,
-      contract: req.body.contract,
-      published: req.body.published ? req.body.published : false
-    },
-    {
-      where: { id: id }
-    }).then( (data) => { res.send(data) })
-    .catch( (err) => { res.json(err) });
+    const user = {
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      email: req.body.email,
+      password: req.body.password,
+      phone: req.body.phone
+    };
+    
+    Users.update({user}, { where: { id: id }})
+      .then(data => { 
+        res
+        .status(200)
+        .send({message: `Success, ser with the ${id} updated, ${data}`}) 
+      })
+      .catch(err => { 
+        res
+        .status(500)
+        .json({message: `Error, Couldn't update the User with the ${id}, ${err}`}) 
+      });
 };
 
 // Delete a Advertisement with the specified id in the request
 exports.delete = (req, res) => {
     const id = req.params.id;
 
-    Users.destroy({
-      where: {
-        id: id
-      }
-    })
+    Users.destroy({ where: { id: id }})
       .then(num => {
         if (num == 1) {
-          res.send({
-            message: "Tutorial was deleted successfully!"
+          res
+          .status(204)
+          .send({
+            message: "User was deleted successfully!"
           });
         } else {
-          res.send({
+          res
+          .status(500)
+          .send({
             message: `Cannot delete Tutorial with id=${id}. Maybe Tutorial was not found!`
           });
         }
       })
       .catch(err => {
-        res.status(500).send({
+        res
+        .status(500)
+        .send({
           message: "Could not delete Tutorial with id=" + id
         });
       });
@@ -134,10 +127,14 @@ exports.deleteAll = (req, res) => {
         truncate: false
       })
         .then(nums => {
-          res.send({ message: `${nums} Tutorials were deleted successfully!` });
+          res
+          .status(204)
+          .send({ message: `${nums} Tutorials were deleted successfully!` });
         })
         .catch(err => {
-          res.status(500).send({
+          res
+          .status(500)
+          .send({
             message:
               err.message || "Some error occurred while removing all tutorials."
           });
