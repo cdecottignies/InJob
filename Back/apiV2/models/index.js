@@ -38,6 +38,7 @@ db.Sequelize = Sequelize;
 
 // Ca fonctionnel
 db.advertisements = require("./advertisements.js")(sequelize, Sequelize);
+db.users = require("./users.js")(sequelize, Sequelize);
 
 
 module.exports = db;
