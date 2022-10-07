@@ -93,7 +93,6 @@ export default {
           contractStart: result.contractStart,
           createdAt: result.createdAt,
         }));
-        console.log(advertlist[0]);
         this.advertlist = advertlist;
       });
     },

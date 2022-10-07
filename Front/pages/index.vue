@@ -7,7 +7,9 @@
           <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
           <b-collapse id="nav-collapse" is-nav>
             <b-navbar-nav>
-              <b-nav-item>Link</b-nav-item>
+              <b-nav-item
+                ><b-button :pressed.sync="admin">Admin</b-button></b-nav-item
+              >
             </b-navbar-nav>
             <b-navbar-nav class="ml-auto">
               <b-button :pressed.sync="connex" size="sm">connexion</b-button>
@@ -19,8 +21,11 @@
     <div v-if="connex">
       <connexion></connexion>
     </div>
+    <div v-else-if="admin">
+      <affichage-admin></affichage-admin>
+    </div>
     <div v-else>
-      <SearchAdvert> </SearchAdvert>
+      <SearchAdvert></SearchAdvert>
     </div>
   </div>
 </template>
@@ -30,18 +35,22 @@
 import AffichageAdvert from "@/components/AffichageAdvert.vue";
 import SearchAdvert from "@/components/SearchAdvert.vue";
 import Connexion from "../components/connexion.vue";
+import AffichageAdmin from "../components/AffichageAdmin.vue";
 
 let connex = false;
+let admin = false;
 export default {
   name: "index",
   components: {
     AffichageAdvert,
     SearchAdvert,
     Connexion,
+    AffichageAdmin,
   },
   data() {
     return {
       connex,
+      admin,
     };
   },
 };
