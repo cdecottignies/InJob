@@ -33,6 +33,7 @@ app.use(
 app.use('/api/advertisements', routes.advertisements);
 app.use('/api.companies', routes.companies);
 app.use('/api/users', routes.users);
+app.use('/api/auth', routes.auth);
 
 // Start the server
 app.listen(PORT, () => console.log(`Listening on port: ${PORT}`))
