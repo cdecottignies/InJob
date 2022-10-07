@@ -19,7 +19,9 @@ exports.signup = async (req, res) => {
 
     Users.create(newUser)
     .then(data => {
-      res.send(data);
+      res
+        .status(201)
+        .send(data);
     })
     .catch(err => {
       res
@@ -81,11 +83,11 @@ exports.signin = async (req, res) => {
     if (!passwordIsValid) {
       return res
               .status(401)
-              .send({ message: "Invalid Password!" });
+              .send({ message: "Invalid Password !" });
     }
 
     const token = jwt.sign({ id: user.id }, config.secret, {
-      expiresIn: 86400, // 24 hours
+      expiresIn: 3600, // 1 hour
     });
 
     // let authorities = [];
