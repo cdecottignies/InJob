@@ -3,21 +3,30 @@
     <header class="sticky-top">
       <div>
         <b-navbar toggleable="lg" type="dark" variant="info">
-          <b-navbar-brand href="#">InJob</b-navbar-brand>
+          <b-navbar-brand
+            v-on:click="(connex = false), (admin = false)"
+            href="#"
+            >InJob</b-navbar-brand
+          >
           <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
           <b-collapse id="nav-collapse" is-nav>
             <b-navbar-nav>
               <b-nav-item
-                ><b-button :pressed.sync="admin">Admin</b-button></b-nav-item
+                ><b-button v-on:click="(connex = false), (admin = true)"
+                  >Admin</b-button
+                ></b-nav-item
               >
             </b-navbar-nav>
             <b-navbar-nav class="ml-auto">
-              <b-button :pressed.sync="connex" size="sm">connexion</b-button>
+              <b-button v-on:click="(connex = true), (admin = false)" size="sm"
+                >connexion</b-button
+              >
             </b-navbar-nav>
           </b-collapse>
         </b-navbar>
       </div>
     </header>
+
     <div v-if="connex">
       <connexion></connexion>
     </div>

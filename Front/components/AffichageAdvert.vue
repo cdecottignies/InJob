@@ -79,7 +79,7 @@ export default {
   methods: {
     GetAllAdvert() {
       api.GetAllAdvert().then((result) => {
-        const advertlist = result.map((result) => ({
+        this.advertlist = result.map((result) => ({
           id: result.id,
           title: result.title,
           descShort: result.descShort,
@@ -93,7 +93,6 @@ export default {
           contractStart: result.contractStart,
           createdAt: result.createdAt,
         }));
-        this.advertlist = advertlist;
       });
     },
     onSubmit(event) {

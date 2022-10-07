@@ -73,6 +73,8 @@
   </div>
 </template>
 <script>
+import Api from "@/services/ServiceMysql";
+const api = new Api();
 export default {
   name: "Connexion",
   data() {
@@ -91,10 +93,10 @@ export default {
   },
   mounted() {},
   methods: {
-    onSubmit(event) {
-      event.preventDefault();
-      alert(JSON.stringify(this.form));
-    },
+    // onSubmit(event) {
+    //   event.preventDefault();
+    //   alert(JSON.stringify(this.form));
+    // },
     onReset(event) {
       event.preventDefault();
       // Reset our form values
@@ -107,6 +109,20 @@ export default {
       this.show = false;
       this.$nextTick(() => {
         this.show = true;
+      });
+    },
+    onSubmit(event) {
+    event.preventDefault();
+      var objet = {
+        email: this.email,
+        firstname: this.firstname,
+        lastname: this.lastname,
+        password: this.password,
+        phone: this.password,
+      };
+      
+      api.Register(JSON.stringify(objet)).then((result) => {
+        console.log(result);
       });
     },
   },

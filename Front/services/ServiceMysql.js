@@ -39,6 +39,18 @@ export default class Api {
             }
         })
     }
+    Register(objet) {
+        return new Promise((resolve, reject) => {
+            try {
+                axios
+                    .post(`${this.url}auth/signup`,objet)
+                    .then((response) => { resolve(response.data) })
+            } catch (e) {
+                reject(e)
+            }
+        })
+    }
+
 
     // GetAllIssue() {
     //     return new Promise((resolve, reject) => {
