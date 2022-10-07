@@ -2,6 +2,7 @@ const express = require('express');
 const routes = require('./routes');
 const Joi = require('joi');
 const cors = require("cors");
+const cookieSession = require("cookie-session");
 
 
 const PORT = process.env.PORT || 8090;
@@ -17,6 +18,14 @@ var corsOptions = {
     origin: "http://localhost:3000"
 };
 app.use(cors(corsOptions));
+
+app.use(
+    cookieSession({
+      name: "bezkoder-session",
+      secret: "COOKIE_SECRET", // should use as secret environment variable
+      httpOnly: true
+    })
+  );
 
 // Import API routes
 app.use('/api/advertisements', routes.advertisements);
