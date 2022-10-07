@@ -21,7 +21,7 @@ exports.signup = async (req, res) => {
     .then(data => {
       res
         .status(201)
-        .send(data);
+        .send({message: `New User signep up.`});
     })
     .catch(err => {
       res
