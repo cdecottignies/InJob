@@ -4,9 +4,9 @@
       <div class="card AffichageAdvert mx-5">
         <h2 class="card-text text-center">{{ value.title }}</h2>
         <h4>
-          {{ "contract: " + value.contract + " published: " + value.published }}
+          {{ "contract: " + value.contractType + " place: " + JSON.stringify(value.place) }}
         </h4>
-        <p>{{ value.descshort }}</p>
+        <p>{{ value.descShort }}</p>
         <div>
           <b-button v-b-toggle="`collapse-${value.id}`">learn more</b-button>
           <div>
@@ -49,9 +49,9 @@
           </div>
           <b-collapse :id="`collapse-${value.id}`" class="mt-2">
             <p class="card-text">
-              {{ "salaire: " + value.salary }}<br />{{
+              {{ "salaire: " + value.wages }}<br />{{
                 "working Time: " + value.workingTime
-              }}<br />{{ value.desclong }}
+              }}<br />{{ value.descLong }}
             </p>
           </b-collapse>
         </div>
@@ -79,17 +79,21 @@ export default {
   methods: {
     GetAllAdvert() {
       api.GetAllAdvert().then((result) => {
-        const advertlist = result.map((r) => ({
-          id: r.id,
-          title: r.title,
-          descshort: r.descshort,
-          desclong: r.desclong,
-          salary: r.salary,
-          place: r.place,
-          workingTime: r.workingTime,
-          contract: r.contract,
-          published: r.published,
+        const advertlist = result.map((result) => ({
+          id: result.id,
+          title: result.title,
+          descShort: result.descShort,
+          descLong: result.descLong,
+          wages: result.wages,
+          place: result.place,
+          degree: result.degree,
+          workingTime: result.workingTime,
+          workingLocation: result.workingLocation,
+          contractType: result.contractType,
+          contractStart: result.contractStart,
+          createdAt: result.createdAt,
         }));
+        console.log(advertlist[0]);
         this.advertlist = advertlist;
       });
     },
