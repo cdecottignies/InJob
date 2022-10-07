@@ -24,10 +24,10 @@ router.post("/signup",
 );
 
 // Signin a user
-router.post("/api/auth/signin", controller.signin);
+router.post("/signin", controller.signin);
 
 // Signout a user
-router.post("/api/auth/signout", controller.signout);
+router.post("/signout", controller.signout);
 
 
 module.exports = router;
