@@ -2,7 +2,9 @@ const express = require('express');
 const routes = require('./routes');
 const Joi = require('joi');
 const cors = require("cors");
+require('dotenv').config()
 const cookieSession = require("cookie-session");
+
 
 
 const PORT = process.env.PORT || 8090;
