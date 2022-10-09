@@ -4,7 +4,7 @@ export default class Api {
     constructor() {
         this.url = 'http://localhost:8090/api/'
     }
-
+    // get all the advertisement of the database
     GetAllAdvert() {
         return new Promise((resolve, reject) => {
             try {
@@ -16,6 +16,7 @@ export default class Api {
             }
         })
     }
+    // get one advertisement whith id
     GetAdvert(key) {
         return new Promise((resolve, reject) => {
             try {
@@ -27,18 +28,42 @@ export default class Api {
             }
         })
     }
-
+    // add one advertisement
     AddAdvert(key) {
         return new Promise((resolve, reject) => {
             try {
                 axios
-                    .get(`${this.url}advertisements/add/${key}`)
+                    .post(`${this.url}advertisements/${key}`)
                     .then((response) => { resolve(response.data) })
             } catch (e) {
                 reject(e)
             }
         })
     }
+    // delete one advertissement
+    DeleteAdvert(key) {
+        return new Promise((resolve, reject) => {
+            try {
+                axios
+                    .delete(`${this.url}advertisements/${key}`)
+                    .then((response) => { resolve(response.data) })
+            } catch (e) {
+                reject(e)
+            }
+        })
+    }
+    UpdateAdvert(key) {
+        return new Promise((resolve, reject) => {
+            try {
+                axios
+                    .put(`${this.url}advertisements/${key}`)
+                    .then((response) => { resolve(response.data) })
+            } catch (e) {
+                reject(e)
+            }
+        })
+    }
+    // creation of the user
     Register(objet) {
         return new Promise((resolve, reject) => {
             try {
@@ -50,6 +75,7 @@ export default class Api {
             }
         })
     }
+    //connexion of the user
     signin(objet) {
         return new Promise((resolve, reject) => {
             try {
