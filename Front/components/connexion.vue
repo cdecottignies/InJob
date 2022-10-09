@@ -112,7 +112,24 @@ export default {
       });
     },
     onSubmit(event) {
-    event.preventDefault();
+      if (boolregistre) {
+        this.signin(event);
+      } else {
+        this.register(event);
+      }
+    },
+    signin(event) {
+      event.preventDefault();
+      var objet = {
+        email: this.email,
+        password: this.password,
+      };
+      api.signin(JSON.stringify(objet)).then((result) => {
+        console.log(result);
+      });
+    },
+    register(event) {
+      event.preventDefault();
       var objet = {
         email: this.email,
         firstname: this.firstname,
@@ -120,7 +137,7 @@ export default {
         password: this.password,
         phone: this.password,
       };
-      
+
       api.Register(JSON.stringify(objet)).then((result) => {
         console.log(result);
       });

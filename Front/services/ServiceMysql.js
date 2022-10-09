@@ -43,7 +43,30 @@ export default class Api {
         return new Promise((resolve, reject) => {
             try {
                 axios
-                    .post(`${this.url}auth/signup`,objet)
+                    .post(`${this.url}auth/signup`, objet)
+                    .then((response) => { resolve(response.data) })
+            } catch (e) {
+                reject(e)
+            }
+        })
+    }
+    signin(objet) {
+        return new Promise((resolve, reject) => {
+            try {
+                axios
+                    .post(`${this.url}auth/signin`, objet)
+                    .then((response) => { resolve(response.data) })
+            } catch (e) {
+                reject(e)
+            }
+        })
+    }
+    //TODO: plusieur connexion possible ?
+    signout(objet) {
+        return new Promise((resolve, reject) => {
+            try {
+                axios
+                    .post(`${this.url}auth/signout`, objet)
                     .then((response) => { resolve(response.data) })
             } catch (e) {
                 reject(e)
