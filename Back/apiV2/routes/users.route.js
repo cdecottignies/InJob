@@ -19,8 +19,5 @@ router.put("/:id", users.update);
 
 // Delete a Advertisements with id
 router.delete("/:id", users.delete);
-
-// Delete all Advertisements
-router.delete("/", users.deleteAll);
   
 module.exports = router;
