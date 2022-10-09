@@ -39,6 +39,7 @@ export default {
     };
   },
   mounted() {
+    // get all advertisement by default
     this.GetAllAdvert();
   },
   methods: {
@@ -77,6 +78,24 @@ export default {
         }));
         this.advertlist = advertlist;
       });
+    },
+    deleteOneAdvert(id) {
+      api.deleteOneAdvert(id).then((result) => {
+        alert(result);
+      });
+      this.GetAllAdvert();
+    },
+    AddOneAdvert(key) {
+      api.AddOneAdvert(key).then((result) => {
+        alert(result);
+      });
+      this.GetAllAdvert();
+    },
+    UpdateAdvert(key) {
+      api.AddOneAdvert(key).then((result) => {
+        alert(result);
+      });
+      this.GetAllAdvert();
     },
   },
 };
