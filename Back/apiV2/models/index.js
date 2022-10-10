@@ -55,12 +55,21 @@ db.companies.hasMany(db.users, {
 })
 
 // Users has many applicants && applicants belongs to ùmany users
-db.users.hasMany(db.advertisements, {
-  foreignKey: 'userId'
-});
-db.advertisements.belongsTo(db.users, {
-  foreignKey: 'userId'
-});
+// db.users.hasMany(db.advertisements, {
+//   foreignKey: 'userId'
+// });
+// db.advertisements.belongsTo(db.users, {
+//   foreignKey: 'userId'
+// });
+
+// V.2
+db.users.belongsToMany(db.advertisements, {through: 'Applicants', foreignKey: 'userId'})
+db.advertisements.belongsToMany(db.users, {through: 'Applicants', foreignKey: 'advertisementId'})
+
+db.applicants.belongsTo(db.users, {foreignKey: 'userId'})
+db.applicants.belongsTo(db.advertisements, {foreignKey: 'advertisementId'})
+
+
 
 
 // Users has many advertisements && advertisements belongs to many users
