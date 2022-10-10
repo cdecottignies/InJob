@@ -4,6 +4,7 @@
 module.exports = {
   async up (queryInterface, Sequelize) {
      await queryInterface.bulkInsert('Advertisements', [{
+      userId: 1,
       title: 'Dev JS',
       descShort: 'CDI for master of JS',
       descLong: 'As a JS Dev you will workd Node and Express',
