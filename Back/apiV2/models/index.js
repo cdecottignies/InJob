@@ -43,6 +43,31 @@ db.users = require("./users.js")(sequelize, Sequelize);
 db.companies = require("./companies.js")(sequelize, Sequelize);
 db.applicants = require("./applicants.js")(sequelize, Sequelize);
 
+
+// Associations
+
+// Users belongs to companies && companies has many users(RH)
+db.users.belongsTo(db.companies, {
+  foreignKey: 'companieId'
+}); 
+db.companies.hasMany(db.users, {
+  foreignKey: 'companieId'
+})
+
+// Users has many applicants && applicants belongs to ùmany users
+db.users.hasMany(db.advertisements, {
+  foreignKey: 'userId'
+});
+db.advertisements.belongsTo(db.users, {
+  foreignKey: 'userId'
+});
+
+
+// Users has many advertisements && advertisements belongs to many users
+// db.users.hasMany(db.advertisements, {
+//   foreignKey: 'userId'
+// });
+
 // db.users.hasOne(db.companies, {foreignKey: 'companieId'});
 
 // db.products.hasMany(db.reviews, {
@@ -65,14 +90,7 @@ db.applicants = require("./applicants.js")(sequelize, Sequelize);
 //   as: 'Companies'
 // })
 
-// Associations
-db.users.belongsTo(db.companies, {
-  foreignKey: 'companieId'
-}); 
 
-db.companies.hasMany(db.users, {
-  foreignKey: 'companieId'
-})
 
 // Permet de faire un link entre users et advertisements
 // User.belongsToMany(models.WorkingDay, {through: 'UsersWorkingDays', foreignKey: 'userId', as: 'days'})
