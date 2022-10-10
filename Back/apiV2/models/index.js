@@ -27,18 +27,33 @@ fs
   });
 
 // Ca ne fonctionne pas des masses
-Object.keys(db).forEach(modelName => {
-  if (db[modelName].associate) {
-    db[modelName].associate(db);
-  }
-});
+// Object.keys(db).forEach(modelName => {
+//   if (db[modelName].associate) {
+//     db[modelName].associate(db);
+//   }
+// });
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
+
 
 // Ca fonctionnel
 db.advertisements = require("./advertisements.js")(sequelize, Sequelize);
 db.users = require("./users.js")(sequelize, Sequelize);
 
+
+// Associations
+// db.advertisements.belongsTo(db.users, {
+//   foreignKey: 'userId',
+//   as: 'users'
+// }); 
+
+// db.users.hasMany(db.advertisements, {
+//   foreignKey: 'userId',
+// })
+
+// Permet de faire un link entre users et advertisements
+db.advertisements.belongsToMany(db.users, { through: 'applied' });
+db.users.belongsToMany(db.advertisements, { through: 'applied' });
 
 module.exports = db;
