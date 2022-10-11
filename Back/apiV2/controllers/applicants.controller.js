@@ -1,52 +1,63 @@
 const db = require("../models");
-const Advertisements = db.advertisements;
+const Applicants = db.applicants;
 const Op = db.Sequelize.Op;
-const validator = require("../validators/index").advertisements;
 
-// Create and Save a new Advertisement
-exports.create = (req, res) => {
-  // Validate request
-  if (!req.body.title) {
-    res.status(400).send({
-      message: "Content can not be empty!"
-    });
-    return;
-  }
-
-  // Create an advertisement
-  const advertisements = {
-    title: req.body.title,
-    descShort: req.body.descShort,
-    descLong: req.body.descLong,
-    wages: req.body.wages,
-    place: req.body.place,
-    degree: req.body.degree,
-    workingTime: req.body.workingTime,
-    workingLocation: req.body.workingLocation,
-    contractType: req.body.contractType,
-    contractStart: req.body.contractStart,
-    published: req.body.published ? req.body.published : false
+// Create and Save a new Tutorial
+exports.apply = (req, res) => {
+    // Create a Tutorial
+    const applicants = {
+      advertisementId: req.body.advertisementId,
+      userId: req.userId // from authJwt.verifyToken
+    };
+  
+      // Save the applied job of the user in database
+      Applicants.create(applicants)
+      .then(data => {
+          res
+          .status(200)
+          .send(data);
+      })
+      .catch(err => {
+          res
+          .status(500)
+          .send({
+              message:
+              err.message || "Some error occurred while adding the Ad to the User."
+          });
+      });
   };
 
-  if (validator.createSchema.validate(req.body).error) {
-    res.send(validator.createSchema.validate(req.body).error.details);
-  }  else {
-    // Save Tutorial in the database
-    Advertisements.create(advertisements)
-    .then(data => {
-      res
-        .status(201)
-        .send(data)
-    })
-    .catch(err => {
-      res.status(500).send({
-        message:
-          err.message || "Some error occurred while creating the Tutorial."
+  exports.applyAnonymous = (req, res) => {
+    console.log('oui')
+    console.log(req.userId)
+    // Passer deux controller à un router
+    // https://stackoverflow.com/questions/68438561/how-to-use-two-different-controllers-in-a-single-route-using-node-js
+    // Create a Tutorial
+    const user = {
+      advertisementId: req.body.advertisementId,
+      userId: req.userId
+    };
+  
+      // Save the applied job of the user in database
+      Applicants.create({
+        advertisementId: req.body.advertisementId,
+        userId: req.userId
+      })
+      .then(data => {
+          res
+          .status(200)
+          .send(data);
+      })
+      .catch(err => {
+          res
+          .status(500)
+          .send({
+              message:
+              err.message || "Some error occurred while adding the Ad to the User."
+          });
       });
-    });
-  } 
-};
-
+  };
+    
 // Retrieve all Tutorials from the database.
 exports.findAll = (req, res) => {
     const title = req.query.title;
@@ -54,9 +65,7 @@ exports.findAll = (req, res) => {
   
     Advertisements.findAll({ where: condition })
       .then(data => {
-        res
-          .status(200)
-          .send(data);
+        res.send(data);
       })
       .catch(err => {
         res.status(500).send({
@@ -64,7 +73,6 @@ exports.findAll = (req, res) => {
             err.message || "Some error occurred while retrieving tutorials."
         });
       });
-
 };
 
 // Find a single Tutorial with an id
@@ -75,9 +83,7 @@ exports.findOne = (req, res) => {
     Advertisements.findByPk(id)
     .then(data => {
       if (data) {
-        res
-          .status(200)
-          .send(data);
+        res.send(data);
       } else {
         res.status(404).send({
           message: `Cannot find Tutorial with id=${id}.`

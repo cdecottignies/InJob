@@ -1,0 +1,26 @@
+{
+    "development": {
+        "username": "root",
+        "password": "admin",
+        "database": "injob",
+        "host": "",
+        "port": 3306,
+        "dialect": "mysql"
+    },
+    "test": {
+        "username": "root",
+        "password": "admin",
+        "database": "injob",
+        "host": "",
+        "port": 3307,
+        "dialect": "mysql"
+      },
+      "production": {
+        "username": "root",
+        "password": "admin",
+        "database": "injob",
+        "host": "",
+        "port": 3307,
+        "dialect": "mysql"
+      }     
+}

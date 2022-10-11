@@ -24,6 +24,7 @@ module.exports = {
     }
     ,
     {
+      userId: 1,
       title: 'Dev PHP',
       descShort: 'CDI for PHP lover',
       descLong: 'As a PHP Dev you will work with Laravel and sails',
@@ -41,6 +42,7 @@ module.exports = {
     }
     ,
     {
+      userId: 1,
       title: 'Dev Ruby',
       descShort: 'CDI for cool Japan people',
       descLong: 'As a PHP Dev you will work with Ruby on Rails',

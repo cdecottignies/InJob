@@ -1,8 +1,11 @@
 const db = require("../models");
 const Users = db.users;
+const Companies = db.companies;
+const Advertisements = db.advertisements;
 const Op = db.Sequelize.Op;
 
-// Create and Save a new Tutorial
+// Use a full validator
+// Create and Save a new User
 exports.create = (req, res) => {
   // Create a User
   const user = {
@@ -33,7 +36,11 @@ exports.findAll = (req, res) => {
     const title = req.query.title;
     var condition = title ? { title: { [Op.like]: `%${title}%` } } : null;
   
-    Users.findAll({ where: condition })
+    Users.findAll({
+      include: [{
+          model: Advertisements,
+      }],
+      where: condition })
       .then(data => {
         res.send(data);
       })
@@ -49,7 +56,12 @@ exports.findAll = (req, res) => {
 exports.findOne = (req, res) => {
     const id = req.params.id;
 
-    Users.findByPk(id)
+      Users.findOne({
+        include: [{
+            model: Companies,
+            as: 'Companies'
+        }],
+      where: { id: id }})
       .then(data => {
         if (data) {
           res.send(data);
@@ -61,7 +73,7 @@ exports.findOne = (req, res) => {
       })
       .catch(err => {
         res.status(500).send({
-          message: "Error retrieving Tutorial with id=" + id
+          message: "Error retrieving User with id=" + id
         });
       });
 };

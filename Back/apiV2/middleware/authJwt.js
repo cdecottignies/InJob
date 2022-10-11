@@ -4,12 +4,14 @@ const db = require("../models");
 const User = db.user;
 
 verifyToken = (req, res, next) => {
-  let token = req.session.token;
+  let token = req.cookies.access_token;
 
   if (!token) {
-    return res.status(403).send({
-      message: "No token provided!",
-    });
+    return res
+            .status(403)
+            .send({
+              message: "No token provided!",
+            });
   }
 
   jwt.verify(token, config.secret, (err, decoded) => {

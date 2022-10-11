@@ -12,13 +12,12 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      userId: {
+      companieId: { // Link an advertisement to a company
+        type: Sequelize.INTEGER
+      },
+      userId: { // Link to the user who created the advertisement
         type: Sequelize.INTEGER,
-        references: {
-          model: 'Users',
-          key: 'id',
-          as: 'userId',
-        }
+        allowNull: false,
       },
       title: {
         type: Sequelize.STRING,
