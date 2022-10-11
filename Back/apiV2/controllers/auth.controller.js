@@ -32,38 +32,6 @@ exports.signup = async (req, res) => {
         });    
       });
     };
-  // Save User to Database
-  // try {
-  //   const user = await User.create({
-  //       firstName: req.body.firstname,
-  //       lastName: req.body.lastName,
-  //       email: req.body.email,
-  //       password: bcrypt.hashSync(req.body.password, 8),
-  //       phone: req.body.phone
-  //   });
-
-  //   // How to moderate isAdmin
-
-  //   // if (req.body.roles) {
-  //   //   const roles = await Role.findAll({
-  //   //     where: {
-  //   //       name: {
-  //   //         [Op.or]: req.body.roles,
-  //   //       },
-  //   //     },
-  //   //   });
-
-  //   //   const result = user.setRoles(roles);
-  //   if (user) res.send({ message: "User registered successfully!" });
-  //   } else {
-  //     // user has role = 1
-  //     const result = user.setRoles([1]);
-  //     if (!user) res.send({ message: "User registered successfully!" });
-  //   }
-  // } catch (error) {
-  //   res.status(500).send({ message: error.message });
-  // }
-// };
 
 exports.signin = async (req, res) => {
   try {
@@ -90,20 +58,13 @@ exports.signin = async (req, res) => {
       expiresIn: 3600, // 1 hour
     });
 
-    // let authorities = [];
-    // const roles = await user.getRoles();
-    // for (let i = 0; i < roles.length; i++) {
-    //   authorities.push("ROLE_" + roles[i].name.toUpperCase());
-    // }
-
-    req.session.token = token;
-
-    return res.status(200).send({
-      id: user.id,
-      lastName: user.lastName,
-      email: user.email,
-      // roles: authorities,
-    });
+    return res
+            .status(200)
+            .cookie("access_token", token, { 
+              httpOnly: true,
+              secure: process.env.NODE_ENV === "production"
+            })
+            .json({ message: "You've been signed in!" });
   } catch (error) {
     return res
             .status(500)
