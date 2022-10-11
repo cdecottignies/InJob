@@ -13,6 +13,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Users.init({
+    companieId: DataTypes.INTEGER,
     firstName: DataTypes.STRING,
     lastName: DataTypes.STRING,
     email: DataTypes.STRING,
@@ -21,7 +22,7 @@ module.exports = (sequelize, DataTypes) => {
     isAdmin: DataTypes.BOOLEAN
   }, {
     sequelize,
-    modelName: 'User',
+    modelName: 'Users',
   });
   return Users;
 };
