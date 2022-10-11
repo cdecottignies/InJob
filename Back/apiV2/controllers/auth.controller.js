@@ -64,7 +64,7 @@ exports.signin = async (req, res) => {
               httpOnly: true,
               secure: process.env.NODE_ENV === "production"
             })
-            .json({ message: "You've been signed in!" });
+            .json({ message: `You've been signed in! ${user.email}`, isConnect: true });
   } catch (error) {
     return res
             .status(500)
@@ -75,9 +75,11 @@ exports.signin = async (req, res) => {
 exports.signout = async (req, res) => {
   try {
     req.session = null;
-    return res.status(200).send({
-      message: "You've been signed out!"
-    });
+    return res
+            .status(200)
+            .send({
+              message: "You've been signed out!"
+            });
   } catch (err) {
     this.next(err);
   }

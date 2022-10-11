@@ -3,7 +3,7 @@ const Advertisements = db.advertisements;
 const Op = db.Sequelize.Op;
 const validator = require("../validators/index").advertisements;
 
-// Create and Save a new Tutorial
+// Create and Save a new Advertisement
 exports.create = (req, res) => {
   // Validate request
   if (!req.body.title) {
@@ -13,7 +13,7 @@ exports.create = (req, res) => {
     return;
   }
 
-  // Create an User
+  // Create an advertisement
   const advertisements = {
     title: req.body.title,
     descShort: req.body.descShort,
