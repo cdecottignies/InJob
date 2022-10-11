@@ -47,76 +47,27 @@ db.applicants = require("./applicants.js")(sequelize, Sequelize);
 // Associations
 
 // Users belongs to companies && companies has many users(RH)
-db.users.belongsTo(db.companies, {
-  foreignKey: 'companieId'
-}); 
-db.companies.hasMany(db.users, {
-  foreignKey: 'companieId'
-})
+// On fait en sorte qu'il ne puisse y avoir que l'admin qui puisse créer des advertisements
+// db.users.belongsTo(db.companies, {
+//   foreignKey: 'companieId'
+// }); 
+// db.companies.hasMany(db.users, {
+//   foreignKey: 'companieId'
+// })
 
-// Users has many applicants && applicants belongs to ùmany users
-// db.users.hasMany(db.advertisements, {
-//   foreignKey: 'userId'
-// });
-// db.advertisements.belongsTo(db.users, {
-//   foreignKey: 'userId'
-// });
-
-// V.2
+// Users has many applicants && applicants belongs to users
 db.users.belongsToMany(db.advertisements, {through: 'Applicants', foreignKey: 'userId'})
 db.advertisements.belongsToMany(db.users, {through: 'Applicants', foreignKey: 'advertisementId'})
 
 db.applicants.belongsTo(db.users, {foreignKey: 'userId'})
 db.applicants.belongsTo(db.advertisements, {foreignKey: 'advertisementId'})
 
-
-
-
-// Users has many advertisements && advertisements belongs to many users
-// db.users.hasMany(db.advertisements, {
-//   foreignKey: 'userId'
-// });
-
-// db.users.hasOne(db.companies, {foreignKey: 'companieId'});
-
-// db.products.hasMany(db.reviews, {
-//   foreignKey: 'product_id',
-//   as: 'review'
-// })
-
-// db.reviews.belongsTo(db.products, {
-//   foreignKey: 'product_id',
-//   as: 'product'
-// })
-
-// db.companies.hasMany(db.users, {
-//   foreignKey: 'companieId',
-//   as: 'Users'
-// })
-
-// db.users.belongsTo(db.companies, {
-//   foreignKey: 'companieId',
-//   as: 'Companies'
-// })
-
-
-
-// Permet de faire un link entre users et advertisements
-// User.belongsToMany(models.WorkingDay, {through: 'UsersWorkingDays', foreignKey: 'userId', as: 'days'})
-// db.advertisements.belongsToMany(db.users, {through: 'Applicants', foreignKey: 'advertisementId', as: 'advertisements'})
-
-// db.applicants.belongsTo(db.users, {foreignKey: 'userId'})
-// db.applicants.belongsTo(db.advertisements, {foreignKey: 'advertisementId'})
-
-// db.users.belongsToMany(db.advertisements, {through: 'Applicants', foreignKey: 'userId', as: 'users'})
-
-// User as many advertisement
-// db.advertisements.belongsToMany(db.users, { foreignKey: 'userId', as: 'oui'});
-// db.users.hasMany(db.advertisements);
-
-// db.advertisements.belongsToMany(db.users, { through: 'applied' });
-// db.users.belongsToMany(db.advertisements, { through: 'applied' });
-
-// db.advertisements.belongsTo(db.users, {foreignKey: 'userId', as: 'user'})
+// Companies has many advertisements && advertisements belongs to one companie
+db.companies.hasMany(db.advertisements, {
+  foreignKey: 'companieId'
+});
+db.advertisements.belongsTo(db.companies, {
+  foreignKey: 'companieId'
+});
 
 module.exports = db;

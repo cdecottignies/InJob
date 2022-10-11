@@ -12,7 +12,10 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      userId: {
+      companieId: { // Link an advertisement to a company
+        type: Sequelize.INTEGER
+      },
+      userId: { // Link to the user who created the advertisement
         type: Sequelize.INTEGER,
         allowNull: false,
       },

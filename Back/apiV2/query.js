@@ -1,6 +1,6 @@
 const db = require('./models')
 const Users = db.users;
-const companies = db.companies;
+const Companies = db.companies;
 const advertisements = db.advertisements;
 
 const Sequelize = require('sequelize');
@@ -51,8 +51,22 @@ const findAllUserWithAd = async () => {
     console.log("All users with their associated tasks:", JSON.stringify(users, null, 4));
 }
 
+// const run = async () => {
+//     await findAllUserWithAd()
+//     await process.exit()
+// }
+
+const findAllCompanieWithAd = async () => {
+    const companies = await Companies.findAll({
+        include: [{
+            model: advertisements
+        }]
+    });
+    console.log("All users with their associated tasks:", JSON.stringify(companies, null, 4));
+}
+
 const run = async () => {
-    await findAllUserWithAd()
+    await findAllCompanieWithAd()
     await process.exit()
 }
 
