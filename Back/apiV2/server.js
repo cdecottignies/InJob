@@ -3,7 +3,7 @@ const routes = require('./routes');
 const Joi = require('joi');
 const cors = require("cors");
 require('dotenv').config()
-const cookieSession = require("cookie-session");
+const cookieParser = require('cookie-parser');
 
 
 
@@ -21,13 +21,8 @@ var corsOptions = {
 };
 app.use(cors(corsOptions));
 
-app.use(
-    cookieSession({
-      name: "bezkoder-session",
-      secret: "COOKIE_SECRET", // should use as secret environment variable
-      httpOnly: true
-    })
-  );
+// Cookies
+app.use(cookieParser());
 
 // Import API routes
 app.use('/api/advertisements', routes.advertisements);
