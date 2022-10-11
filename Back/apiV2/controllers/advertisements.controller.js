@@ -13,7 +13,7 @@ exports.create = (req, res) => {
     return;
   }
 
-  // Create a Tutorial
+  // Create an User
   const advertisements = {
     title: req.body.title,
     descShort: req.body.descShort,
@@ -22,10 +22,8 @@ exports.create = (req, res) => {
     place: req.body.place,
     degree: req.body.degree,
     workingTime: req.body.workingTime,
-    workingLocation: req.body.workLocation,
-    hybrid: req.body.hybrid,
+    workingLocation: req.body.workingLocation,
     contractType: req.body.contractType,
-    contractLength: req.body.contractLength,
     contractStart: req.body.contractStart,
     published: req.body.published ? req.body.published : false
   };
@@ -36,7 +34,9 @@ exports.create = (req, res) => {
     // Save Tutorial in the database
     Advertisements.create(advertisements)
     .then(data => {
-      res.send(data);
+      res
+        .status(201)
+        .send(data)
     })
     .catch(err => {
       res.status(500).send({
@@ -54,7 +54,9 @@ exports.findAll = (req, res) => {
   
     Advertisements.findAll({ where: condition })
       .then(data => {
-        res.send(data);
+        res
+          .status(200)
+          .send(data);
       })
       .catch(err => {
         res.status(500).send({
@@ -62,6 +64,7 @@ exports.findAll = (req, res) => {
             err.message || "Some error occurred while retrieving tutorials."
         });
       });
+
 };
 
 // Find a single Tutorial with an id
@@ -72,7 +75,9 @@ exports.findOne = (req, res) => {
     Advertisements.findByPk(id)
     .then(data => {
       if (data) {
-        res.send(data);
+        res
+          .status(200)
+          .send(data);
       } else {
         res.status(404).send({
           message: `Cannot find Tutorial with id=${id}.`
