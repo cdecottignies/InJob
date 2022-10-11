@@ -1,9 +1,11 @@
 const db = require("../models");
 const Users = db.users;
 const Companies = db.companies;
+const Advertisements = db.advertisements;
 const Op = db.Sequelize.Op;
 
-// Create and Save a new Tutorial
+// Use a full validator
+// Create and Save a new User
 exports.create = (req, res) => {
   // Create a User
   const user = {
@@ -34,7 +36,11 @@ exports.findAll = (req, res) => {
     const title = req.query.title;
     var condition = title ? { title: { [Op.like]: `%${title}%` } } : null;
   
-    Users.findAll({ where: condition })
+    Users.findAll({
+      include: [{
+          model: Advertisements,
+      }],
+      where: condition })
       .then(data => {
         res.send(data);
       })

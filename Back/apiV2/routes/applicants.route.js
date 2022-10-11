@@ -1,11 +1,15 @@
-const { authJwt } = require("../middleware");
+const { authJwt, anonymousUser} = require("../middleware");
 const verifyToken = authJwt.verifyToken;
+const createAnonymousUser = anonymousUser.createAnonymousUser;
 const applicantsController = require("../controllers/applicants.controller.js");
 
 var router = require("express").Router();
 
-// Create a new Advertisements
+// Apply to an Ad as a logged user
 router.post("/", [ verifyToken ], applicantsController.apply);
+
+// Apply to an Ad as an anonymous user
+router.post("/anonymous", [ createAnonymousUser ], applicantsController.applyAnonymous); 
 
 // Retrieve all Advertisements
 router.get("/", [ verifyToken ], applicantsController.findAll);
