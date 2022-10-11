@@ -1,5 +1,6 @@
 const db = require("../models");
 const Users = db.users;
+const Companies = db.companies;
 const Op = db.Sequelize.Op;
 
 // Create and Save a new Tutorial
@@ -49,7 +50,12 @@ exports.findAll = (req, res) => {
 exports.findOne = (req, res) => {
     const id = req.params.id;
 
-    Users.findByPk(id)
+      Users.findOne({
+        include: [{
+            model: Companies,
+            as: 'Companies'
+        }],
+      where: { id: id }})
       .then(data => {
         if (data) {
           res.send(data);
@@ -61,7 +67,7 @@ exports.findOne = (req, res) => {
       })
       .catch(err => {
         res.status(500).send({
-          message: "Error retrieving Tutorial with id=" + id
+          message: "Error retrieving User with id=" + id
         });
       });
 };
