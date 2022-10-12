@@ -26,7 +26,7 @@ app.use(cookieParser());
 
 // Import API routes
 app.use('/api/advertisements', routes.advertisements);
-app.use('/api.companies', routes.companies);
+app.use('/api/companies', routes.companies);
 app.use('/api/users', routes.users);
 app.use('/api/auth', routes.auth);
 app.use('/api/applicants', routes.applicants);
