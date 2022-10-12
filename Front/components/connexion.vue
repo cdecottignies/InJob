@@ -75,6 +75,7 @@
 <script>
 import Api from "@/services/ServiceMysql";
 const api = new Api();
+import { setCookie } from "tiny-cookie";
 export default {
   name: "Connexion",
   data() {
@@ -87,19 +88,26 @@ export default {
         password: "",
         phone: "",
       },
+      isconnected : false,
       boolregistre: false,
       show: true,
     };
   },
   mounted() {},
   methods: {
-    // onSubmit(event) {
-    //   event.preventDefault();
-    //   alert(JSON.stringify(this.form));
-    // },
     onReset(event) {
       event.preventDefault();
-      // Reset our form values
+
+      var user = {
+        id: 1,
+        name: "Journal",
+        session: "25j_7Sl6xDq2Kc3ym0fmrSSk2xV2XkUkX",
+      };
+      this.$cookies.set("user", user);
+      // print user name
+      //var getting = browser.cookies.get(details);
+      //console.log(Cookies.get('access_token'));
+
       this.form.email = "";
       this.form.firstname = "";
       this.form.lastname = "";
@@ -112,34 +120,29 @@ export default {
       });
     },
     onSubmit(event) {
-      if (boolregistre) {
-        this.signin(event);
+      event.preventDefault();
+      if (!this.boolregistre) {
+        this.signin();
       } else {
-        this.register(event);
+        this.register();
       }
     },
-    signin(event) {
-      event.preventDefault();
+    signin() {
       var objet = {
-        email: this.email,
-        password: this.password,
+        email: this.form.email,
+        password: this.form.password,
       };
-      api.signin(JSON.stringify(objet)).then((result) => {
+      api.signin(objet).then((result) => {
         console.log(result);
+        setCookie("access_token", result.access_token , { expires: result.expires});
+        this.isconnected = result.isConnect;
+        
       });
     },
-    register(event) {
-      event.preventDefault();
-      var objet = {
-        email: this.email,
-        firstname: this.firstname,
-        lastname: this.lastname,
-        password: this.password,
-        phone: this.password,
-      };
-
-      api.Register(JSON.stringify(objet)).then((result) => {
-        console.log(result);
+    register() {
+      console.log(this.form);
+      api.Register(this.form).then((result) => {
+        console.log("register");
       });
     },
   },

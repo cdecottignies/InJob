@@ -45,7 +45,6 @@ import AffichageAdvert from "@/components/AffichageAdvert.vue";
 import SearchAdvert from "@/components/SearchAdvert.vue";
 import Connexion from "../components/connexion.vue";
 import AffichageAdmin from "../components/AffichageAdmin.vue";
-
 let connex = false;
 let admin = false;
 export default {

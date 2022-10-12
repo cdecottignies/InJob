@@ -80,8 +80,9 @@ export default class Api {
         return new Promise((resolve, reject) => {
             try {
                 axios
-                    .post(`${this.url}auth/signin`, objet)
-                    .then((response) => { resolve(response.data) })
+                    .post(`${this.url}auth/signin`, objet, /*{ withCredentials: true }*/)
+                    .then((response) => {resolve(response.data)
+                    })
             } catch (e) {
                 reject(e)
             }
@@ -100,24 +101,22 @@ export default class Api {
         })
     }
 
-
-    // GetAllIssue() {
-    //     return new Promise((resolve, reject) => {
-    //         try {
-    //             axios
-    //                 .get(`${this.url}all`)
-    //                 .then((response) => { resolve(response.data) })
-    //         } catch (e) {
-    //             reject(e)
-    //         }
-    //     }, 2000)
-    // }
-
-    DeleteAdvert(key) {
+    userResponseAdvert(key) {
         return new Promise((resolve, reject) => {
             try {
                 axios
-                    .delete(`${this.url}advertisement${key}`)
+                    .post(`${this.url}applicants`, key)
+                    .then((response) => { resolve(response.data) })
+            } catch (e) {
+                reject(e)
+            }
+        })
+    }
+    anonymousResponseAdvert(key) {
+        return new Promise((resolve, reject) => {
+            try {
+                axios
+                    .post(`${this.url}applicants/anonymous`, key)
                     .then((response) => { resolve(response.data) })
             } catch (e) {
                 reject(e)

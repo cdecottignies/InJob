@@ -50,6 +50,42 @@
           <b-button v-b-toggle="`collapse-${advert.id}`"
             >learn more</b-button
           >
+          <b-button v-b-modal="`modal-${advert.id}`">Apply</b-button>
+
+            <b-modal :id="`modal-${advert.id}`" hide-footer title="Send to the advertisement">
+              <p class="my-4">Apply</p>
+              <b-form @submit="onSubmit" @reset="onReset">
+                <b-form-group
+                  id="input-group-1"
+                  label="Email address:"
+                  label-for="input-1"
+                  description="We'll never share your email with anyone else."
+                >
+                  <b-form-input
+                    id="input-1"
+                    v-model="form.email"
+                    type="email"
+                    placeholder="Enter email"
+                    required
+                  ></b-form-input>
+                </b-form-group>
+
+                <b-form-group
+                  id="input-group-2"
+                  label="Your Name:"
+                  label-for="input-2"
+                >
+                  <b-form-input
+                    id="input-2"
+                    v-model="form.name"
+                    placeholder="Enter name"
+                    required
+                  ></b-form-input>
+                </b-form-group>
+              </b-form>
+                <b-button type="reset" variant="danger">Reset</b-button>
+                <b-button type="submit" variant="primary">Submit</b-button>
+            </b-modal>
           <b-collapse :id="`collapse-${advert.id}`" class="mt-2">
             <p class="card-text">
               {{ "salaire: " + advert.wages }}<br />{{
@@ -93,10 +129,32 @@ export default {
       search: "",
       searchbool: false,
       advert,
+      form: {
+        email: "",
+        name: "",
+      },
     };
   },
   mounted() {},
   methods: {
+    onSubmit(event) {
+      // ajouter router
+      event.preventDefault();
+      PostResponseAdvert();
+    },
+    onReset(event) {
+      event.preventDefault();
+      // Reset our form values
+      this.form.email = "";
+      this.form.name = "";
+      this.form.food = null;
+      this.form.checked = [];
+      // Trick to reset/clear native browser form validation state
+      this.show = false;
+      this.$nextTick(() => {
+        this.show = true;
+      });
+    },
     GetAdvert(key) {
       if (key != "" && key != null) {
         api.GetAdvert(key).then((result) => {
@@ -121,27 +179,11 @@ export default {
         alert("error invalid input");
       }
     },
-    GetAdvertMap(key) {
-      api.GetAdvert(key).then((result) => {
-        advert = result.map((result) => ({
-          id: result.id,
-          title: result.title,
-          descShort: result.descShort,
-          descLong: result.descLong,
-          wages: result.wages,
-          place: result.place,
-          degree: result.degree,
-          workingTime: result.workingTime,
-          workingLocation: result.workingLocation,
-          contractType: result.contractType,
-          contractStart: result.contractStart,
-          createdAt: result.createdAt,
-          published: result.published,
-        }));
-        searchbool = true;
-        console.log(advert);
-      });
-    },
+  },
+  PostResponseAdvert() {
+    api.userResponseAdvert(this.form).then((result) => {
+      console.log(result);
+    });
   },
 };
 </script>
