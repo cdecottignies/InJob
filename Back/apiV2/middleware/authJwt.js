@@ -4,7 +4,7 @@ const db = require("../models");
 const User = db.user;
 
 verifyToken = (req, res, next) => {
-  let token = req.cookies.access_token;
+  let token = req.body.token;
 
   if (!token) {
     return res
@@ -20,7 +20,7 @@ verifyToken = (req, res, next) => {
         message: "Unauthorized!",
       });
     }
-    req.userId = decoded.id;
+    req.body.userId = decoded.id;
     next();
   });
 };
