@@ -5,14 +5,6 @@ const validator = require("../validators/index").advertisements;
 
 // Create and Save a new Advertisement
 exports.create = (req, res) => {
-  // Validate request
-  if (!req.body.title) {
-    res.status(400).send({
-      message: "Content can not be empty!"
-    });
-    return;
-  }
-
   // Create an advertisement
   const advertisements = {
     title: req.body.title,
@@ -39,35 +31,36 @@ exports.create = (req, res) => {
         .send(data)
     })
     .catch(err => {
-      res.status(500).send({
-        message:
-          err.message || "Some error occurred while creating the Tutorial."
-      });
+      res
+        .status(500)
+        .send({
+          message:
+            err.message || "Some error occurred while creating the Tutorial."
+        });
     });
   } 
 };
 
-// Retrieve all Tutorials from the database.
+// Retrieve all Advertisements from the database.
 exports.findAll = (req, res) => {
-    const title = req.query.title;
-    var condition = title ? { title: { [Op.like]: `%${title}%` } } : null;
-  
-    Advertisements.findAll({ where: condition })
+    Advertisements.findAll({ })
       .then(data => {
         res
           .status(200)
           .send(data);
       })
       .catch(err => {
-        res.status(500).send({
-          message:
-            err.message || "Some error occurred while retrieving tutorials."
-        });
+        res
+          .status(500)
+          .send({
+            message:
+              err.message || "Some error occurred while retrieving advertisements."
+          });
       });
 
 };
 
-// Find a single Tutorial with an id
+// Find a single advertisement with an id
 exports.findOne = (req, res) => {
     const id = req.params.id;
 
@@ -79,69 +72,56 @@ exports.findOne = (req, res) => {
           .status(200)
           .send(data);
       } else {
-        res.status(404).send({
-          message: `Cannot find Tutorial with id=${id}.`
-        });
+        res
+          .status(404)
+          .send({
+            message: `Cannot find advertisement with id=${id}.`
+          });
       }
-    })
-    .catch(err => {
-      res.status(500).send({
-        message: "Error retrieving Tutorial with id=" + id
-      });
-    });
-};
-
-// Update a Tutorial by the id in the request
-exports.update = (req, res) => {
-    const id = req.params.id;
-
-
-    Advertisements.update({
-      title: req.body.title,
-      descShort: req.body.descShort,
-      descLong: req.body.descLong,
-      wages: req.body.wages,
-      place: req.body.place,
-      degree: req.body.degree,
-      workingTime: req.body.workingTime,
-      workingLocation: req.body.workLocation,
-      hybrid: req.body.hybrid,
-      contractType: req.body.contractType,
-      contractLength: req.body.contractLength,
-      contractStart: req.body.contractStart,
-      published: req.body.published ? req.body.published : false
-    },
-    { where: { id: id }})
-    .then(() => { 
-      res
-        .status(200)
-        .send({ message: "Sucessfully updated."})
     })
     .catch(err => {
       res
         .status(500)
-        .json(err) 
+        .send({
+          message: "Error retrieving Advertisement with id=" + id
+        });
     });
+};
 
-    // const user = {
-    //   title: req.body.title,
-    //   descShort: req.body.descShort,
-    //   descLong: req.body.descLong,
-    //   wages: req.body.wages,
-    //   place: req.body.place,
-    //   degree: req.body.degree,
-    //   workingTime: req.body.workingTime,
-    //   workingLocation: req.body.workLocation,
-    //   hybrid: req.body.hybrid,
-    //   contractType: req.body.contractType,
-    //   contractLength: req.body.contractLength,
-    //   contractStart: req.body.contractStart,
-    //   published: req.body.published ? req.body.published : false
-    // };
+// Update an advertisement by the id in the request
+exports.update = (req, res) => {
+    const id = req.params.id;
 
-    // Advertisements.update({ user }, { where: { id: id }})
-    // .then( (data) => { res.send(data) })
-    // .catch( (err) => { res.json(err) });
+    if (validator.updateSchema.validate(req.body).error) {
+      res.send(validator.updateSchema.validate(req.body).error.details);
+    }  else {
+      Advertisements.update({
+        title: req.body.title,
+        descShort: req.body.descShort,
+        descLong: req.body.descLong,
+        wages: req.body.wages,
+        place: req.body.place,
+        degree: req.body.degree,
+        workingTime: req.body.workingTime,
+        workingLocation: req.body.workLocation,
+        hybrid: req.body.hybrid,
+        contractType: req.body.contractType,
+        contractLength: req.body.contractLength,
+        contractStart: req.body.contractStart,
+        published: req.body.published ? req.body.published : false
+      },
+      { where: { id: id }})
+      .then(() => { 
+        res
+          .status(200)
+          .send({ message: `Advertisement with id=${id} sucessfully updated.`})
+      })
+      .catch(err => {
+        res
+          .status(500)
+          .json(err) 
+      });
+    }
   };
 
 // Delete a Advertisement with the specified id in the request
@@ -151,40 +131,44 @@ exports.delete = (req, res) => {
     if (validator.deleteSchema.validate(req.body).error) {
       res.send(validator.deleteSchema.validate(req.body).error.details);
     } else {
-      // Find an advert in Database
+      // Delete advert
       Advertisements.destroy({where: { id: id }})
       .then(num => {
         if (num == 1) {
           res.send({
-            message: "Tutorial was deleted successfully!"
+            message: "Advertisement was deleted successfully!"
           });
         } else {
-          res.send({
-            message: `Cannot delete Tutorial with id=${id}. Maybe Tutorial was not found!`
-          });
+          res
+            .send({
+              message: `Cannot delete advertisement with id=${id}. Maybe advertisement was not found!`
+            });
         }
       })
       .catch(err => {
-        res.status(500).send({
-          message: "Could not delete Tutorial with id=" + id
-        });
+        res
+        .status(500)
+        .send({
+            message: "Could not delete Tutorial with id=" + id
+          });
       });
     } 
 };
 
-// Delete all Tutorials from the database.
+// Delete all Advert from the database.
 exports.deleteAll = (req, res) => {
+  // In case I want to delete specifc adverts, like all adverts from a specific user
   Advertisements.destroy({
         where: {},
         truncate: false
       })
         .then(nums => {
-          res.send({ message: `${nums} Tutorials were deleted successfully!` });
+          res.send({ message: `${nums} advertisements were deleted successfully!` });
         })
         .catch(err => {
           res.status(500).send({
             message:
-              err.message || "Some error occurred while removing all tutorials."
+              err.message || "Some error occurred while removing all advertisements."
           });
         });
 };
@@ -193,12 +177,15 @@ exports.deleteAll = (req, res) => {
 exports.findAllPublished = (req, res) => {
   Advertisements.findAll({ where: { published: true } })
     .then(data => {
-      res.send(data);
+      res
+        .send(data);
     })
     .catch(err => {
-      res.status(500).send({
+      res
+        .status(500)
+        .send({
         message:
-          err.message || "Some error occurred while retrieving tutorials."
-      });
+            err.message || "Some error occurred while retrieving advertisements."
+        });
     });
 };
