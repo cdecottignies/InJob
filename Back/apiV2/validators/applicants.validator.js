@@ -4,8 +4,7 @@ const Joi = require('joi');
 // contractLength: Joi.string(),
 exports.apply = Joi.object().keys({
     advertId: Joi.number().required(),
-    userId: Joi.number().required(),
-    token: Joi.string()
+    userId: Joi.number().required()
 });
 
 exports.applyAnonymously = Joi.object().keys({
