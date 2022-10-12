@@ -28,7 +28,7 @@
             >
               <p class="my-4">Apply</p>
               <b-form @submit="onSubmit" @reset="onReset">
-                <div v-if="token == null">
+                <div v-if="tokenbool == null">
                   <b-form-group
                     id="input-group-1"
                     label="Email address:"
@@ -80,7 +80,7 @@
                   </b-form-group>
                 </div>
                 <b-button type="submit" variant="primary">Submit</b-button>
-                <div v-if="token == null">
+                <div v-if="tokenbool == null">
                   <b-button type="reset" variant="danger">Reset</b-button>
                 </div>
               </b-form>
@@ -109,7 +109,7 @@ export default {
     return {
       advertlist: null,
       idapply: "",
-      token: getCookie("access_token"),
+      tokenbool: getCookie("access_token"),
       form: {
         email: "",
         firstname: "",

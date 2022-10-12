@@ -6,7 +6,7 @@
     <div v-else>
       <H2 class="text-center">Registration</H2>
     </div>
-    <div>
+    <div v-if="isconnected == null">
       <b-form @submit="onSubmit" @reset="onReset" v-if="show">
         <b-form-group
           id="input-group-1"
@@ -70,12 +70,15 @@
         >
       </b-form>
     </div>
+    <div v-else>
+      <b-button v-on:click="deconnexion()" variant="warning">Deconnexion</b-button>
+    </div>
   </div>
 </template>
 <script>
 import Api from "@/services/ServiceMysql";
 const api = new Api();
-import { setCookie } from "tiny-cookie";
+import { setCookie, removeCookie, getCookie } from "tiny-cookie";
 export default {
   name: "Connexion",
   data() {
@@ -84,11 +87,10 @@ export default {
         email: "",
         firstname: "",
         lastname: "",
-
         password: "",
         phone: "",
       },
-      isconnected : false,
+      isconnected: getCookie("access_token"),
       boolregistre: false,
       show: true,
     };
@@ -97,16 +99,6 @@ export default {
   methods: {
     onReset(event) {
       event.preventDefault();
-
-      var user = {
-        id: 1,
-        name: "Journal",
-        session: "25j_7Sl6xDq2Kc3ym0fmrSSk2xV2XkUkX",
-      };
-      this.$cookies.set("user", user);
-      // print user name
-      //var getting = browser.cookies.get(details);
-      //console.log(Cookies.get('access_token'));
 
       this.form.email = "";
       this.form.firstname = "";
@@ -134,9 +126,9 @@ export default {
       };
       api.signin(objet).then((result) => {
         console.log(result);
-        setCookie("access_token", result.access_token , { expires: result.expires});
-        this.isconnected = result.isConnect;
-        
+        setCookie("access_token", result.access_token, {
+          expires: result.expires,
+        });
       });
     },
     register() {
@@ -144,6 +136,10 @@ export default {
       api.Register(this.form).then((result) => {
         console.log("register");
       });
+    },
+
+    deconnexion() {
+     removeCookie("access_token");
     },
   },
 };
