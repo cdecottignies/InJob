@@ -39,6 +39,9 @@ exports.apply = (req, res) => {
       userId: req.userId
     };
   
+    if (validator.applyAnonymously.validate(req.body).error) {
+      res.send(validator.applyAnonymously.validate(req.body).error.details);
+    }  else {
       // Save the applied job of the anonymous user in database
       Applicants.create({
         advertisementId: req.body.advertisementId,
@@ -57,5 +60,6 @@ exports.apply = (req, res) => {
               err.message || "Some error occurred while adding the Ad to the User."
           });
       });
+    }
   };
 

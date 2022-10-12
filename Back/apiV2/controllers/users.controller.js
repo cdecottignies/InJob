@@ -3,8 +3,8 @@ const Users = db.users;
 const Companies = db.companies;
 const Advertisements = db.advertisements;
 const Op = db.Sequelize.Op;
+const validator = require("../validators/index").users;
 
-// Use a full validator
 // Create and Save a new User
 exports.create = (req, res) => {
   // Create a User
@@ -16,26 +16,29 @@ exports.create = (req, res) => {
     phone: req.body.phone
   };
 
-  // Save User in the database
-  Users.create(user)
-    .then(data => {
-      res
-        .status(201)
-        .send(data)
-    })
-    .catch(err => {
-      res.status(500).send({
-        message:
-          err.message || "Some error occurred while creating the Tutorial."
+  if (validator.createUser.validate(req.body).error) {
+    res.send(validator.createUser.validate(req.body).error.details);
+  }  else {
+    // Save User in the database
+    Users.create(user)
+      .then(data => {
+        res
+          .status(201)
+          .send(data)
+      })
+      .catch(err => {
+        res.status(500).send({
+          message:
+            err.message || "Some error occurred while creating the User."
+        });
       });
-    });
+    }
 };
 
-// Retrieve all Tutorials from the database.
+// Retrieve all Users from the database.
 exports.findAll = (req, res) => {
-    const title = req.query.title;
-    var condition = title ? { title: { [Op.like]: `%${title}%` } } : null;
-  
+
+    // Find all Users and there associated advertisements 
     Users.findAll({
       include: [{
           model: Advertisements,
@@ -47,14 +50,18 @@ exports.findAll = (req, res) => {
       .catch(err => {
         res.status(500).send({
           message:
-            err.message || "Some error occurred while retrieving tutorials."
+            err.message || "Some error occurred while retrieving users and there associated advertisements."
         });
       });
 };
 
-// Find a single Tutorial with an id
+// Find a single User with an id
 exports.findOne = (req, res) => {
-    const id = req.params.id;
+
+    if (validator.findOneUser.validate(req.body).error) {
+      res.send(validator.findOneUser.validate(req.body).error.details);
+    }  else {
+      const id = req.params.id;
 
       Users.findOne({
         include: [{
@@ -76,6 +83,7 @@ exports.findOne = (req, res) => {
           message: "Error retrieving User with id=" + id
         });
       });
+    }
 };
 
 // Update a Tutorial by the id in the request
