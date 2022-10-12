@@ -34,19 +34,16 @@ exports.apply = (req, res) => {
 
   exports.applyAnonymously = (req, res) => {
     // Create a link between an unregistred user and advertisement
-    const user = {
-      advertisementId: req.body.advertisementId,
-      userId: req.userId
+    const apply = {
+      advertisementId: req.body.advertId,
+      userId: req.body.userId
     };
   
-    if (validator.applyAnonymously.validate(req.body).error) {
-      res.send(validator.applyAnonymously.validate(req.body).error.details);
+    if (validator.applyAnonymously.validate(apply).error) {
+      res.send(validator.applyAnonymously.validate(apply).error.details);
     }  else {
       // Save the applied job of the anonymous user in database
-      Applicants.create({
-        advertisementId: req.body.advertisementId,
-        userId: req.userId
-      })
+      Applicants.create(apply)
       .then(data => {
           res
           .status(200)

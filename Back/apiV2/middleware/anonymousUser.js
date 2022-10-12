@@ -14,14 +14,13 @@ createAnonymousUser = (req, res, next) => {
     phone: req.body.phone
   };
 
-  if (validator.applyAnonymousUser.validate(req.body).error) {
-    res.send(validator.applyAnonymousUser.validate(req.body).error.details);
+  if (validator.createAnonymousUser.validate(user).error) {
+    res.send(validator.createAnonymousUser.validate(user).error.details);
   }  else {
     // Save User in the database
     Users.create(user)
       .then(data => {
-        
-        req.userId = data.id
+        req.body.userId = data.id
         next();
       })
       .catch(err => {

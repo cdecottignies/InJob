@@ -8,6 +8,6 @@ exports.apply = Joi.object().keys({
 });
 
 exports.applyAnonymously = Joi.object().keys({
-    advertId: Joi.number().required(),
+    advertisementId: Joi.string().required(),
     userId: Joi.number().required()
 });
