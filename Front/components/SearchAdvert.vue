@@ -104,23 +104,25 @@
 <script>
 import Api from "@/services/ServiceMysql";
 import AffichageAdvert from "./AffichageAdvert.vue";
+import { getCookie } from "tiny-cookie";
+
 const api = new Api();
 
-var advert = {
-  id: "",
-  title: "",
-  descShort: "",
-  descLong: "",
-  wages: "",
-  place: "",
-  degree: "",
-  workingTime: "",
-  workingLocation: "",
-  contractType: "",
-  contractStart: "",
-  createdAt: "",
-  published: "",
-};
+// var advert = {
+//   id: "",
+//   title: "",
+//   descShort: "",
+//   descLong: "",
+//   wages: "",
+//   place: "",
+//   degree: "",
+//   workingTime: "",
+//   workingLocation: "",
+//   contractType: "",
+//   contractStart: "",
+//   createdAt: "",
+//   published: "",
+// };
 export default {
   components: { AffichageAdvert },
   name: "SearchAdvert",
@@ -128,7 +130,9 @@ export default {
     return {
       search: "",
       searchbool: false,
-      advert,
+      advert: null,
+      tokenbool: getCookie("access_token"),
+      idapply: "",
       form: {
         email: "",
         name: "",
@@ -138,17 +142,20 @@ export default {
   mounted() {},
   methods: {
     onSubmit(event) {
-      // ajouter router
       event.preventDefault();
-      PostResponseAdvert();
+      console.log(this.idapply);
+      if (getCookie("access_token") != null) {
+        this.userResponse(this.idapply);
+      } else {
+        anonymousResponse(this.idapply);
+      }
+      //alert(JSON.stringify(this.form));
     },
     onReset(event) {
       event.preventDefault();
       // Reset our form values
       this.form.email = "";
       this.form.name = "";
-      this.form.food = null;
-      this.form.checked = [];
       // Trick to reset/clear native browser form validation state
       this.show = false;
       this.$nextTick(() => {
@@ -175,13 +182,26 @@ export default {
           };
           this.searchbool = true;
         });
+      } else if (key == "") {
+        this.searchbool = false;
       } else {
-        alert("error invalid input");
+        alert("error no input");
       }
     },
   },
-  PostResponseAdvert() {
-    api.userResponseAdvert(this.form).then((result) => {
+  anonymousResponse(id) {
+    this.form.id = id;
+    api.anonymousResponseAdvert(this.form).then((result) => {
+      console.log(result);
+    });
+  },
+  userResponse(id) {
+    var res = {
+      advertId: id,
+      token: getCookie("access_token"),
+    };
+    console.log(res);
+    api.userResponseAdvert(res).then((result) => {
       console.log(result);
     });
   },

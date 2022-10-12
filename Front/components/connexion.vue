@@ -71,7 +71,9 @@
       </b-form>
     </div>
     <div v-else>
-      <b-button v-on:click="deconnexion()" variant="warning">Deconnexion</b-button>
+      <b-button v-on:click="deconnexion()" variant="warning"
+        >Deconnexion</b-button
+      >
     </div>
   </div>
 </template>
@@ -130,6 +132,8 @@ export default {
           expires: result.expires,
         });
       });
+      this.isconnected = true;
+      this.$forceUpdate();
     },
     register() {
       console.log(this.form);
@@ -139,7 +143,8 @@ export default {
     },
 
     deconnexion() {
-     removeCookie("access_token");
+      removeCookie("access_token");
+      this.isconnected = null;
     },
   },
 };
