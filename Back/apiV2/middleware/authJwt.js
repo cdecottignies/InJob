@@ -20,6 +20,10 @@ verifyToken = (req, res, next) => {
         message: "Unauthorized!",
       });
     }
+    // Delete the token from the request
+    delete req.body.token;
+
+    // Store the user id in the request body
     req.body.userId = decoded.id;
     next();
   });
