@@ -58,13 +58,22 @@ exports.signin = async (req, res) => {
       expiresIn: 3600, // 1 hour
     });
 
+    // const todayAsDay = new Date.now();
+    // const todayAsNumber = todayAsDay.getTime() / 3600;
+
+    // console.log(todayAsDay);
+    // console.log(Math.round((todayAsDay.getTime())));
+
+    // For a weird reason I have to put 3hours as maxAge to get the cookie to expire in 1 hour
     return res
             .status(200)
-            .cookie("access_token", token, { 
-              httpOnly: true,
-              secure: process.env.NODE_ENV === "production"
-            })
-            .json({ message: `You've been signed in! ${user.email}`, isConnect: true });
+            // .cookie("access_token", token, { 
+            //   // maxAge: (2 * 60 * 60 * 1000) + 3600000,
+            //   maxAge: 3 * 3600000,
+            //   httpOnly: true,
+            //   secure: process.env.NODE_ENV === "production"
+            // })
+            .json({ access_token: token, message: `You've been signed in! ${user.email}`, isConnect: true });
   } catch (error) {
     return res
             .status(500)
