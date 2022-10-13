@@ -29,7 +29,7 @@ export default class Api {
         })
     }
     // add one advertisement
-    AddAdvert(key) {
+    AddOneAdvert(key) {
         return new Promise((resolve, reject) => {
             try {
                 axios
@@ -41,18 +41,18 @@ export default class Api {
         })
     }
     // delete one advertissement
-    DeleteAdvert(key) {
+    DeleteOneAdvert(key) {
         return new Promise((resolve, reject) => {
             try {
                 axios
-                    .delete(`${this.url}advertisements/${key}`)
+                    .delete(`${this.url}advertisements`,key)
                     .then((response) => { resolve(response.data) })
             } catch (e) {
                 reject(e)
             }
         })
     }
-    UpdateAdvert(key) {
+    UpdateOneAdvert(key) {
         return new Promise((resolve, reject) => {
             try {
                 axios
@@ -116,7 +116,7 @@ export default class Api {
         return new Promise((resolve, reject) => {
             try {
                 axios
-                    .post(`${this.url}applicants/anonymous`, key)
+                    .post(`${this.url}applicants/anonymously`, key)
                     .then((response) => { resolve(response.data) })
             } catch (e) {
                 reject(e)

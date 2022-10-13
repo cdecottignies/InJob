@@ -51,7 +51,7 @@
                   >
                     <b-form-input
                       id="input-2"
-                      v-model="form.firstname"
+                      v-model="form.firstName"
                       placeholder="Enter firstname"
                       required
                     ></b-form-input></b-form-group
@@ -62,7 +62,7 @@
                   >
                     <b-form-input
                       id="input-3"
-                      v-model="form.lastname"
+                      v-model="form.lastName"
                       placeholder="Enter lastname"
                       required
                     ></b-form-input> </b-form-group
@@ -112,9 +112,9 @@ export default {
       tokenbool: getCookie("access_token"),
       form: {
         email: "",
-        firstname: "",
-        lastname: "",
-        id: "",
+        firstName: "",
+        lastName: "",
+        advertId: "",
       },
     };
   },
@@ -146,7 +146,7 @@ export default {
       if (getCookie("access_token") != null) {
         this.userResponse(this.idapply);
       } else {
-        anonymousResponse(this.idapply);
+        this.anonymousResponse(this.idapply);
       }
       //alert(JSON.stringify(this.form));
     },
@@ -162,7 +162,7 @@ export default {
       });
     },
     anonymousResponse(id) {
-      this.form.id = id;
+      this.form.advertId = id;
       api.anonymousResponseAdvert(this.form).then((result) => {
         console.log(result);
       });

@@ -11,6 +11,18 @@
         >Compagnies</b-button
       >
     </div>
+    <br>
+     <div>
+      <b-button v-on:click="AddOneAdvert(selected)" variant="primary"
+        >Add</b-button
+      >
+      <b-button v-on:click="UpdateAdvert(selected.id)" variant="warning"
+        >Update</b-button
+      >
+      <b-button v-on:click="deleteOneAdvert(selected.id)" variant="danger"
+        >Delete</b-button
+      >
+    </div>
     <b-table
       :items="advertlist"
       :select-mode="selectMode"
@@ -92,7 +104,7 @@ export default {
       this.GetAllAdvert();
     },
     UpdateAdvert(key) {
-      api.AddOneAdvert(key).then((result) => {
+      api.UpdateOneAdvert(key).then((result) => {
         alert(result);
       });
       this.GetAllAdvert();
