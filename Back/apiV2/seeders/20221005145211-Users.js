@@ -11,6 +11,7 @@ module.exports = {
       email: 'john.doe@example.com',
       password: bcrypt.hashSync('p@ssword', 8),
       phone: '0102030405',
+      isAdmin: false,
       createdAt: new Date(),
       updatedAt: new Date()
     },
@@ -20,6 +21,7 @@ module.exports = {
       email: 'jane.dae@example.com',
       password: bcrypt.hashSync('p@ssword', 8),
       phone: '0102030405',
+      isAdmin: false,
       createdAt: new Date(),
       updatedAt: new Date()
     },
@@ -29,6 +31,7 @@ module.exports = {
       email: 'nick.mark@example.com',
       password: bcrypt.hashSync('p@ssword', 8),
       phone: '0102030405',
+      isAdmin: true,
       createdAt: new Date(),
       updatedAt: new Date()
     }], {});
