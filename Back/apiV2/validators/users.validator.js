@@ -8,6 +8,7 @@ exports.createUser = Joi.object().keys({
     // Validate it with https://regex101.com/
     password: Joi.string().regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/).required(),    
     phone: Joi.string().required(),
+    isAdmin: Joi.boolean().required(),
 });
 
 exports.createAnonymousUser = Joi.object().keys({

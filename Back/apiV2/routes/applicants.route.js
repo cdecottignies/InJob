@@ -1,5 +1,6 @@
-const { auth, user } = require("../middleware");
+const { auth, user, applicant } = require("../middleware");
 const verifyToken = auth.verifyToken;
+// const checkDataForAnonymousApply = applicant.checkDataForAnonymousApply;
 const checkDuplicatePhoneOrEmail = user.checkDuplicatePhoneOrEmail
 const createAnonymousUser = user.createAnonymousUser;
 const applicantsController = require("../controllers/applicants.controller.js");

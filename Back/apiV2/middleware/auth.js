@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
 const config = require("../config/auth.config.js");
 const db = require("../models");
-const User = db.user;
+const Users = db.users;
 
 verifyToken = (req, res, next) => {
   let token = req.body.token;
@@ -30,11 +30,10 @@ verifyToken = (req, res, next) => {
 };
 
 isAdmin = async (req, res, next) => {
-  try {
-    const user = await User.findByPk(req.userId);
-    const isAdmin = await user.isAdmin();
 
-    console.log(isAdmin);
+  try {
+    let user = await Users.findByPk(req.body.userId);
+    const isAdmin = user.isAdmin;
 
     if(isAdmin) {
         return next()

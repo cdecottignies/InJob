@@ -4,6 +4,7 @@ const Companies = db.companies;
 const Advertisements = db.advertisements;
 const Op = db.Sequelize.Op;
 const validator = require("../validators/index").users;
+const bcrypt = require("bcryptjs");
 
 // Create and Save a new User
 exports.create = (req, res) => {
@@ -11,9 +12,10 @@ exports.create = (req, res) => {
   const user = {
     firstName: req.body.firstName,
     lastName: req.body.lastName,
-    email: req.body.email,
-    password: req.body.password,
-    phone: req.body.phone
+    email: req.body.email,    
+    password: bcrypt.hashSync(req.body.password, 8),
+    phone: req.body.phone,
+    isAdmin: req.body.isAdmin ? req.body.isAdmin : false
   };
 
   if (validator.createUser.validate(req.body).error) {
@@ -38,12 +40,12 @@ exports.create = (req, res) => {
 // Retrieve all Users from the database.
 exports.findAll = (req, res) => {
 
-    // Find all Users and there associated advertisements 
+    // Find all Users and there associated advertisements and the associated companie
     Users.findAll({
       include: [{
           model: Advertisements,
-      }],
-      where: condition })
+      }]
+    })
       .then(data => {
         res.send(data);
       })
@@ -58,17 +60,11 @@ exports.findAll = (req, res) => {
 // Find a single User with an id
 exports.findOne = (req, res) => {
 
-    if (validator.findOneUser.validate(req.body).error) {
-      res.send(validator.findOneUser.validate(req.body).error.details);
+    if (validator.findOneUser.validate(req.params).error) {
+      res.send(validator.findOneUser.validate(req.params).error.details);
     }  else {
-      const id = req.params.id;
 
-      Users.findOne({
-        include: [{
-            model: Companies,
-            as: 'Companies'
-        }],
-      where: { id: id }})
+      Users.findByPk( req.params.id )
       .then(data => {
         if (data) {
           res.send(data);
@@ -86,23 +82,20 @@ exports.findOne = (req, res) => {
     }
 };
 
-// Update a Tutorial by the id in the request
+// Update a User by the id contain in the token
 exports.update = (req, res) => {
-    const id = req.params.id;
+    const id = req.body.userId;
 
-    const user = {
+    Users.update({
       firstName: req.body.firstName,
       lastName: req.body.lastName,
-      email: req.body.email,
-      password: req.body.password,
-      phone: req.body.phone
-    };
-    
-    Users.update({user}, { where: { id: id }})
+      password: bcrypt.hashSync(req.body.password, 8),
+    },
+    { where: { id: id }})
       .then(data => { 
         res
-        .status(200)
-        .send({message: `Success, ser with the ${id} updated, ${data}`}) 
+        .status(204)
+        .send() 
       })
       .catch(err => { 
         res
@@ -111,7 +104,32 @@ exports.update = (req, res) => {
       });
 };
 
-// Delete a Advertisement with the specified id in the request
+// Update a User by the id in the request, must be admin
+exports.adminUpdate = (req, res) => {
+  const id = req.params.id;
+
+  Users.update({
+    firstName: req.body.firstName,
+    lastName: req.body.lastName,
+    email: req.body.email,    
+    password: bcrypt.hashSync(req.body.password, 8),
+    phone: req.body.phone,
+    isAdmin: req.body.isAdmin,
+  },
+  { where: { id: id }})
+    .then(data => { 
+      res
+      .status(204)
+      .send() 
+    })
+    .catch(err => { 
+      res
+      .status(500)
+      .json({message: `Error, Couldn't update the User with the ${id}, ${err}`}) 
+    });
+};
+
+// Delete an User with the specified id in the request
 exports.delete = (req, res) => {
     const id = req.params.id;
 
