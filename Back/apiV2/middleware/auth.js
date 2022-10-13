@@ -4,7 +4,7 @@ const db = require("../models");
 const Users = db.users;
 
 verifyToken = (req, res, next) => {
-  let token = req.body.token;
+  let token = req.params.token;
 
   if (!token) {
     return res
