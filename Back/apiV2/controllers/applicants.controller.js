@@ -46,7 +46,7 @@ exports.apply = (req, res) => {
       Applicants.create(apply)
       .then(data => {
           res
-          .status(200)
+          .status(201)
           .send(data);
       })
       .catch(err => {

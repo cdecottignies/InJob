@@ -1,6 +1,7 @@
-const { authJwt, anonymousUser} = require("../middleware");
-const verifyToken = authJwt.verifyToken;
-const createAnonymousUser = anonymousUser.createAnonymousUser;
+const { auth, user } = require("../middleware");
+const verifyToken = auth.verifyToken;
+const checkDuplicatePhoneOrEmail = user.checkDuplicatePhoneOrEmail
+const createAnonymousUser = user.createAnonymousUser;
 const applicantsController = require("../controllers/applicants.controller.js");
 
 var router = require("express").Router();
@@ -9,7 +10,7 @@ var router = require("express").Router();
 router.post("/", [ verifyToken ], applicantsController.apply);
 
 // Apply to an Ad as an anonymous user
-router.post("/anonymously", [ createAnonymousUser ], applicantsController.applyAnonymously); 
+router.post("/anonymously", [ checkDuplicatePhoneOrEmail, createAnonymousUser ], applicantsController.applyAnonymously); 
 
 
 module.exports = router;

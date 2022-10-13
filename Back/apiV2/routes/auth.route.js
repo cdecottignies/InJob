@@ -1,4 +1,4 @@
-const { verifySignUp } = require("../middleware");
+const user = require("../middleware").user;
 const controller = require("../controllers/auth.controller");
 
 var router = require("express").Router();
@@ -7,7 +7,7 @@ var router = require("express").Router();
 // Signup a new user
 router.post("/signup",
   [
-    verifySignUp.checkDuplicateUsernameOrEmail,
+    user.checkDuplicatePhoneOrEmail,
   //   verifySignUp.checkRolesExisted
   ],
   controller.signup
