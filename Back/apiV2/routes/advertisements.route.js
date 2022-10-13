@@ -1,26 +1,26 @@
+const { auth, validate } = require("../middleware");
+const verifyToken = auth.verifyToken;
+const isAdmin = auth.isAdmin;
+const validateCreateAdvertisement = validate.validateCreateAdvertisement;
+const validateUpdateAdvertisement = validate.validateUpdateAdvertisement;
+const validateDeleteAdvertisement = validate.validateDeleteAdvertisement;
 const advertisementsController = require("../controllers/advertisements.controller.js");
 
 var router = require("express").Router();
 
 // Create a new Advertisements
-router.post("/", advertisementsController.create);
+router.post("/", [ verifyToken, isAdmin, validateCreateAdvertisement ], advertisementsController.create);
 
 // Retrieve all Advertisements
 router.get("/", advertisementsController.findAll);
 
-// Retrieve all published Advertisements
-router.get("/published", advertisementsController.findAllPublished);
-
-// Retrieve a single Advertisements with id
-router.get("/:id", advertisementsController.findOne);
-
 // Update a Advertisements with id
-router.put("/:id", advertisementsController.update);
+router.put("/:id", [ verifyToken, isAdmin, validateUpdateAdvertisement ], advertisementsController.update);
 
 // Delete a Advertisements with id
-router.delete("/:id", advertisementsController.delete);
+router.delete("/:id", [ verifyToken, isAdmin, validateDeleteAdvertisement ], advertisementsController.delete);
 
 // Delete all Advertisements
-router.delete("/", advertisementsController.deleteAll);
+router.delete("/", [ verifyToken, isAdmin ], advertisementsController.deleteAll);
 
 module.exports = router;

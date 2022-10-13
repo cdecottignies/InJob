@@ -13,6 +13,8 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Advertisements.init({
+    companieId: DataTypes.INTEGER,
+    userId: DataTypes.INTEGER,
     title: DataTypes.STRING,
     descShort: DataTypes.STRING,
     descLong: DataTypes.TEXT,
