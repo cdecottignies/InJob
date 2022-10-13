@@ -105,7 +105,7 @@ exports.update = (req, res) => {
 };
 
 // Update a User by the id in the request, must be admin
-exports.adminUpdate = (req, res) => {
+exports.updateAsAdmin = (req, res) => {
   const id = req.params.id;
 
   Users.update({

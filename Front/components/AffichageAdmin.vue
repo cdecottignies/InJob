@@ -1,18 +1,13 @@
 <template>
   <div>
     <div>
-      <b-button v-on:click="tableactivate = 1" variant="primary"
+      <b-button v-on:click="GetAllAdvert()" variant="primary"
         >Advertissements</b-button
       >
-      <b-button v-on:click="tableactivate = 2" variant="secondary"
-        >Users</b-button
-      >
-      <b-button v-on:click="tableactivate = 3" variant="warning"
-        >Compagnies</b-button
-      >
+      <b-button v-on:click="GetAllUser()" variant="secondary">Users</b-button>
     </div>
-    <br>
-     <div>
+    <br />
+    <div>
       <b-button v-on:click="AddOneAdvert(selected)" variant="primary"
         >Add</b-button
       >
@@ -24,7 +19,7 @@
       >
     </div>
     <b-table
-      :items="advertlist"
+      :items="list"
       :select-mode="selectMode"
       ref="selectableTable"
       selectable
@@ -38,16 +33,20 @@
 </template>
 <script>
 import Api from "@/services/ServiceMysql";
+import { getCookie } from "tiny-cookie";
 const api = new Api();
 
 export default {
   name: "AffichageAdmin",
   data() {
     return {
+      list: null,
       tableactivate: 1,
       advertlist: null,
       selectMode: "single",
       selected: [],
+      userlist: null,
+      token: getCookie("access_token"),
     };
   },
   mounted() {
@@ -88,8 +87,25 @@ export default {
           contractStart: result.contractStart,
           createdAt: result.createdAt,
         }));
-        this.advertlist = advertlist;
+        this.list = advertlist;
       });
+    },
+    GetAllUser() {
+      //var token = getCookie("access_token");
+      api.GetAllUser(this.token).then((result) => {
+        const userlist = result.map((result) => ({
+          id: result.id,
+          firstName: result.firstName,
+          lastName: result.lastName,
+          email: result.email,
+          password: result.password,
+          phone: result.phone,
+          isAdmin: result.isAdmin,
+          createdAt: result.createdAt,
+        }));
+        this.list = userlist;
+      });
+          this.$forceUpdate();
     },
     deleteOneAdvert(id) {
       api.deleteOneAdvert(id).then((result) => {
