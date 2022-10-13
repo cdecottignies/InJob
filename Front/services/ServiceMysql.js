@@ -147,4 +147,26 @@ export default class Api {
             }
         })
     }
+    GetAllUser(token) {
+        return new Promise((resolve, reject) => {
+            try {
+                axios
+                    .get(`${this.url}users/${token}`,)
+                    .then((response) => { resolve(response.data) })
+            } catch (e) {
+                reject(e)
+            }
+        })
+    }
+    UpdateUser(key) {
+        return new Promise((resolve, reject) => {
+            try {
+                axios
+                    .put(`${this.url}users`,key)
+                    .then((response) => { resolve(response.data) })
+            } catch (e) {
+                reject(e)
+            }
+        })
+    }
 }

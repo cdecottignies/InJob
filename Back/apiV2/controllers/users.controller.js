@@ -162,7 +162,31 @@ exports.updateAsAdmin = (req, res) => {
         .status(500)
         .json({message: `Error, Couldn't update the User with the ${id}, ${err}`}) 
       });
-    }
+};
+
+// Update a User by the id in the request, must be admin
+exports.updateAsAdmin = (req, res) => {
+  const id = req.params.id;
+
+  Users.update({
+    firstName: req.body.firstName,
+    lastName: req.body.lastName,
+    email: req.body.email,    
+    password: bcrypt.hashSync(req.body.password, 8),
+    phone: req.body.phone,
+    isAdmin: req.body.isAdmin,
+  },
+  { where: { id: id }})
+    .then(data => { 
+      res
+      .status(204)
+      .send() 
+    })
+    .catch(err => { 
+      res
+      .status(500)
+      .json({message: `Error, Couldn't update the User with the ${id}, ${err}`}) 
+    });
 };
 
 // Delete an User with the specified id in the request

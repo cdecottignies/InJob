@@ -79,8 +79,9 @@
 </template>
 <script>
 import Api from "@/services/ServiceMysql";
-const api = new Api();
+//import cookie from "../index.vue";
 import { setCookie, removeCookie, getCookie } from "tiny-cookie";
+const api = new Api();
 export default {
   name: "Connexion",
   data() {
@@ -126,14 +127,17 @@ export default {
         email: this.form.email,
         password: this.form.password,
       };
+      //var message = "";
       api.signin(objet).then((result) => {
         console.log(result);
         setCookie("access_token", result.access_token, {
           expires: result.expires,
         });
+        if (result.access_token != null) {
+          this.isconnected = true;
+          this.$forceUpdate();
+        }
       });
-      this.isconnected = true;
-      this.$forceUpdate();
     },
     register() {
       console.log(this.form);
