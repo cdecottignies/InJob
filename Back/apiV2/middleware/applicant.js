@@ -1,5 +1,6 @@
 const db = require("../models");
 const Users = db.users;
+const Applicants = db.applicants;
 const Op = db.Sequelize.Op;
 const validator = require("../validators/index").users;
 
@@ -73,7 +74,39 @@ createAnonymousUser = (req, res, next) => {
     }
 };
 
+
+// Retrieve all Applicants from the database.
+findAllApplicants = (req, res, next) => {
+  var allUserId = [];
+  var allUniqueUserId = [];
+
+  // Find all Applicants, userId & advertId
+  Applicants.findAll()
+    .then(data => {
+      res
+        // Get all the userId from user who applied to an advert
+        for (const key in data) {
+          allUserId.push(data[key].dataValues.userId)
+        }
+
+        // Keep only unique userId
+        allUniqueUserId = [...new Set(allUserId)];
+        
+        req.body.allUniqueUserId = allUniqueUserId;
+        next();
+    })
+    .catch(err => {
+      res
+        .status(500)
+        .send({
+          message:
+              err.message || "Some error occurred while retrieving applicants, userId & advertId."
+          });
+    });
+};
+
 module.exports = {
   checkDuplicatePhoneOrEmail,
-  createAnonymousUser
+  createAnonymousUser,
+  findAllApplicants
 };

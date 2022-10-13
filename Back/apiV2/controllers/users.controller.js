@@ -8,6 +8,8 @@ const bcrypt = require("bcryptjs");
 
 // Create and Save a new User
 exports.create = (req, res) => {
+  delete req.body.userId;
+
   // Create a User
   const user = {
     firstName: req.body.firstName,
@@ -18,9 +20,9 @@ exports.create = (req, res) => {
     isAdmin: req.body.isAdmin ? req.body.isAdmin : false
   };
 
-  if (validator.createUser.validate(req.body).error) {
-    res.send(validator.createUser.validate(req.body).error.details);
-  }  else {
+  // if (validator.createUser.validate(req.body).error) {
+  //   res.send(validator.createUser.validate(req.body).error.details);
+  // }  else {
     // Save User in the database
     Users.create(user)
       .then(data => {
@@ -34,7 +36,7 @@ exports.create = (req, res) => {
             err.message || "Some error occurred while creating the User."
         });
       });
-    }
+    // }
 };
 
 // Retrieve all Users from the database.
@@ -56,6 +58,32 @@ exports.findAll = (req, res) => {
         });
       });
 };
+
+// Retrieve all Users from the database.
+exports.findAllWithApplicants = (req, res) => {
+
+  // Find all Users and there associated advertisements and the associated companie
+  Users.findAll({
+    include: [{
+        model: Advertisements,
+    }],
+    where: {
+      id: {
+        [Op.or]: [ req.body.allUniqueUserId ]
+      }
+    }
+  })
+    .then(data => {
+      res.send(data);
+    })
+    .catch(err => {
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while retrieving users and there associated advertisements."
+      });
+    });
+};
+
 
 // Find a single User with an id
 exports.findOne = (req, res) => {
@@ -86,10 +114,42 @@ exports.findOne = (req, res) => {
 exports.update = (req, res) => {
     const id = req.body.userId;
 
+    if (validator.updateUser.validate(req.params).error) {
+      res.send(validator.updateUser.validate(req.params).error.details);
+    }  else {
+      Users.update({
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+        password: bcrypt.hashSync(req.body.password, 8),
+      },
+      { where: req.body.userId })
+        .then(data => { 
+          res
+          .status(204)
+          .send() 
+        })
+        .catch(err => { 
+          res
+          .status(500)
+          .json({message: `Error, Couldn't update the User with the ${id}, ${err}`}) 
+        });
+      }
+};
+
+// Update a User by the id in the request, must be admin
+exports.updateAsAdmin = (req, res) => {
+  const id = req.params.id;
+
+  if (validator.updateUserAsAdmin.validate(req.params).error) {
+    res.send(validator.updateUserAsAdmin.validate(req.params).error.details);
+  }  else {
     Users.update({
       firstName: req.body.firstName,
       lastName: req.body.lastName,
+      email: req.body.email,    
       password: bcrypt.hashSync(req.body.password, 8),
+      phone: req.body.phone,
+      isAdmin: req.body.isAdmin,
     },
     { where: { id: id }})
       .then(data => { 
@@ -102,31 +162,7 @@ exports.update = (req, res) => {
         .status(500)
         .json({message: `Error, Couldn't update the User with the ${id}, ${err}`}) 
       });
-};
-
-// Update a User by the id in the request, must be admin
-exports.adminUpdate = (req, res) => {
-  const id = req.params.id;
-
-  Users.update({
-    firstName: req.body.firstName,
-    lastName: req.body.lastName,
-    email: req.body.email,    
-    password: bcrypt.hashSync(req.body.password, 8),
-    phone: req.body.phone,
-    isAdmin: req.body.isAdmin,
-  },
-  { where: { id: id }})
-    .then(data => { 
-      res
-      .status(204)
-      .send() 
-    })
-    .catch(err => { 
-      res
-      .status(500)
-      .json({message: `Error, Couldn't update the User with the ${id}, ${err}`}) 
-    });
+    }
 };
 
 // Delete an User with the specified id in the request
@@ -138,9 +174,7 @@ exports.delete = (req, res) => {
         if (num == 1) {
           res
           .status(204)
-          .send({
-            message: "User was deleted successfully!"
-          });
+          .send();
         } else {
           res
           .status(500)
