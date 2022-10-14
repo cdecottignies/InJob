@@ -4,8 +4,9 @@ const db = require("../models");
 const Users = db.users;
 
 verifyToken = (req, res, next) => {
-  let token = req.params.token;
+  let token = req.params.token === undefined ? req.body.token : req.params.token;
 
+  // console.log(req.method)
   if (!token) {
     return res
             .status(403)
@@ -25,6 +26,7 @@ verifyToken = (req, res, next) => {
 
     // Store the user id in the request body
     req.body.userId = decoded.id;
+
     next();
   });
 };
