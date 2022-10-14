@@ -11,13 +11,117 @@
       <b-button v-on:click="AddOneAdvert(selected)" variant="primary"
         >Add</b-button
       >
-      <b-button v-on:click="UpdateAdvert(selected.id)" variant="warning"
+      <b-button v-b-modal.modal-1>Add/Update</b-button>
+      <b-modal id="modal-1" title="change Data" hide-footer>
+               <b-form @submit="onSubmit" @reset="onReset" v-if="show">
+          <b-form-group id="input-group-2" label="title" label-for="input-2">
+            <b-form-input
+              id="input-2"
+              v-model="selected[0].title"
+              placeholder="enter title"
+              required
+            ></b-form-input>
+          </b-form-group>
+
+          <b-form-group
+            id="input-group-3"
+            label="descShort"
+            label-for="input-3"
+          >
+            <b-form-input
+              id="input-3"
+              v-model="selected[0].descShort"
+              placeholder="Enter descShort:"
+              required
+            ></b-form-input>
+          </b-form-group>
+
+          <b-form-group id="input-group-4" label="descLong" label-for="input-4">
+            <b-form-input
+              id="input-4"
+              v-model="selected[0].descLong"
+              placeholder="Enter descLong:"
+              required
+            ></b-form-input>
+          </b-form-group>
+
+          <b-form-group id="input-group-5" label="wages" label-for="input-5">
+            <b-form-input
+              id="input-5"
+              v-model="selected[0].wages"
+              placeholder="Enter wages:"
+              required
+            ></b-form-input>
+          </b-form-group>
+
+          <b-form-group id="input-group-6" label="place" label-for="input-6">
+            <b-form-input
+              id="input-6"
+              v-model="selected[0].place"
+              placeholder="Enter place:"
+              required
+            ></b-form-input>
+          </b-form-group>
+
+          <b-form-group id="input-group-7" label="degree" label-for="input-7">
+            <b-form-input
+              id="input-7"
+              v-model="selected[0].degree"
+              placeholder="Enter degree:"
+              required
+            ></b-form-input>
+          </b-form-group>
+
+          <b-form-group
+            id="input-group-8"
+            label="workingTime"
+            label-for="input-8"
+          >
+            <b-form-input
+              id="input-8"
+              v-model="selected[0].workingTime"
+              placeholder="Enter workingTime:"
+              required
+            ></b-form-input>
+          </b-form-group>
+
+          <b-form-group
+            id="input-group-9"
+            label="workingLocation"
+            label-for="input-9"
+          >
+            <b-form-input
+              id="input-9"
+              v-model="selected[0].workingLocation"
+              placeholder="Enter workingLocation:"
+              required
+            ></b-form-input>
+          </b-form-group>
+
+          <b-form-group
+            id="input-group-10"
+            label="contractType"
+            label-for="input-10"
+          >
+            <b-form-input
+              id="input-10"
+              v-model="selected[0].contractType"
+              placeholder="Enter contractType:"
+              required
+            ></b-form-input>
+          </b-form-group>
+          <b-button type="submit" variant="primary">Submit</b-button>
+          <b-button type="reset" variant="danger">Reset</b-button>
+        </b-form>
+      </b-modal>
+      <!-- <b-button v-on:click="UpdateAdvert(selected.id)" variant="warning"
         >Update</b-button
       >
       <b-button v-on:click="deleteOneAdvert(selected.id)" variant="danger"
         >Delete</b-button
-      >
+      > -->
     </div>
+
     <b-table
       :items="list"
       :select-mode="selectMode"
@@ -40,12 +144,12 @@ export default {
   name: "AffichageAdmin",
   data() {
     return {
+      show: true,
+
       list: null,
       tableactivate: 1,
-      advertlist: null,
       selectMode: "single",
-      selected: [],
-      userlist: null,
+      selected: [""],
       token: getCookie("access_token"),
     };
   },
@@ -55,7 +159,11 @@ export default {
   },
   methods: {
     onRowSelected(items) {
-      this.selected = items;
+      if (items != 0) {
+        this.selected = items;
+      } else {
+        this.selected = [""];
+      }
     },
     selectAllRows() {
       this.$refs.selectableTable.selectAllRows();
@@ -105,7 +213,7 @@ export default {
         }));
         this.list = userlist;
       });
-          this.$forceUpdate();
+      this.$forceUpdate();
     },
     deleteOneAdvert(id) {
       api.deleteOneAdvert(id).then((result) => {
@@ -114,16 +222,36 @@ export default {
       this.GetAllAdvert();
     },
     AddOneAdvert(key) {
-      api.AddOneAdvert(key).then((result) => {
-        alert(result);
-      });
+      api.AddOneAdvert(key).then((result) => {});
+      //this.$forceUpdate();
+
       this.GetAllAdvert();
     },
-    UpdateAdvert(key) {
-      api.UpdateOneAdvert(key).then((result) => {
-        alert(result);
+    UpdateAdvert(id, res) {
+      //res.token = getCookie("access_token");
+      this.selected[0].token = this.token;
+      //console.log(this.advertlist[0]);
+      api.UpdateOneAdvert(id, res).then((result) => {
+        //alert(result.data);
       });
-      this.GetAllAdvert();
+    },
+
+    onSubmit(event) {
+      event.preventDefault();
+      //if (this.selected.length != 0) {
+      this.UpdateAdvert(this.selected[0].id, this.selected[0]);
+      // }
+      //alert(JSON.stringify(this.form));
+    },
+    onReset(event) {
+      event.preventDefault();
+      // Reset our form values
+
+      // Trick to reset/clear native browser form validation state
+      this.show = false;
+      this.$nextTick(() => {
+        this.show = true;
+      });
     },
   },
 };
