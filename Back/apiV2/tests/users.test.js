@@ -1,13 +1,16 @@
 const request = require('supertest')
 const app = require('../server.js')
 const bcrypt = require("bcryptjs");
+const testConfig = require('../config/test.config.js').testConfig
+
 
 describe('Users', () => {
     it('POST /users --> create a user', async () => {
         const res = await request(app)
             .post('/api/users')
             .send({
-                token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNjY1NzQyNTkyLCJleHAiOjE2NjYxMDI1OTJ9.inuTDepTY3JZsjpjmOyysb95GYs7GjIrMwS2y_BD6Xg',                companieId: 1,
+                token: testConfig.tokenAdmin,
+                companieId: 1,
                 firstName: 'Jean',
                 lastName: 'Luc',
                 email: 'jeanluc@example.com',
@@ -27,13 +30,13 @@ describe('Users', () => {
 
     it('GET /users --> get all users', async () => {
         const res = await request(app)
-        .get('/api/users/admin/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNjY1NzQyNTkyLCJleHAiOjE2NjYxMDI1OTJ9.inuTDepTY3JZsjpjmOyysb95GYs7GjIrMwS2y_BD6Xg')
+        .get(`/api/users/admin/${testConfig.tokenAdmin}`)
         expect(res.status).toEqual(200)
         expect(res.body).toEqual(expect.any(Array))
     }),    
     
     it('GET /users --> show the profile of a non admin user', async () => {
-        const res = await request(app).get('/api/users/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjY1NzQyNTA5LCJleHAiOjE2NjYxMDI1MDl9.5VhdaWObiQW5afcIiZDDVqx9OIrz_Df_woNEjr2MRnE')
+        const res = await request(app).get(`/api/users/${testConfig.token}`)
         expect(res.status).toEqual(200)
         expect(res.body).toEqual(expect.any(Object))
         expect(res.body).toHaveProperty('companieId')
@@ -47,7 +50,7 @@ describe('Users', () => {
     }),
 
     it('GET /users --> show an admin user', async () => {
-        const res = await request(app).get('/api/users/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNjY1NzQyNTkyLCJleHAiOjE2NjYxMDI1OTJ9.inuTDepTY3JZsjpjmOyysb95GYs7GjIrMwS2y_BD6Xg')
+        const res = await request(app).get('/api/users/${testConfig.tokenAdmin}')
         expect(res.status).toEqual(200)
         expect(res.body).toEqual(expect.any(Object))
         expect(res.body).toHaveProperty('companieId')
@@ -64,7 +67,7 @@ describe('Users', () => {
         const res = await request(app)
             .put('/api/users/1')
             .send({
-                token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjY1NzQyNTA5LCJleHAiOjE2NjYxMDI1MDl9.5VhdaWObiQW5afcIiZDDVqx9OIrz_Df_woNEjr2MRnE',
+                token: testConfig.token,
                 firstName: 'Bob',
                 lastName: 'Smith',
                 password: 'abERTYUc123'
@@ -77,7 +80,7 @@ describe('Users', () => {
         const res = await request(app)
             .delete('/api/users/')
             .send({
-                token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjY1NzQyNTA5LCJleHAiOjE2NjYxMDI1MDl9.5VhdaWObiQW5afcIiZDDVqx9OIrz_Df_woNEjr2MRnE'
+                token: testConfig.tokenAdmin,
             })
         expect(res.statusCode).toEqual(204)
     }),
@@ -86,7 +89,7 @@ describe('Users', () => {
         const res = await request(app)
             .delete('/api/users')
             .send({
-                token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNjY1NzQyNTkyLCJleHAiOjE2NjYxMDI1OTJ9.inuTDepTY3JZsjpjmOyysb95GYs7GjIrMwS2y_BD6Xg',
+                token: testConfig.tokenAdmin,
             })
         expect(res.statusCode).toEqual(204)
     })

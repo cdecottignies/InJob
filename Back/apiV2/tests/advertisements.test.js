@@ -1,5 +1,6 @@
 const request = require('supertest')
 const app = require('../server')
+const testConfig = require('../config/test.config.js').testConfig
 
 describe('Advertisements', () => {
     it('POST /advertisements --> create a new ad', async () => {
@@ -17,7 +18,7 @@ describe('Advertisements', () => {
             workingLocation: "remote",
             contractType: "CDI",
             contractStart: 1665071052,
-            token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNjY1NjkxODc5LCJleHAiOjE2NjYwNTE4Nzl9.sIxca7OR654zIaFE1s4YiillfRU03ewrHwFgEeaD1xM"
+            token: testConfig.tokenAdmin
         })
         expect(res.status).toEqual(201)
         expect(res.body.companieId).toBe(1)
@@ -47,7 +48,7 @@ describe('Advertisements', () => {
     it('PUT /advertisements/:id --> update one advert by id', async () => {
         const res = await request(app)
         .put('/api/advertisements/1')
-        .send({ token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNjY1NjkxODc5LCJleHAiOjE2NjYwNTE4Nzl9.sIxca7OR654zIaFE1s4YiillfRU03ewrHwFgEeaD1xM" })
+        .send({ token: testConfig.tokenAdmin, title: "je suis" })
         expect(res.statusCode).toEqual(200)
         // expect(res.body.message).toBe('Advertisement with id=1 sucessfully updated.')
         // expect(res.body).toBe('Advertisement with id=1 sucessfully updated.')
@@ -57,21 +58,21 @@ describe('Advertisements', () => {
     it('DELETE /advertisements/:id --> delete one advert by id', async () => {
         const res = await request(app)
         .delete('/api/advertisements/1')
-        .send({ token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNjY1NjkxODc5LCJleHAiOjE2NjYwNTE4Nzl9.sIxca7OR654zIaFE1s4YiillfRU03ewrHwFgEeaD1xM" })
+        .send({ token: testConfig.tokenAdmin })
         expect(res.statusCode).toEqual(204)
     });
 
     it('DELETE /advertisements/:id --> try to delete an non existing advert', async () => {
         const res = await request(app)
         .delete('/api/advertisements/10000')
-        .send({ token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNjY1NjkxODc5LCJleHAiOjE2NjYwNTE4Nzl9.sIxca7OR654zIaFE1s4YiillfRU03ewrHwFgEeaD1xM" })
+        .send({ token: testConfig.tokenAdmin })
         expect(res.statusCode).toEqual(404)
     });
 
     it('DELETE /advertisements/ --> delete all adverts', async () => {
         const res = await request(app)
         .delete('/api/advertisements/')
-        .send({ token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNjY1NjkxODc5LCJleHAiOjE2NjYwNTE4Nzl9.sIxca7OR654zIaFE1s4YiillfRU03ewrHwFgEeaD1xM" })
+        .send({ token: testConfig.tokenAdmin })
         expect(res.statusCode).toEqual(200)
     });    
 })
