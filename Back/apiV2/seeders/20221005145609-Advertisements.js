@@ -9,12 +9,12 @@ module.exports = {
       descShort: 'CDI for master of JS',
       descLong: 'As a JS Dev you will workd Node and Express',
       wages: 100000000,
-      place: JSON.stringify([
+      place: JSON.stringify(
         {
           "city": "Lille",
           "street": "Massena"
         }
-      ]),
+      ),
       workingTime: 'flexible',
       workingLocation: 'remote',
       contractType: 'CDI',
@@ -29,10 +29,10 @@ module.exports = {
       descShort: 'CDI for PHP lover',
       descLong: 'As a PHP Dev you will work with Laravel and sails',
       wages: 420000000,
-      place: JSON.stringify([{
+      place: JSON.stringify({
         city: 'Lille',
         street: 'Louis XIV'
-      }]),
+      }),
       workingTime: 'flexible',
       workingLocation: 'remote',
       contractType: 'CDI',
@@ -47,10 +47,10 @@ module.exports = {
       descShort: 'CDI for cool Japan people',
       descLong: 'As a PHP Dev you will work with Ruby on Rails',
       wages: 4200000000,
-      place: JSON.stringify([{
+      place: JSON.stringify({
         city: 'Lille',
         street: 'Moon'
-      }]),
+      }),
       workingTime: 'flexible',
       workingLocation: 'remote',
       contractType: 'Alternance',
