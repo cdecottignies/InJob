@@ -52,11 +52,11 @@ export default class Api {
             }
         })
     }
-    UpdateOneAdvert(key) {
+    UpdateOneAdvert(id,res) {
         return new Promise((resolve, reject) => {
             try {
                 axios
-                    .put(`${this.url}advertisements/${key}`)
+                    .put(`${this.url}advertisements/${id}`,res)
                     .then((response) => { resolve(response.data) })
             } catch (e) {
                 reject(e)
@@ -124,17 +124,6 @@ export default class Api {
         })
     }
 
-    UpdateAdvert() {
-        return new Promise((resolve, reject) => {
-            try {
-                axios
-                    .get(`${this.url}update`)
-                    .then((response) => { resolve(response.data) })
-            } catch (e) {
-                reject(e)
-            }
-        })
-    }
 
     ResetAdvert() {
         return new Promise((resolve, reject) => {
