@@ -88,7 +88,8 @@ exports.findOne = (req, res) => {
 
 // Update an advertisement by the id in the request
 exports.update = (req, res) => {
-      
+  
+  console.log(req.body)
   Advertisements.update({
     title: req.body.title,
     descShort: req.body.descShort,
@@ -104,7 +105,7 @@ exports.update = (req, res) => {
     contractStart: req.body.contractStart,
     published: req.body.published ? req.body.published : false
   },
-  { where: { id: id }})
+  { where: { id: req.params.id }})
   .then(() => { 
     res
       .status(200)

@@ -43,6 +43,7 @@ exports.updateAdvertisement = Joi.object().keys({
     contractType: Joi.string().valid('CDI', 'CDD', 'ALTERNANCE'),
     contractStart: Joi.date().timestamp(),
     published: Joi.boolean(),
+    createdAt: Joi.string(),
 });
 
 exports.deleteAdvertisement = Joi.object().keys({

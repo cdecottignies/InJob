@@ -63,16 +63,17 @@ validateCreateAdvertisement = async (req, res, next) => {
 }
 
 validateUpdateAdvertisement = async (req, res, next) => {
-  if (advertValidator.updateAdvertisement.validate(req.params.id).error) {
-      res.send(advertValidator.updateAdvertisement.validate(req.params.id).error.details);
+  delete req.body.userId
+  if (advertValidator.updateAdvertisement.validate(req.body).error) {
+      res.send(advertValidator.updateAdvertisement.validate(req.body).error.details);
     }  else {
       next();
     }
 }
 
 validateDeleteAdvertisement = async (req, res, next) => {
-  if (advertValidator.deleteAdvertisement.validate({id: req.params.id}).error) {
-      res.send(advertValidator.deleteAdvertisement.validate({id: req.params.id}).error.details);
+  if (advertValidator.deleteAdvertisement.validate(req.body).error) {
+      res.send(advertValidator.deleteAdvertisement.validate(req.body).error.details);
     }  else {
       next();
     }
@@ -81,6 +82,7 @@ validateDeleteAdvertisement = async (req, res, next) => {
 
 // Companie
 validateCreateCompanie = async (req, res, next) => {
+  delete req.body.userId;
   if (companieValidator.createCompanie.validate(req.body).error) {
       res.send(companieValidator.createCompanie.validate(req.body).error.details);
     }  else {
