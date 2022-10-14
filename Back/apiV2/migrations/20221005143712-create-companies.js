@@ -12,14 +12,14 @@ module.exports = {
       name: {
         type: Sequelize.STRING
       },
-      SIRET: {
+      siret: {
         type: Sequelize.STRING
       },
       numEmploye: {
         type: Sequelize.INTEGER
       },
       desc: {
-        type: Sequelize.TEXT
+        type: Sequelize.STRING
       },
       link: {
         type: Sequelize.STRING

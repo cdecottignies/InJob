@@ -16,9 +16,9 @@ module.exports = {
       updatedAt: new Date()
     },
     {
-      firstName: 'Jane',
-      lastName: 'Dae',
-      email: 'jane.dae@example.com',
+      firstName: 'Us',
+      lastName: 'Er',
+      email: 'user@example.com',
       password: bcrypt.hashSync('p@ssword', 8),
       phone: '0102030405',
       isAdmin: false,
@@ -26,9 +26,9 @@ module.exports = {
       updatedAt: new Date()
     },
     {
-      firstName: 'Nick',
-      lastName: 'Mark',
-      email: 'nick.mark@example.com',
+      firstName: 'Ad',
+      lastName: 'Min',
+      email: 'admin@example.com',
       password: bcrypt.hashSync('p@ssword', 8),
       phone: '0102030405',
       isAdmin: true,
