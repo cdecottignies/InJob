@@ -17,27 +17,21 @@ exports.create = (req, res) => {
     logo: req.body.logo
   };
 
-  // If the data sent doesn't match the expeted return what missed
-  if (validator.createCompanie.validate(req.body).error) {
-    res.send(validator.createCompanie.validate(req.body).error.details);
-  }  else {
-    console.log('salut')
-    // Save Tutorial in the database
-    Companies.create(companies)
-      .then(data => {
-        res
-          .status(201)
-          .send(data);
-      })
-      .catch(err => {
-        res
-          .status(500)
-          .send({
-            message:
-              err.message || "Some error occurred while creating the Companie."
-          });
-      });
-    }
+  // Save Tutorial in the database
+  Companies.create(companies)
+    .then(data => {
+      res
+        .status(201)
+        .send(data);
+    })
+    .catch(err => {
+      res
+        .status(500)
+        .send({
+          message:
+            err.message || "Some error occurred while creating the Companie."
+        });
+    });
 };
 
 // Retrieve all Companies from the database.
@@ -63,62 +57,52 @@ exports.findAll = (req, res) => {
 exports.findOne = (req, res) => {
     const id = req.params.id;
 
-    // If the data sent doesn't match the expeted return what missed
-    if (validator.findByPK.validate(req.body).error) {
-      res.send(validator.findByPK.validate(req.body).error.details);
-    }  else {
-      Companies.findByPk(id)
-        .then(data => {
-          if (data) {
-            res
-              .status(200)
-              .send(data);
-          } else {
-            res
-              .status(404)
-              .send({
-                message: `Cannot find Companie with id=${id}.`
-              });
-          }
-        })
-        .catch(err => {
+    Companies.findByPk(id)
+      .then(data => {
+        if (data) {
           res
-            .status(500)
+            .status(200)
+            .send(data);
+        } else {
+          res
+            .status(404)
             .send({
-              message: "Error retrieving Companie with id=" + id
+              message: `Cannot find Companie with id=${id}.`
             });
-        });
-      }
+        }
+      })
+      .catch(err => {
+        res
+          .status(500)
+          .send({
+            message: "Error retrieving Companie with id=" + id
+          });
+      });
 };
 
 // Update a Tutorial by the id in the request
 exports.update = (req, res) => {
     const id = req.params.id;
 
-    // If the data sent doesn't match the expeted return what missed
-    if (validator.updateCompanie.validate(req.body).error) {
-      res.send(validator.updateCompanie.validate(req.body).error.details);
-    }  else {
-      Companies.update({
-        name: req.body.name,
-        SIRET: req.body.siret,
-        numEmploye: req.body.numEmploye,
-        desc: req.body.desc,
-        link: req.body.link,
-        logo: req.body.logo
-      },
-      { where: { id: id } })
-      .then( (data) => { 
-        res
-          .status(200)
-          .send(data) 
-        })
-      .catch( (err) => { 
-        res
-          .status(500)
-          .json(err)
-         });
-    }
+    Companies.update({
+      name: req.body.name,
+      SIRET: req.body.siret,
+      numEmploye: req.body.numEmploye,
+      desc: req.body.desc,
+      link: req.body.link,
+      logo: req.body.logo
+    },
+    { where: { id: id } })
+    .then( (data) => { 
+      res
+        .status(200)
+        .send(data) 
+      })
+    .catch( (err) => { 
+      res
+        .status(500)
+        .json(err)
+        });
 };
 
 // Delete a Advertisement with the specified id in the request

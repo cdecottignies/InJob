@@ -60,3 +60,30 @@ exports.apply = (req, res) => {
     }
   };
 
+// Delete an User with the specified id in the request
+exports.delete = (req, res) => {
+  const id = req.params.id;
+
+  Applicants.destroy({ where: { id: id }})
+    .then(num => {
+      if (num == 1) {
+        res
+        .status(204)
+        .send();
+      } else {
+        res
+        .status(500)
+        .send({
+          message: `Cannot delete Tutorial with id=${id}. Maybe Tutorial was not found!`
+        });
+      }
+    })
+    .catch(err => {
+      res
+      .status(500)
+      .send({
+        message: "Could not delete Tutorial with id=" + id
+      });
+    });
+};
+

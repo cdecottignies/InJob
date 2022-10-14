@@ -1,26 +1,28 @@
-const companie = require("../middleware").companie;
+const { auth, companie, validate } = require("../middleware");
+const verifyToken = auth.verifyToken;
+const isAdmin = auth.isAdmin;
+const validateCreateCompanie = validate.validateCreateCompanie;
+const validateUpdateCompanie = validate.validateUpdateCompanie;
+const validateDeleteCompanie = validate.validateDeleteCompanie;
 const checkDuplicateNameOrSIRET = companie.checkDuplicateNameOrSIRET;
 const companies = require("../controllers/companies.controller.js");
 
 var router = require("express").Router();
 
-// Create a new Advertisements
-router.post("/", [ checkDuplicateNameOrSIRET ], companies.create);
+// Create a new Companies
+router.post("/", [ verifyToken, isAdmin, validateCreateCompanie, checkDuplicateNameOrSIRET ], companies.create);
 
-// Retrieve all Advertisements
-router.get("/", companies.findAll);
+// Retrieve all Companies
+router.get("/", [ verifyToken, isAdmin ], companies.findAll);
 
-// Retrieve a single Advertisements with id
-router.get("/:id", companies.findOne);
+// Update a Companies with id
+router.put("/:id", [ verifyToken, isAdmin, validateUpdateCompanie ], companies.update);
 
-// Update a Advertisements with id
-router.put("/:id", companies.update);
+// Delete a Companies with id
+router.delete("/:id", [ verifyToken, isAdmin, validateDeleteCompanie ], companies.delete);
 
-// Delete a Advertisements with id
-router.delete("/:id", companies.delete);
-
-// Delete all Advertisements
-router.delete("/", companies.deleteAll);
+// Delete all Companies
+router.delete("/", [ verifyToken, isAdmin ], companies.deleteAll);
 
 
 module.exports = router;

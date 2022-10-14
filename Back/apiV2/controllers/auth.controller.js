@@ -55,7 +55,7 @@ exports.signin = async (req, res) => {
     }
 
     const token = jwt.sign({ id: user.id }, config.secret, {
-      expiresIn: 3600, // 1 hour
+      expiresIn: 360000, // 100 hour for debug purpose
     });
 
     // const todayAsDay = new Date.now();
