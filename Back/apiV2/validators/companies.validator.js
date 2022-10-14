@@ -4,7 +4,7 @@ const Joi = require('joi');
 // contractLength: Joi.string(),
 exports.createCompanie = Joi.object().keys({
     name: Joi.string().required(),
-    SIRET: Joi.string().length(14).required(),
+    siret: Joi.string().length(14).required(),
     numEmploye: Joi.number().required(),
     desc: Joi.string().required(),
     link: Joi.string().required(),

@@ -2,46 +2,42 @@ const db = require("../models");
 const Companies = db.companies;
 const Op = db.Sequelize.Op;
 
-checkDuplicateNameOrSIRET = async (req, res, next) => {
+checkDuplicateNameOrSiret = async (req, res, next) => {
 
-  // Companie Name
+  var error = {name: "", siret: ""};
+
   try {
-    let companie = await Companies.findOne({
-      where: {
-        [Op.or]: [
-          { name: req.body.name },
-          { SIRET: req.body.siret }
-        ]
-      }
+    let companieName = await Companies.findOne({
+      where: { email: req.body.name }
     });
 
-    if(companie.name.toLowerCase == req.body.name.toLowerCase) {
-      return res
-        .status(400)
-        .send({
-          message: `Failed ! Companie name ${req.body.name} is already in use !`
-        });
-    }
-    
-     if (companie.SIRET.toLowerCase == req.body.siret.toLowerCase) {
-      return res
-        .status(400)
-        .send({
-          message: `Failed ! Companie SIRET ${req.body.siret} is already registered!`
-        });
+    if(companieName) {
+      error.name = `Failed ! Companie name ${req.body.name} is already in use !`;
     }
 
-    next();
-  } catch (error) {
-    return res
-      .status(500)
-      .send({
-        message: "Unable to validate Companie creationoui !",
+    let companieSiret = await Companies.findOne({
+      where: { siret: req.body.siret }
+    });
+
+    if (companieSiret) {
+      error.siret = `Failed ! Companie siret ${req.body.siret} is already in use !`;
+    }
+
+    if (error.name || error.siret) {
+      return res
+        .status(400)
+        .send(error);
+    }
+
+    next()
+    } catch (error) {
+      return res.status(500).send({
+        message: "Unable to validate Companie information !",
         error
       });
-  }
+    }
 };
 
 module.exports = {
-  checkDuplicateNameOrSIRET
+  checkDuplicateNameOrSiret
 };

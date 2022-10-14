@@ -1,6 +1,7 @@
-const { auth, validate } = require("../middleware");
+const { auth, user, validate } = require("../middleware");
 const verifyToken = auth.verifyToken;
 const isAdmin = auth.isAdmin;
+const checkDuplicatePhoneOrEmail = user.checkDuplicatePhoneOrEmail;
 const validateCreateUser = validate.validateCreateUser;
 const validateFindOneUser = validate.validateFindOneUser;
 const validateUpdateUser = validate.validateUpdateUser;
@@ -10,8 +11,8 @@ const users = require("../controllers/users.controller.js");
 
 var router = require("express").Router();
 
-// Create a new Advertisements
-router.post("/", [ verifyToken, isAdmin, validateCreateUser ], users.create);
+// Create a new User
+router.post("/", [ verifyToken, isAdmin, validateCreateUser, checkDuplicatePhoneOrEmail ], users.create);
 
 // Retrieve all Advertisements
 router.get("/admin/:token", [ verifyToken, isAdmin ], users.findAll);

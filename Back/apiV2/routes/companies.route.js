@@ -4,13 +4,13 @@ const isAdmin = auth.isAdmin;
 const validateCreateCompanie = validate.validateCreateCompanie;
 const validateUpdateCompanie = validate.validateUpdateCompanie;
 const validateDeleteCompanie = validate.validateDeleteCompanie;
-const checkDuplicateNameOrSIRET = companie.checkDuplicateNameOrSIRET;
+const checkDuplicateNameOrSiret = companie.checkDuplicateNameOrSiret;
 const companies = require("../controllers/companies.controller.js");
 
 var router = require("express").Router();
 
 // Create a new Companies
-router.post("/", [ verifyToken, isAdmin, validateCreateCompanie, checkDuplicateNameOrSIRET ], companies.create);
+router.post("/", [ verifyToken, isAdmin, validateCreateCompanie, checkDuplicateNameOrSiret ], companies.create);
 
 // Retrieve all Companies
 router.get("/", [ verifyToken, isAdmin ], companies.findAll);
