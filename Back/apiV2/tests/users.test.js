@@ -1,59 +1,93 @@
 const request = require('supertest')
 const app = require('../server.js')
+const bcrypt = require("bcryptjs");
 
 describe('Users', () => {
     it('POST /users --> create a user', async () => {
         const res = await request(app)
             .post('/api/users')
             .send({
+                token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNjY1NzQyNTkyLCJleHAiOjE2NjYxMDI1OTJ9.inuTDepTY3JZsjpjmOyysb95GYs7GjIrMwS2y_BD6Xg',                companieId: 1,
                 firstName: 'Jean',
                 lastName: 'Luc',
                 email: 'jeanluc@example.com',
-                password: '123456789',
+                password: 'azertyRTYU456',
                 phone: '124'
             })
         expect(res.status).toEqual(201)
+        expect(res.body.companieId).toBe(1)
+        expect(res.body.firstName).toBe('Jean')
+        expect(res.body.lastName).toBe('Luc')
+        expect(res.body.email).toBe('jeanluc@example.com')
+        // Find a way to test the password
+        // expect(res.body.password).toBe(bcrypt.hashSync('123456789', 8))
+        expect(res.body.phone).toBe('124')
+        expect(res.body.isAdmin).toBe(false)
+    }),
+
+    it('GET /users --> get all users', async () => {
+        const res = await request(app)
+        .get('/api/users/admin/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNjY1NzQyNTkyLCJleHAiOjE2NjYxMDI1OTJ9.inuTDepTY3JZsjpjmOyysb95GYs7GjIrMwS2y_BD6Xg')
+        expect(res.status).toEqual(200)
+        expect(res.body).toEqual(expect.any(Array))
+    }),    
+    
+    it('GET /users --> show the profile of a non admin user', async () => {
+        const res = await request(app).get('/api/users/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjY1NzQyNTA5LCJleHAiOjE2NjYxMDI1MDl9.5VhdaWObiQW5afcIiZDDVqx9OIrz_Df_woNEjr2MRnE')
+        expect(res.status).toEqual(200)
+        expect(res.body).toEqual(expect.any(Object))
+        expect(res.body).toHaveProperty('companieId')
         expect(res.body).toHaveProperty('firstName')
         expect(res.body).toHaveProperty('lastName')
         expect(res.body).toHaveProperty('email')
         expect(res.body).toHaveProperty('password')
         expect(res.body).toHaveProperty('phone')
+        expect(res.body).toHaveProperty('isAdmin')
+        expect(res.body.isAdmin).toBe(false)
     }),
 
-    // Ce test est bizare
-    it('should show all users', async () => {
-        const res = await request(app).get('/api/users')
+    it('GET /users --> show an admin user', async () => {
+        const res = await request(app).get('/api/users/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNjY1NzQyNTkyLCJleHAiOjE2NjYxMDI1OTJ9.inuTDepTY3JZsjpjmOyysb95GYs7GjIrMwS2y_BD6Xg')
         expect(res.status).toEqual(200)
-    }),    
-    
-    it('GET /users --> show a user', async () => {
-        const res = await request(app).get('/api/users/3')
-        expect(res.status).toEqual(200)
+        expect(res.body).toEqual(expect.any(Object))
+        expect(res.body).toHaveProperty('companieId')
         expect(res.body).toHaveProperty('firstName')
+        expect(res.body).toHaveProperty('lastName')
+        expect(res.body).toHaveProperty('email')
+        expect(res.body).toHaveProperty('password')
+        expect(res.body).toHaveProperty('phone')
+        expect(res.body).toHaveProperty('isAdmin')
+        expect(res.body.isAdmin).toBe(true)
     }),
 
-    it('PUT /users --> should update a user', async () => {
+    it('PUT /users/:id --> a user should be able to update his profile', async () => {
         const res = await request(app)
-            .put('/api/users/3')
+            .put('/api/users/1')
             .send({
+                token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjY1NzQyNTA5LCJleHAiOjE2NjYxMDI1MDl9.5VhdaWObiQW5afcIiZDDVqx9OIrz_Df_woNEjr2MRnE',
                 firstName: 'Bob',
                 lastName: 'Smith',
-                email: 'bob@doe.com',
-                password: 'abc123'
+                password: 'abERTYUc123'
             })
-        expect(res.statusCode).toEqual(200)
+        expect(res.statusCode).toEqual(204)
+        expect(res.body).toEqual({})
     }),
 
     it('DELETE /users/:id --> should delete a user', async () => {
         const res = await request(app)
-            .del('/api/users/3')
+            .delete('/api/users/')
+            .send({
+                token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjY1NzQyNTA5LCJleHAiOjE2NjYxMDI1MDl9.5VhdaWObiQW5afcIiZDDVqx9OIrz_Df_woNEjr2MRnE'
+            })
         expect(res.statusCode).toEqual(204)
-    })
-    ,
+    }),
 
     it('DELETE /users --> should delete all users', async () => {
         const res = await request(app)
-            .del('/api/users')
+            .delete('/api/users')
+            .send({
+                token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNjY1NzQyNTkyLCJleHAiOjE2NjYxMDI1OTJ9.inuTDepTY3JZsjpjmOyysb95GYs7GjIrMwS2y_BD6Xg',
+            })
         expect(res.statusCode).toEqual(204)
     })
 })

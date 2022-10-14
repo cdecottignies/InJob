@@ -12,6 +12,7 @@ exports.create = (req, res) => {
 
   // Create a User
   const user = {
+    companieId: req.body.companieId,
     firstName: req.body.firstName,
     lastName: req.body.lastName,
     email: req.body.email,    
@@ -20,9 +21,6 @@ exports.create = (req, res) => {
     isAdmin: req.body.isAdmin ? req.body.isAdmin : false
   };
 
-  // if (validator.createUser.validate(req.body).error) {
-  //   res.send(validator.createUser.validate(req.body).error.details);
-  // }  else {
     // Save User in the database
     Users.create(user)
       .then(data => {
@@ -36,7 +34,6 @@ exports.create = (req, res) => {
             err.message || "Some error occurred while creating the User."
         });
       });
-    // }
 };
 
 // Retrieve all Users from the database.
@@ -87,62 +84,52 @@ exports.findAllWithApplicants = (req, res) => {
 
 // Find a single User with an id
 exports.findOne = (req, res) => {
+  let id = req.body.userId;
 
-    if (validator.findOneUser.validate(req.params).error) {
-      res.send(validator.findOneUser.validate(req.params).error.details);
-    }  else {
-
-      Users.findByPk( req.params.id )
-      .then(data => {
-        if (data) {
-          res.send(data);
-        } else {
-          res.status(404).send({
-            message: `Cannot find User with id=${id}.`
-          });
-        }
-      })
-      .catch(err => {
-        res.status(500).send({
-          message: "Error retrieving User with id=" + id
+    Users.findByPk(id)
+    .then(data => {
+      if (data) {
+        res.send(data);
+      } else {
+        res.status(404).send({
+          message: `Cannot find User with id=${id}.`
         });
+      }
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: "Error retrieving User with id=" + id
       });
-    }
+    });
 };
 
 // Update a User by the id contain in the token
 exports.update = (req, res) => {
     const id = req.body.userId;
+    console.log(req.body);
 
-    if (validator.updateUser.validate(req.params).error) {
-      res.send(validator.updateUser.validate(req.params).error.details);
-    }  else {
-      Users.update({
-        firstName: req.body.firstName,
-        lastName: req.body.lastName,
-        password: bcrypt.hashSync(req.body.password, 8),
-      },
-      { where: req.body.userId })
-        .then(data => { 
-          res
-          .status(204)
-          .send() 
-        })
-        .catch(err => { 
-          res
-          .status(500)
-          .json({message: `Error, Couldn't update the User with the ${id}, ${err}`}) 
-        });
-      }
+    Users.update({
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      password: bcrypt.hashSync(req.body.password, 8),
+    },
+    { where: { id: id } })
+      .then(data => { 
+        res
+        .status(204)
+        .send() 
+      })
+      .catch(err => { 
+        res
+        .status(500)
+        .json({message: `Error, Couldn't update the User with the ${id}, ${err}`}) 
+      });
 };
 
 // Update a User by the id in the request, must be admin
 exports.updateAsAdmin = (req, res) => {
-  const id = req.params.id;
+  const id = req.body.userId;
 
-  if (validator.updateUserAsAdmin.validate(req.params).error) {
-    res.send(validator.updateUserAsAdmin.validate(req.params).error.details);
-  }  else {
     Users.update({
       firstName: req.body.firstName,
       lastName: req.body.lastName,
@@ -191,7 +178,7 @@ exports.updateAsAdmin = (req, res) => {
 
 // Delete an User with the specified id in the request
 exports.delete = (req, res) => {
-    const id = req.params.id;
+    const id = req.body.userId;
 
     Users.destroy({ where: { id: id }})
       .then(num => {
@@ -211,11 +198,38 @@ exports.delete = (req, res) => {
         res
         .status(500)
         .send({
-          message: "Could not delete Tutorial with id=" + id
+          message: "Could not delete User with id=" + id
         });
       });
 };
 
+
+// Delete an User with the specified id in the request
+exports.deleteAsAdmin = (req, res) => {
+  const id = req.params.id;
+
+  Users.destroy({ where: { id: id }})
+    .then(num => {
+      if (num == 1) {
+        res
+        .status(204)
+        .send();
+      } else {
+        res
+        .status(500)
+        .send({
+          message: `Cannot delete Tutorial with id=${id}. Maybe Tutorial was not found!`
+        });
+      }
+    })
+    .catch(err => {
+      res
+      .status(500)
+      .send({
+        message: "Could not delete Tutorial with id=" + id
+      });
+    });
+};
 
 // Find all published Tutorials
 exports.findAllPublished = (req, res) => {
