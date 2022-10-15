@@ -21,6 +21,6 @@ router.put("/:id", [ verifyToken, isAdmin, validateUpdateAdvertisement ], advert
 router.delete("/:id", [ verifyToken, isAdmin, validateDeleteAdvertisement ], advertisementsController.delete);
 
 // Delete all Advertisements
-router.delete("/", [ verifyToken, isAdmin ], advertisementsController.deleteAll);
+router.delete("/:token", [ verifyToken, isAdmin ], advertisementsController.deleteAll);
 
 module.exports = router;

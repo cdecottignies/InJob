@@ -6,7 +6,8 @@ module.exports = {
      await queryInterface.bulkInsert('Companies', [
       {
        name: 'Microsoft',
-       SIRET: 'ERA56YGVIU',
+       siret: 'ERA56YGVIU',
+        numEmploye: 1000,
        desc: 'I am Microsoft',
        link: 'https://www.microsoft.com/en-us',
        logo: 'jiddna',
@@ -16,7 +17,8 @@ module.exports = {
      ,
      {
       name: 'IBM',
-      SIRET: 'zfboz_çç_hàah',
+      siret: 'zfboz_çç_hàah',
+      numEmploye: 1000,
       desc: 'I am IBM',
       link: 'https://www.ibm.com/us-en/',
       logo: 'dzddzzda',

@@ -100,6 +100,7 @@ validateFindByPK = async (req, res, next) => {
 }
 
 validateUpdateCompanie = async (req, res, next) => {
+  delete req.body.userId
   if (companieValidator.updateCompanie.validate(req.body).error) {
       res.send(companieValidator.updateCompanie.validate(req.body).error.details);
     }  else {
@@ -108,8 +109,9 @@ validateUpdateCompanie = async (req, res, next) => {
 }
 
 validateDeleteCompanie = async (req, res, next) => {
-  if (companieValidator.deleteCompanie.validate(req.body).error) {
-      res.send(companieValidator.deleteCompanie.validate(req.body).error.details);
+  delete req.body.userId
+  if (companieValidator.deleteCompanie.validate({ id: req.params.id}).error) {
+      res.send(companieValidator.deleteCompanie.validate({ id: req.params.id}).error.details);
     }  else {
       next();
     }
