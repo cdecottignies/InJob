@@ -18,7 +18,7 @@ router.get("/", advertisementsController.findAll);
 router.put("/:id", [ verifyToken, isAdmin, validateUpdateAdvertisement ], advertisementsController.update);
 
 // Delete a Advertisements with id
-router.delete("/:id", [ verifyToken, isAdmin, validateDeleteAdvertisement ], advertisementsController.delete);
+router.delete("/:token/:id", [ verifyToken, isAdmin, validateDeleteAdvertisement ], advertisementsController.delete);
 
 // Delete all Advertisements
 router.delete("/:token", [ verifyToken, isAdmin ], advertisementsController.deleteAll);
