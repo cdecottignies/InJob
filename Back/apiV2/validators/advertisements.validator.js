@@ -3,7 +3,8 @@ const Joi = require('joi');
 // hybrid: Joi.string().valid('0', '1 day remote, 4 days office', '2 days remote, 3 days office', '3 days remote, 2 days office', '4 days remote, 1 day office').required(),
 // contractLength: Joi.string(),
 exports.createAdvertisement = Joi.object().keys({
-    companieId: Joi.number().required(),
+    // WIP associate with advert
+    // companieId: Joi.number().required(),
     userId: Joi.number().required(),
     title: Joi.string().required(),
     descShort: Joi.string().required(),
@@ -32,7 +33,7 @@ exports.updateAdvertisement = Joi.object().keys({
     title: Joi.string(),
     descShort: Joi.string(),
     descLong: Joi.string(),
-    wages: Joi.number().greater(1700),
+    wages: Joi.number().greater(1200),
     place: Joi.object({
         city: Joi.string(),
         street: Joi.string()

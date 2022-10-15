@@ -8,7 +8,7 @@ exports.create = (req, res) => {
   // Create an advertisement
   // TODO: get the companieId from the companie name from a middleware I guess
   const advertisements = {
-    companieId: req.body.companieId,
+    // companieId: req.body.companieId,
     userId: req.body.userId,
     title: req.body.title,
     descShort: req.body.descShort,
@@ -90,7 +90,6 @@ exports.findOne = (req, res) => {
 exports.update = (req, res) => {
   let id = req.params.id
   
-  console.log(req.body)
   Advertisements.update({
     title: req.body.title,
     descShort: req.body.descShort,
