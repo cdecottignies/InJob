@@ -17,9 +17,9 @@ router.post("/", [ verifyToken ], applicantsController.apply);
 router.post("/anonymously", [ checkDuplicatePhoneOrEmail, createAnonymousUser ], applicantsController.applyAnonymously); 
 
 // Get all applicants of all ads, for all users
-router.get("/:token", [ verifyToken, isAdmin, findAllApplicants ], usersController.findAllWithApplicants);; 
+router.get("/admin/:token", [ verifyToken, isAdmin, findAllApplicants ], usersController.findAllWithApplicants);; 
 
 // Delete an applicant, for an ad, for a user
-router.delete("/anonymously", [ verifyToken, isAdmin ], applicantsController.delete); 
+router.delete("/admin/:token/", [ verifyToken, isAdmin ], applicantsController.delete); 
 
 module.exports = router;
