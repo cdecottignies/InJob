@@ -38,7 +38,7 @@ isAdmin = async (req, res, next) => {
     const isAdmin = user.isAdmin;
     
     if(isAdmin) {
-        return next()
+        next()
     } else {
         return res.status(403).send({
           message: "Require Admin Role!",
