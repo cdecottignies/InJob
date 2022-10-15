@@ -30,14 +30,16 @@ exports.updateUser = Joi.object().keys({
     userId: Joi.number().required(),
     firstName: Joi.string(),
     lastName: Joi.string(),
-    password: Joi.string().regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/).required()
+    // WIP
+    // password: Joi.string().regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/).required()
 });
 
 exports.updateUserAsAdmin = Joi.object().keys({
     firstName: Joi.string(),
     lastName: Joi.string(),
     email: Joi.string().email(),
-    password: Joi.string().regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/).required(),
+    // WIP
+    // password: Joi.string().regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/).required(),
     phone: Joi.string(),
     isAdmin: Joi.boolean(),
 });

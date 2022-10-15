@@ -111,7 +111,7 @@ exports.update = (req, res) => {
     Users.update({
       firstName: req.body.firstName,
       lastName: req.body.lastName,
-      password: bcrypt.hashSync(req.body.password, 8),
+      // password: bcrypt.hashSync(req.body.password, 8),
     },
     { where: { id: id } })
       .then(data => { 
@@ -134,7 +134,7 @@ exports.updateAsAdmin = (req, res) => {
       firstName: req.body.firstName,
       lastName: req.body.lastName,
       email: req.body.email,    
-      password: bcrypt.hashSync(req.body.password, 8),
+      // password: bcrypt.hashSync(req.body.password, 8),
       phone: req.body.phone,
       isAdmin: req.body.isAdmin,
     },
@@ -159,7 +159,7 @@ exports.updateAsAdmin = (req, res) => {
     firstName: req.body.firstName,
     lastName: req.body.lastName,
     email: req.body.email,    
-    password: bcrypt.hashSync(req.body.password, 8),
+    // password: bcrypt.hashSync(req.body.password, 8),
     phone: req.body.phone,
     isAdmin: req.body.isAdmin,
   },
@@ -229,6 +229,27 @@ exports.deleteAsAdmin = (req, res) => {
         message: "Could not delete Tutorial with id=" + id
       });
     });
+};
+
+// Delete all Advert from the database.
+exports.deleteAll = (req, res) => {
+  // In case I want to delete specifc adverts, like all adverts from a specific user
+  Users.destroy({
+        where: {},
+        truncate: false
+      })
+        .then(nums => {
+          res
+            .status(200)
+            .send({ message: `${nums} users were deleted successfully!` });
+        })
+        .catch(err => {
+          res
+            .status(500)
+            .send({
+              message: err.message || "Some error occurred while removing all advertisements."
+            });
+        });
 };
 
 // Find all published Tutorials
