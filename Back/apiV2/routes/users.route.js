@@ -12,19 +12,19 @@ const users = require("../controllers/users.controller.js");
 var router = require("express").Router();
 
 // Create a new User
-router.post("/", [ verifyToken, isAdmin, validateCreateUser, checkDuplicatePhoneOrEmail ], users.create);
+router.post("/admin/", [ verifyToken, isAdmin, validateCreateUser, checkDuplicatePhoneOrEmail ], users.create);
 
-// Retrieve all Advertisements
+// Retrieve all Users
 router.get("/admin/:token", [ verifyToken, isAdmin ], users.findAll);
 
 // The user access to his profile
 router.get("/:token", [ verifyToken, validateFindOneUser ], users.findOne);
 
 // The user can update his profile
-router.put("/:id", [ verifyToken, validateUpdateUser ], users.update);
+router.put("/", [ verifyToken, validateUpdateUser ], users.update);
 
 // The admin update the profile of the user
-router.put("/admin/:token", [ verifyToken, isAdmin, validateUpdateUserAsAdmin ], users.updateAsAdmin);
+router.put("/admin/:id", [ verifyToken, isAdmin, validateUpdateUserAsAdmin ], users.updateAsAdmin);
 
 // The user can delete his profile
 router.delete("/", [ verifyToken, validateDeleteUser ], users.delete);

@@ -8,7 +8,7 @@ describe('Companies', () => {
         const res = await request(app)
             .post('/api/companies')
             .send({
-                token: testConfig.tokenAdmin,',
+                token: testConfig.tokenAdmin,
                 name: 'Jean',
                 SIRET: 'Luc',
                 numEmploye: 50,

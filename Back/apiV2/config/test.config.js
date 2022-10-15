@@ -1,6 +1,6 @@
 const testConfig = {
-    token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNjY1NzU5MTUxLCJleHAiOjE2NjYxMTkxNTF9.2RrSsej0vBThgGAbwZcI9wIYBqtUpApBsNv36sZgtYc",
-    tokenAdmin: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNjY1NzU5MTMzLCJleHAiOjE2NjYxMTkxMzN9.r0w1beQAK7YQP5shvanuNBHcUE8p0WPqtogpPA3PRHo"
+    token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNjY1ODQ0MjYyLCJleHAiOjE2NjYyMDQyNjJ9.Uz9FbN5GULNg8XMWUB1pz5ntcqQxcJzzkBSaiNMVZxo",
+    tokenAdmin: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNjY1ODQ0MjgwLCJleHAiOjE2NjYyMDQyODB9.GMzYt9kNv8ewt2UuHHG915tCuCbjlkwyxLXKp6_UyYQ"
 }
 
 module.exports = {

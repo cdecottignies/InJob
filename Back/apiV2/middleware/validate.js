@@ -37,6 +37,7 @@ validateUpdateUser = async (req, res, next) => {
 }
 
 validateUpdateUserAsAdmin = async (req, res, next) => {
+  delete req.body.userId;
   if (userValidator.updateUserAsAdmin.validate(req.body).error) {
       res.send(userValidator.updateUserAsAdmin.validate(req.body).error.details);
     }  else {
