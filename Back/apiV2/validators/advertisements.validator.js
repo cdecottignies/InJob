@@ -18,7 +18,7 @@ exports.createAdvertisement = Joi.object().keys({
     workingTime: Joi.string().valid('flexible', '9 to 5').required(),
     workingLocation: Joi.string().valid('remote', 'office', 'hybrid').required(),
     contractType: Joi.string().valid('CDI', 'CDD', 'ALTERNANCE').required(),
-    contractStart: Joi.date().string(),
+    contractStart: Joi.string(),
     published: Joi.boolean(),
 });
 
