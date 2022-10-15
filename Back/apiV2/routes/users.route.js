@@ -32,5 +32,7 @@ router.delete("/", [ verifyToken, validateDeleteUser ], users.delete);
 // The admin can delete an user account
 router.delete("/admin/:id", [ verifyToken, isAdmin, validateDeleteUser ], users.deleteAsAdmin);
 
+// Delete all Advertisements
+router.delete("/admin/", [ verifyToken, isAdmin ], users.deleteAll);
 
 module.exports = router;
