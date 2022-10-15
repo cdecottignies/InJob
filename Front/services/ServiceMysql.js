@@ -71,7 +71,7 @@ export default class Api {
         return new Promise((resolve, reject) => {
             try {
                 axios
-                    .post(`${this.url}advertisements`, key)
+                    .post(`${this.url}advertisements/admin`, key)
                     .then((response) => { resolve(response.data) })
             } catch (e) {
                 reject(e)
@@ -96,7 +96,7 @@ export default class Api {
         return new Promise((resolve, reject) => {
             try {
                 axios
-                    .put(`${this.url}advertisements/${id}`, res)
+                    .put(`${this.url}advertisements/admin/${id}`, res)
                     .then((response) => { resolve(response.data) })
             } catch (e) {
                 reject(e)
@@ -170,11 +170,57 @@ export default class Api {
             }
         })
     }
+    DeleteOneUser(id, token) {
+
+        return new Promise((resolve, reject) => {
+            try {
+                axios
+                    .delete(`${this.url}users/admin/${token}/${id}`)
+                    .then((response) => { resolve(response.data) })
+            } catch (e) {
+                reject(e)
+            }
+        })
+    }
     GetAllApplicants(token) {
         return new Promise((resolve, reject) => {
             try {
                 axios
-                    .get(`${this.url}applicants/${token}`)
+                    .get(`${this.url}applicants/admin/${token}`)
+                    .then((response) => { resolve(response.data) })
+            } catch (e) {
+                reject(e)
+            }
+        })
+    }
+    AddOneApplicants(key) {
+        return new Promise((resolve, reject) => {
+            try {
+                axios
+                    .post(`${this.url}applicants/admin`, key)
+                    .then((response) => { resolve(response.data) })
+            } catch (e) {
+                reject(e)
+            }
+        })
+    }
+    UpdateOneApplicants(id, key) {
+        return new Promise((resolve, reject) => {
+            try {
+                axios
+                    .put(`${this.url}applicants/admin/${id}`, key)
+                    .then((response) => { resolve(response.data) })
+            } catch (e) {
+                reject(e)
+            }
+        })
+    }
+    DeleteOneApplicants(id, token) {
+
+        return new Promise((resolve, reject) => {
+            try {
+                axios
+                    .delete(`${this.url}applicants/admin/${token}/${id}`)
                     .then((response) => { resolve(response.data) })
             } catch (e) {
                 reject(e)
@@ -208,6 +254,18 @@ export default class Api {
             try {
                 axios
                     .put(`${this.url}companies/admin/${id}`, key)
+                    .then((response) => { resolve(response.data) })
+            } catch (e) {
+                reject(e)
+            }
+        })
+    }
+    DeleteOneCompanies(id, token) {
+
+        return new Promise((resolve, reject) => {
+            try {
+                axios
+                    .delete(`${this.url}companies/admin/${token}/${id}`)
                     .then((response) => { resolve(response.data) })
             } catch (e) {
                 reject(e)

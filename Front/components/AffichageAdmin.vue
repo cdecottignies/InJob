@@ -491,13 +491,11 @@ export default {
 
       api.AddOneUser(key).then((result) => {});
     },
-    UpdateUser(id, res) {
+    UpdateOneUser(id, res) {
       this.selected[0].token = this.token;
       this.selected[0].companieId = 10;
 
-      api.UpdateOneUser(id, res).then((result) => {
-        //alert(result.data);
-      });
+      api.UpdateOneUser(id, res).then((result) => {});
     },
     deleteOneApplicant(id, token) {
       api.deleteOneAdvert(id, token).then((result) => {
@@ -509,16 +507,12 @@ export default {
       this.selected[0].token = this.token;
 
       api.AddOneUser(key).then((result) => {});
-      //this.$forceUpdate();
     },
     UpdateApplicant(id, res) {
       this.selected[0].token = this.token;
       this.selected[0].companieId = 10;
 
-      //console.log(this.advertlist[0]);
-      api.UpdateOneUser(id, res).then((result) => {
-        //alert(result.data);
-      });
+      api.UpdateOneUser(id, res).then((result) => {});
     },
     deleteOneApplicant(id, token) {
       api.deleteOneApplicant(id, token).then((result) => {
@@ -529,31 +523,48 @@ export default {
 
     onSubmit(event) {
       event.preventDefault();
-      if (this.tableactivate == 1) {
-        if (this.selected[0].id != null) {
-          console.log("UpdateAdvert");
-          this.UpdateAdvert(this.selected[0].id, this.selected[0]);
-        } else {
-          console.log("AddOneAdvert");
-          this.AddOneAdvert(this.selected[0]);
-        }
-      } else if (this.tableactivate == 2) {
-        if (this.selected[0].id != null) {
-          console.log("UpdateUser");
-          this.UpdateUser(this.selected[0].id, this.selected[0]);
-        } else {
-          console.log("AddOneUser");
-          this.AddOneUser(this.selected[0]);
-        }
-      } else {
-        if (this.selected[0].id != null) {
-          console.log("UpdateApplicant");
-          this.UpdateApplicant(this.selected[0].id, this.selected[0]);
-        } else {
-          console.log("AddApplicant");
-          this.AddApplicant(this.selected[0]);
-        }
+      switch (this.tableactivate) {
+        case 1:
+          if (this.selected[0].id != null) {
+            console.log("UpdateAdvert");
+            this.UpdateAdvert(this.selected[0].id, this.selected[0]);
+          } else {
+            console.log("AddOneAdvert");
+            this.AddOneAdvert(this.selected[0]);
+          }
+          break;
+        case 2:
+          if (this.selected[0].id != null) {
+            console.log("UpdateUser");
+            this.UpdateOneUser(this.selected[0].id, this.selected[0]);
+          } else {
+            console.log("AddOneUser");
+            this.AddOneUser(this.selected[0]);
+          }
+          break;
+        case 3:
+          if (this.selected[0].id != null) {
+            console.log("UpdateApplicant");
+            this.UpdateApplicant(this.selected[0].id, this.selected[0]);
+          } else {
+            console.log("AddApplicant");
+            this.AddApplicant(this.selected[0]);
+          }
+          break;
+        case 4:
+          if (this.selected[0].id != null) {
+            console.log("UpdateCompanies");
+            this.UpdateCompanie(this.selected[0].id, this.selected[0]);
+          } else {
+            console.log("AddCompanies");
+            this.AddOneCompanies(this.selected[0]);
+          }
+          break;
+
+        default:
+          break;
       }
+
       //alert(JSON.stringify(this.form));
     },
     Delete() {
