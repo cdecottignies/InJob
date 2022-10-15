@@ -55,7 +55,7 @@ exports.findAll = (req, res) => {
 
 // Find a single Companie with an id
 exports.findOne = (req, res) => {
-    const id = req.params.id;
+    const id = req.body.userId;
 
     Companies.findByPk(id)
       .then(data => {
@@ -82,7 +82,7 @@ exports.findOne = (req, res) => {
 
 // Update a Tutorial by the id in the request
 exports.update = (req, res) => {
-    const id = req.params.id;
+    const id = req.body.userId;
 
     Companies.update({
       name: req.body.name,
@@ -107,7 +107,7 @@ exports.update = (req, res) => {
 
 // Delete a Advertisement with the specified id in the request
 exports.delete = (req, res) => {
-    const id = req.params.id;
+    const id = req.body.userId;
 
     Companies.destroy({
       where: { id: id }

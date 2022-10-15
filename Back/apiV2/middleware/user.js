@@ -8,38 +8,35 @@ checkDuplicatePhoneOrEmail = async (req, res, next) => {
   var error = {email: "", phone: ""};
 
   try {
-    let user = await Users.findOne({
-      where: {
-        [Op.or]: [
-          { email: req.body.email },
-          { phone: req.body.phone }
-        ]
-      }
+    let userEmail = await Users.findOne({
+      where: { email: req.body.email }
     });
 
-    if (user.email.toLowerCase == req.body.email.toLowerCase) {
-      return res
-        .status(400)
-        .send({
-          message: `Failed ! Email ${req.body.email} is already in use!`
-        });
+    if(userEmail) {
+      error.email = `Failed ! User email ${req.body.email} is already in use !`;
     }
 
-    if (user.phone.toLowerCase == req.body.phone.toLowerCase) {
-      return res
-        .status(400)
-        .send({
-          message: `Failed ! Email ${req.body.phone} is already in use!`
-        });
-    }
-
-    next();
-  } catch (error) {
-    return res.status(500).send({
-      message: "Unable to validate Username!",
-      error
+    let userPhone = await Users.findOne({
+      where: { phone: req.body.phone }
     });
-  }
+
+    if (userPhone) {
+      error.phone = `Failed ! User phone ${req.body.phone} is already in use !`;
+    }
+
+    if (error.email || error.phone) {
+      return res
+        .status(400)
+        .send(error);
+    }
+
+    next()
+    } catch (error) {
+      return res.status(500).send({
+        message: "Unable to validate User information !",
+        error
+      });
+    }
 };
 
 // Create and Save a new anonymous User
