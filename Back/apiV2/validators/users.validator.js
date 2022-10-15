@@ -31,7 +31,7 @@ exports.updateUser = Joi.object().keys({
     firstName: Joi.string(),
     lastName: Joi.string(),
     // WIP
-    // password: Joi.string().regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/).required()
+    password: Joi.string().regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/).required()
 });
 
 exports.updateUserAsAdmin = Joi.object().keys({

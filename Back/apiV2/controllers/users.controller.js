@@ -159,7 +159,7 @@ exports.updateAsAdmin = (req, res) => {
     firstName: req.body.firstName,
     lastName: req.body.lastName,
     email: req.body.email,    
-    // password: bcrypt.hashSync(req.body.password, 8),
+    password: bcrypt.hashSync(req.body.password, 8),
     phone: req.body.phone,
     isAdmin: req.body.isAdmin,
   },
