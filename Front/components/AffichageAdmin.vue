@@ -8,11 +8,14 @@
       <b-button v-on:click="GetAllApplicants()" variant="success"
         >Applicants</b-button
       >
+      <b-button v-on:click="GetAllCompanies()" variant="success"
+        >Compagnies</b-button
+      >
     </div>
     <br />
     <div>
       <b-button v-b-modal.modal-1 variant="warning">Add/Update</b-button>
-      <b-button v-on:click="Delete(selected)" variant="danger">Delete</b-button>
+      <b-button v-on:click="Delete()" variant="danger">Delete</b-button>
       <b-modal id="modal-1" title="change Data" hide-footer>
         <div v-if="this.tableactivate == 1">
           <b-form @submit="onSubmit" @reset="onReset" v-if="show">
@@ -63,6 +66,7 @@
             <b-form-group id="input-group-6" label="place" label-for="input-6">
               <b-form-input
                 id="input-6"
+                type="object"
                 v-model="selected[0].place"
                 placeholder="Enter place:"
                 required
@@ -116,6 +120,19 @@
                 required
               ></b-form-input>
             </b-form-group>
+
+            <b-form-group
+              id="input-group-11"
+              label="contractStart"
+              label-for="input-11"
+            >
+              <b-form-input
+                id="input-11"
+                v-model="selected[0].contractStart"
+                placeholder="Enter contractStart:"
+                required
+              ></b-form-input>
+            </b-form-group>
             <b-button type="submit" variant="primary">Submit</b-button>
           </b-form>
         </div>
@@ -158,7 +175,7 @@
 
             <b-form-group
               id="input-group-5"
-              label="password"
+              label="password with 8cara, 1[A-Z]and 1[0-9]"
               label-for="input-5"
             >
               <b-form-input
@@ -245,6 +262,7 @@ export default {
           workingTime: "",
           workingLocation: "",
           contractType: "",
+          contractStart: "",
         },
       ],
       token: getCookie("access_token"),
@@ -270,6 +288,7 @@ export default {
             workingTime: "",
             workingLocation: "",
             contractType: "",
+            contractStart: "",
           },
         ];
       } else if (this.tableactivate == 2) {
@@ -284,12 +303,23 @@ export default {
             companieId: "",
           },
         ];
-      } else {
+      } else if (this.tableactivate == 3) {
         this.selected = [
           {
             id: "",
             advertisementId: "",
             userId: "",
+          },
+        ];
+      } else {
+        this.selected = [
+          {
+            name: "",
+            siret: "",
+            numEmploye: "",
+            desc: "",
+            link: "",
+            logo: "",
           },
         ];
       }
@@ -322,6 +352,7 @@ export default {
           workingTime: "",
           workingLocation: "",
           contractType: "",
+          contractStart: "",
         },
       ];
       api.GetAllAdvert().then((result) => {
@@ -369,7 +400,6 @@ export default {
         }));
         this.list = userlist;
       });
-      this.$forceUpdate();
     },
 
     GetAllApplicants() {
@@ -382,34 +412,75 @@ export default {
         },
       ];
       api.GetAllApplicants(this.token).then((result) => {
-        const userlist = result.map((result) => ({
+        const applicantlist = result.map((result) => ({
           id: result.id,
           advertisementId: result.advertisementId,
           userId: result.userId,
           createdAt: result.createdAt,
           updatedAt: result.updatedAt,
         }));
-        this.list = userlist;
+        this.list = applicantlist;
       });
-      this.$forceUpdate();
+    },
+    GetAllCompanies() {
+      this.tableactivate = 4;
+      this.selected = [
+        {
+          name: "",
+          siret: "",
+          numEmploye: "",
+          desc: "",
+          link: "",
+          logo: "",
+        },
+      ];
+      api.GetAllCompanies().then((result) => {
+        const compagnieslist = result.map((result) => ({
+          id: result.id,
+          name: result.name,
+          siret: result.siret,
+          numEmploye: result.numEmploye,
+          desc: result.desc,
+          link: result.link,
+          logo: result.logo,
+          createdAt: result.createdAt,
+        }));
+        this.list = compagnieslist;
+      });
     },
     deleteOneAdvert(id) {
-      api.DeleteOneAdvert(id, this.token).then((result) => {
-        alert(result.data);
-      });
+      api.DeleteOneAdvert(id, this.token).then((result) => {});
     },
     AddOneAdvert(key) {
       this.selected[0].token = this.token;
       this.selected[0].companieId = 10;
+      var str = this.selected[0].place;
 
+      var split = str.split(",");
+      console.log(split);
+      var place = {
+        city: split[1],
+        street: split[2],
+      };
+      this.selected[0].place = place;
       api.AddOneAdvert(key).then((result) => {});
+      this.selected[0].place = "";
     },
 
     UpdateAdvert(id, res) {
       this.selected[0].token = this.token;
-      //this.selected[0].companieId = 10;
-
-      //console.log(this.advertlist[0]);
+      var str = this.selected[0].place;
+      if (typeof str != "object") {
+        var split = str.split('"');
+        console.log(res);
+        var place = {
+          city: split[3],
+          street: split[7],
+        };
+        this.selected[0].place = place;
+        console.log(this.selected[0].place);
+      }
+      // console.log(this.selected[0].place.city);
       api.UpdateOneAdvert(id, res).then((result) => {
         //alert(result.data);
       });
@@ -419,9 +490,28 @@ export default {
       this.selected[0].token = this.token;
 
       api.AddOneUser(key).then((result) => {});
-      //this.$forceUpdate();
     },
     UpdateUser(id, res) {
+      this.selected[0].token = this.token;
+      this.selected[0].companieId = 10;
+
+      api.UpdateOneUser(id, res).then((result) => {
+        //alert(result.data);
+      });
+    },
+    deleteOneApplicant(id, token) {
+      api.deleteOneAdvert(id, token).then((result) => {
+        alert(result);
+      });
+      this.GetAllAdvert();
+    },
+    AddOneUser(key) {
+      this.selected[0].token = this.token;
+
+      api.AddOneUser(key).then((result) => {});
+      //this.$forceUpdate();
+    },
+    UpdateApplicant(id, res) {
       this.selected[0].token = this.token;
       this.selected[0].companieId = 10;
 
@@ -430,18 +520,13 @@ export default {
         //alert(result.data);
       });
     },
-    deleteOneUser(id, token) {
-      api.deleteOneAdvert(id, token).then((result) => {
+    deleteOneApplicant(id, token) {
+      api.deleteOneApplicant(id, token).then((result) => {
         alert(result);
       });
       this.GetAllAdvert();
     },
 
-    Delete() {
-      if (this.tableactivate == 1) {
-        this.deleteOneAdvert(this.selected.id);
-      }
-    },
     onSubmit(event) {
       event.preventDefault();
       if (this.tableactivate == 1) {
@@ -470,6 +555,11 @@ export default {
         }
       }
       //alert(JSON.stringify(this.form));
+    },
+    Delete() {
+      if (this.tableactivate == 1) {
+        this.deleteOneAdvert(this.selected[0].id);
+      }
     },
     onReset(event) {
       event.preventDefault();

@@ -28,41 +28,7 @@ export default class Api {
             }
         })
     }
-    // add one advertisement
-    AddOneAdvert(key) {
-        return new Promise((resolve, reject) => {
-            try {
-                axios
-                    .post(`${this.url}advertisements`, key)
-                    .then((response) => { resolve(response.data) })
-            } catch (e) {
-                reject(e)
-            }
-        })
-    }
-    // delete one advertissement
-    DeleteOneAdvert(id,token) {
-        return new Promise((resolve, reject) => {
-            try {
-                axios
-                    .delete(`${this.url}advertisements/${id}`, token)
-                    .then((response) => { resolve(response.data) })
-            } catch (e) {
-                reject(e)
-            }
-        })
-    }
-    UpdateOneAdvert(id, res) {
-        return new Promise((resolve, reject) => {
-            try {
-                axios
-                    .put(`${this.url}advertisements/${id}`, res)
-                    .then((response) => { resolve(response.data) })
-            } catch (e) {
-                reject(e)
-            }
-        })
-    }
+
     // creation of the user
     Register(objet) {
         return new Promise((resolve, reject) => {
@@ -100,7 +66,43 @@ export default class Api {
             }
         })
     }
+    // add one advertisement
+    AddOneAdvert(key) {
+        return new Promise((resolve, reject) => {
+            try {
+                axios
+                    .post(`${this.url}advertisements`, key)
+                    .then((response) => { resolve(response.data) })
+            } catch (e) {
+                reject(e)
+            }
+        })
+    }
+    // delete one advertissement
+    DeleteOneAdvert(id, token) {
 
+
+        return new Promise((resolve, reject) => {
+            try {
+                axios
+                    .delete(`${this.url}advertisements/admin/${token}/${id}`)
+                    .then((response) => { resolve(response.data) })
+            } catch (e) {
+                reject(e)
+            }
+        })
+    }
+    UpdateOneAdvert(id, res) {
+        return new Promise((resolve, reject) => {
+            try {
+                axios
+                    .put(`${this.url}advertisements/${id}`, res)
+                    .then((response) => { resolve(response.data) })
+            } catch (e) {
+                reject(e)
+            }
+        })
+    }
     userResponseAdvert(key) {
         return new Promise((resolve, reject) => {
             try {
@@ -123,18 +125,6 @@ export default class Api {
             }
         })
     }
-    GetAllApplicants(token) {
-        return new Promise((resolve, reject) => {
-            try {
-                axios
-                    .get(`${this.url}applicants/${token}`)
-                    .then((response) => { resolve(response.data) })
-            } catch (e) {
-                reject(e)
-            }
-        })
-    }
-
 
     GetAllUser(token) {
         return new Promise((resolve, reject) => {
@@ -162,18 +152,62 @@ export default class Api {
         return new Promise((resolve, reject) => {
             try {
                 axios
-                    .post(`${this.url}users`, key)
+                    .post(`${this.url}users/admin`, key)
                     .then((response) => { resolve(response.data) })
             } catch (e) {
                 reject(e)
             }
         })
-    } 
-    UpdateOneUser(id,key) {
+    }
+    UpdateOneUser(id, key) {
         return new Promise((resolve, reject) => {
             try {
                 axios
-                    .post(`${this.url}users/${id}`, key)
+                    .put(`${this.url}users/admin/${id}`, key)
+                    .then((response) => { resolve(response.data) })
+            } catch (e) {
+                reject(e)
+            }
+        })
+    }
+    GetAllApplicants(token) {
+        return new Promise((resolve, reject) => {
+            try {
+                axios
+                    .get(`${this.url}applicants/${token}`)
+                    .then((response) => { resolve(response.data) })
+            } catch (e) {
+                reject(e)
+            }
+        })
+    }
+    GetAllCompanies() {
+        return new Promise((resolve, reject) => {
+            try {
+                axios
+                    .get(`${this.url}companies`)
+                    .then((response) => { resolve(response.data) })
+            } catch (e) {
+                reject(e)
+            }
+        })
+    }
+    AddOneCompanies(key) {
+        return new Promise((resolve, reject) => {
+            try {
+                axios
+                    .post(`${this.url}companies/admin`, key)
+                    .then((response) => { resolve(response.data) })
+            } catch (e) {
+                reject(e)
+            }
+        })
+    }
+    UpdateOneCompanies(id, key) {
+        return new Promise((resolve, reject) => {
+            try {
+                axios
+                    .put(`${this.url}companies/admin/${id}`, key)
                     .then((response) => { resolve(response.data) })
             } catch (e) {
                 reject(e)
