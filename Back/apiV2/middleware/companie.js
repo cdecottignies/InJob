@@ -8,7 +8,7 @@ checkDuplicateNameOrSiret = async (req, res, next) => {
 
   try {
     let companieName = await Companies.findOne({
-      where: { email: req.body.name }
+      where: { name: req.body.name }
     });
 
     if(companieName) {

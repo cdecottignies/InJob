@@ -10,19 +10,19 @@ const companies = require("../controllers/companies.controller.js");
 var router = require("express").Router();
 
 // Create a new Companies
-router.post("/", [ verifyToken, isAdmin, validateCreateCompanie, checkDuplicateNameOrSiret ], companies.create);
+router.post("/admin/", [ verifyToken, isAdmin, validateCreateCompanie, checkDuplicateNameOrSiret ], companies.create);
 
 // Retrieve all Companies
-router.get("/", [ verifyToken, isAdmin ], companies.findAll);
+router.get("/", companies.findAll);
 
 // Update a Companies with id
-router.put("/:id", [ verifyToken, isAdmin, validateUpdateCompanie ], companies.update);
+router.put("/admin/:id", [ verifyToken, isAdmin, validateUpdateCompanie ], companies.update);
 
 // Delete a Companies with id
-router.delete("/:id", [ verifyToken, isAdmin, validateDeleteCompanie ], companies.delete);
+router.delete("/admin/:token/:id", [ verifyToken, isAdmin, validateDeleteCompanie ], companies.delete);
 
 // Delete all Companies
-router.delete("/", [ verifyToken, isAdmin ], companies.deleteAll);
+router.delete("/admin/:token", [ verifyToken, isAdmin ], companies.deleteAll);
 
 
 module.exports = router;

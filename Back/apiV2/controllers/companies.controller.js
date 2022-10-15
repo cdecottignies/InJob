@@ -10,7 +10,7 @@ exports.create = (req, res) => {
   // Create a Companie
   const companies = {
     name: req.body.name,
-    SIRET: req.body.siret,
+    siret: req.body.siret,
     numEmploye: req.body.numEmploye,
     desc: req.body.desc,
     link: req.body.link,
@@ -82,11 +82,12 @@ exports.findOne = (req, res) => {
 
 // Update a Tutorial by the id in the request
 exports.update = (req, res) => {
-    const id = req.body.userId;
+    const id = req.params.id;
 
+    console.log(req.body);
     Companies.update({
       name: req.body.name,
-      SIRET: req.body.siret,
+      siret: req.body.siret,
       numEmploye: req.body.numEmploye,
       desc: req.body.desc,
       link: req.body.link,
@@ -95,8 +96,8 @@ exports.update = (req, res) => {
     { where: { id: id } })
     .then( (data) => { 
       res
-        .status(200)
-        .send(data) 
+        .status(204)
+        .send() 
       })
     .catch( (err) => { 
       res
@@ -107,7 +108,7 @@ exports.update = (req, res) => {
 
 // Delete a Advertisement with the specified id in the request
 exports.delete = (req, res) => {
-    const id = req.body.userId;
+    const id = req.params.id;
 
     Companies.destroy({
       where: { id: id }
@@ -116,6 +117,7 @@ exports.delete = (req, res) => {
         if (num == 1) {
           res
             .status(204)
+            .send()
         } else {
           res
             .send({
@@ -141,13 +143,14 @@ exports.deleteAll = (req, res) => {
         .then(nums => {
           res
             .status(204)
+            .send()
         })
         .catch(err => {
           res
             .status(500)
             .send({
               message:
-                err.message || "Some error occurred while removing all tutorials."
+                err.message || "Some error occurred while removing all Companies."
             });
         });
 };

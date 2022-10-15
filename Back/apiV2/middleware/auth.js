@@ -36,7 +36,7 @@ isAdmin = async (req, res, next) => {
   try {
     let user = await Users.findByPk(req.body.userId);
     const isAdmin = user.isAdmin;
-
+    
     if(isAdmin) {
         return next()
     } else {
