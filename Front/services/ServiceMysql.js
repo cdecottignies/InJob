@@ -41,11 +41,11 @@ export default class Api {
         })
     }
     // delete one advertissement
-    DeleteOneAdvert(key) {
+    DeleteOneAdvert(id,token) {
         return new Promise((resolve, reject) => {
             try {
                 axios
-                    .delete(`${this.url}advertisements`, key)
+                    .delete(`${this.url}advertisements/${id}`, token)
                     .then((response) => { resolve(response.data) })
             } catch (e) {
                 reject(e)
@@ -89,7 +89,6 @@ export default class Api {
             }
         })
     }
-    //TODO: plusieur connexion possible ?
     signout(objet) {
         return new Promise((resolve, reject) => {
             try {
@@ -124,19 +123,19 @@ export default class Api {
             }
         })
     }
-
-
-    ResetAdvert() {
+    GetAllApplicants(token) {
         return new Promise((resolve, reject) => {
             try {
                 axios
-                    .get(`${this.url}reset`)
+                    .get(`${this.url}applicants/${token}`)
                     .then((response) => { resolve(response.data) })
             } catch (e) {
                 reject(e)
             }
         })
     }
+
+
     GetAllUser(token) {
         return new Promise((resolve, reject) => {
             try {

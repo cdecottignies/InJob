@@ -5,13 +5,16 @@
         >Advertissements</b-button
       >
       <b-button v-on:click="GetAllUser()" variant="secondary">Users</b-button>
+      <b-button v-on:click="GetAllApplicants()" variant="success"
+        >Applicants</b-button
+      >
     </div>
     <br />
     <div>
       <b-button v-b-modal.modal-1 variant="warning">Add/Update</b-button>
       <b-button v-on:click="Delete(selected)" variant="danger">Delete</b-button>
       <b-modal id="modal-1" title="change Data" hide-footer>
-        <div v-if="this.advertboll">
+        <div v-if="this.tableactivate == 1">
           <b-form @submit="onSubmit" @reset="onReset" v-if="show">
             <b-form-group id="input-group-2" label="title" label-for="input-2">
               <b-form-input
@@ -116,7 +119,7 @@
             <b-button type="submit" variant="primary">Submit</b-button>
           </b-form>
         </div>
-        <div v-else>
+        <div v-else-if="this.tableactivate == 2">
           <b-form @submit="onSubmit" @reset="onReset" v-if="show">
             <b-form-group
               id="input-group-2"
@@ -228,7 +231,6 @@ export default {
     return {
       show: true,
       list: null,
-      advertboll: true,
       tableactivate: 1,
       selectMode: "single",
       userlist: null,
@@ -256,7 +258,7 @@ export default {
     onRowSelected(items) {
       if (items != 0) {
         this.selected = items;
-      } else if (this.advertboll) {
+      } else if (this.tableactivate == 1) {
         this.selected = [
           {
             title: "",
@@ -270,7 +272,7 @@ export default {
             contractType: "",
           },
         ];
-      } else {
+      } else if (this.tableactivate == 2) {
         this.selected = [
           {
             firstName: "",
@@ -280,6 +282,14 @@ export default {
             phone: "",
             isAdmin: "",
             companieId: "",
+          },
+        ];
+      } else {
+        this.selected = [
+          {
+            id: "",
+            advertisementId: "",
+            userId: "",
           },
         ];
       }
@@ -300,7 +310,7 @@ export default {
       this.$refs.selectableTable.unselectRow(2);
     },
     GetAllAdvert() {
-      this.advertboll = true;
+      this.tableactivate = 1;
       this.selected = [
         {
           title: "",
@@ -333,7 +343,7 @@ export default {
       });
     },
     GetAllUser() {
-      this.advertboll = false;
+      this.tableactivate = 2;
       this.selected = [
         {
           firstName: "",
@@ -361,11 +371,32 @@ export default {
       });
       this.$forceUpdate();
     },
-    deleteOneAdvert(id) {
-      api.deleteOneAdvert(id).then((result) => {
-        alert(result);
+
+    GetAllApplicants() {
+      this.tableactivate = 3;
+      this.selected = [
+        {
+          id: "",
+          advertisementId: "",
+          userId: "",
+        },
+      ];
+      api.GetAllApplicants(this.token).then((result) => {
+        const userlist = result.map((result) => ({
+          id: result.id,
+          advertisementId: result.advertisementId,
+          userId: result.userId,
+          createdAt: result.createdAt,
+          updatedAt: result.updatedAt,
+        }));
+        this.list = userlist;
       });
-      this.GetAllAdvert();
+      this.$forceUpdate();
+    },
+    deleteOneAdvert(id) {
+      api.DeleteOneAdvert(id, this.token).then((result) => {
+        alert(result.data);
+      });
     },
     AddOneAdvert(key) {
       this.selected[0].token = this.token;
@@ -376,7 +407,7 @@ export default {
 
     UpdateAdvert(id, res) {
       this.selected[0].token = this.token;
-      this.selected[0].companieId = 10;
+      //this.selected[0].companieId = 10;
 
       //console.log(this.advertlist[0]);
       api.UpdateOneAdvert(id, res).then((result) => {
@@ -399,20 +430,43 @@ export default {
         //alert(result.data);
       });
     },
+    deleteOneUser(id, token) {
+      api.deleteOneAdvert(id, token).then((result) => {
+        alert(result);
+      });
+      this.GetAllAdvert();
+    },
 
+    Delete() {
+      if (this.tableactivate == 1) {
+        this.deleteOneAdvert(this.selected.id);
+      }
+    },
     onSubmit(event) {
       event.preventDefault();
-      if (this.advertboll) {
-        if (this.selected.id != null) {
+      if (this.tableactivate == 1) {
+        if (this.selected[0].id != null) {
+          console.log("UpdateAdvert");
           this.UpdateAdvert(this.selected[0].id, this.selected[0]);
         } else {
+          console.log("AddOneAdvert");
           this.AddOneAdvert(this.selected[0]);
         }
-      } else {
-        if (this.selected.id != null) {
+      } else if (this.tableactivate == 2) {
+        if (this.selected[0].id != null) {
+          console.log("UpdateUser");
           this.UpdateUser(this.selected[0].id, this.selected[0]);
         } else {
+          console.log("AddOneUser");
           this.AddOneUser(this.selected[0]);
+        }
+      } else {
+        if (this.selected[0].id != null) {
+          console.log("UpdateApplicant");
+          this.UpdateApplicant(this.selected[0].id, this.selected[0]);
+        } else {
+          console.log("AddApplicant");
+          this.AddApplicant(this.selected[0]);
         }
       }
       //alert(JSON.stringify(this.form));
