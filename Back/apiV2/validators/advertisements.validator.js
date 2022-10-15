@@ -49,5 +49,6 @@ exports.updateAdvertisement = Joi.object().keys({
 });
 
 exports.deleteAdvertisement = Joi.object().keys({
+    token: Joi.string().required(),
     id: Joi.number().required()
 });
