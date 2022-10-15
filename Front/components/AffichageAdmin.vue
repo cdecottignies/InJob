@@ -13,7 +13,7 @@
       >
       <b-button v-b-modal.modal-1>Add/Update</b-button>
       <b-modal id="modal-1" title="change Data" hide-footer>
-               <b-form @submit="onSubmit" @reset="onReset" v-if="show">
+        <b-form @submit="onSubmit" @reset="onReset" v-if="show">
           <b-form-group id="input-group-2" label="title" label-for="input-2">
             <b-form-input
               id="input-2"
@@ -139,17 +139,29 @@
 import Api from "@/services/ServiceMysql";
 import { getCookie } from "tiny-cookie";
 const api = new Api();
-
+ var advertboll = true;
 export default {
   name: "AffichageAdmin",
   data() {
     return {
       show: true,
-
       list: null,
       tableactivate: 1,
       selectMode: "single",
-      selected: [""],
+      userlist: null,
+      selected: [
+        {
+          title: "",
+          descShort: "",
+          descLong: "",
+          wages: "",
+          place: "",
+          degree: "",
+          workingTime: "",
+          workingLocation: "",
+          contractType: "",
+        },
+      ],
       token: getCookie("access_token"),
     };
   },
@@ -161,10 +173,34 @@ export default {
     onRowSelected(items) {
       if (items != 0) {
         this.selected = items;
+      } else if (advertboll) {
+        this.selected = [
+          {
+            title: "",
+            descShort: "",
+            descLong: "",
+            wages: "",
+            place: "",
+            degree: "",
+            workingTime: "",
+            workingLocation: "",
+            contractType: "",
+          },
+        ];
       } else {
-        this.selected = [""];
+        this.selected = [
+          {
+            firstName: "",
+            lastName: "",
+            email: "",
+            password: "",
+            phone: "",
+            isAdmin: "",
+          },
+        ];
       }
     },
+
     selectAllRows() {
       this.$refs.selectableTable.selectAllRows();
     },
@@ -180,6 +216,7 @@ export default {
       this.$refs.selectableTable.unselectRow(2);
     },
     GetAllAdvert() {
+      advertboll = true;
       api.GetAllAdvert().then((result) => {
         const advertlist = result.map((result) => ({
           id: result.id,
@@ -199,7 +236,17 @@ export default {
       });
     },
     GetAllUser() {
-      //var token = getCookie("access_token");
+      advertboll = false;
+      this.selected = [
+          {
+            firstName: "",
+            lastName: "",
+            email: "",
+            password: "",
+            phone: "",
+            isAdmin: "",
+          },
+        ];
       api.GetAllUser(this.token).then((result) => {
         const userlist = result.map((result) => ({
           id: result.id,
@@ -222,14 +269,17 @@ export default {
       this.GetAllAdvert();
     },
     AddOneAdvert(key) {
+      this.selected[0].token = this.token;
+      this.selected[0].companieId = 10;
+
       api.AddOneAdvert(key).then((result) => {});
       //this.$forceUpdate();
-
-      this.GetAllAdvert();
     },
     UpdateAdvert(id, res) {
       //res.token = getCookie("access_token");
       this.selected[0].token = this.token;
+      this.selected[0].companieId = 10;
+
       //console.log(this.advertlist[0]);
       api.UpdateOneAdvert(id, res).then((result) => {
         //alert(result.data);
@@ -238,9 +288,11 @@ export default {
 
     onSubmit(event) {
       event.preventDefault();
-      //if (this.selected.length != 0) {
-      this.UpdateAdvert(this.selected[0].id, this.selected[0]);
-      // }
+      if (this.selected.id != null) {
+        this.UpdateAdvert(this.selected[0].id, this.selected[0]);
+      } else {
+        this.AddOneAdvert(this.selected[0]);
+      }
       //alert(JSON.stringify(this.form));
     },
     onReset(event) {

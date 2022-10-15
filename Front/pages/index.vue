@@ -67,7 +67,6 @@ import SearchAdvert from "@/components/SearchAdvert.vue";
 import Connexion from "../components/connexion.vue";
 import AffichageAdmin from "../components/AffichageAdmin.vue";
 import AffichageProfile from "../components/AffichageProfile.vue";
-import { getCookie } from "tiny-cookie";
 let connex = false;
 let admin = false;
 let profile = false;
@@ -82,21 +81,11 @@ export default {
   },
   data() {
     return {
-
       cookie: true,
       connex,
       admin,
       profile,
     };
-  },
-  mounted() {
-   // getCookie();
-  },
-
-  methods: {
-    getcook() {
-      this.cookie = getCookie("access_token");
-    },
   },
 };
 </script>

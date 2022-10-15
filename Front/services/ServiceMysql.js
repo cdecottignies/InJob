@@ -33,7 +33,7 @@ export default class Api {
         return new Promise((resolve, reject) => {
             try {
                 axios
-                    .post(`${this.url}advertisements/${key}`)
+                    .post(`${this.url}advertisements`,key)
                     .then((response) => { resolve(response.data) })
             } catch (e) {
                 reject(e)
@@ -140,7 +140,7 @@ export default class Api {
         return new Promise((resolve, reject) => {
             try {
                 axios
-                    .get(`${this.url}users/${token}`,)
+                    .get(`${this.url}users/admin/${token}`,)
                     .then((response) => { resolve(response.data) })
             } catch (e) {
                 reject(e)
