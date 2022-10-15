@@ -62,17 +62,15 @@ describe('Advertisements', () => {
         expect(res.statusCode).toEqual(204)
     });
 
-    it('DELETE /advertisements/:id --> try to delete an non existing advert', async () => {
+    it('DELETE /advertisements/:token/:id --> try to delete an non existing advert', async () => {
         const res = await request(app)
-        .delete('/api/advertisements/10000')
-        .send({ token: testConfig.tokenAdmin })
+        .delete('/api/advertisements/${testConfig.tokenAdmin}/10000')
         expect(res.statusCode).toEqual(404)
     });
 
-    it('DELETE /advertisements/ --> delete all adverts', async () => {
+    it('DELETE /advertisements/:token --> delete all adverts', async () => {
         const res = await request(app)
-        .delete('/api/advertisements/')
-        .send({ token: testConfig.tokenAdmin })
+        .delete('/api/advertisements/${testConfig.tokenAdmin}')
         expect(res.statusCode).toEqual(200)
     });    
 })
