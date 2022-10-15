@@ -24,7 +24,7 @@ module.exports = (sequelize, DataTypes) => {
     workingTime: DataTypes.ENUM('flexible', '9 to 5'),
     workingLocation: DataTypes.ENUM('remote', 'office', 'hybrid'),
     contractType: DataTypes.ENUM('CDI', 'CDD', 'ALTERNANCE'),
-    contractStart: DataTypes.DATEONLY
+    contractStart: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'Advertisements',
