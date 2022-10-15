@@ -508,6 +508,9 @@ export default {
 
       api.AddOneUser(key).then((result) => {});
     },
+    deleteOneUser(id) {
+      api.DeleteOneUser(id, this.token).then((result) => {});
+    },
     UpdateApplicant(id, res) {
       this.selected[0].token = this.token;
       this.selected[0].companieId = 10;
@@ -568,8 +571,19 @@ export default {
       //alert(JSON.stringify(this.form));
     },
     Delete() {
-      if (this.tableactivate == 1) {
-        this.deleteOneAdvert(this.selected[0].id);
+      switch (this.tableactivate) {
+        case 1:
+          this.deleteOneAdvert(this.selected[0].id);
+          break;
+        case 2:
+          this.deleteOneUser(this.selected[0].id);
+          break;
+        case 3:
+          break;
+        case 4:
+          break;
+        default:
+          break;
       }
     },
     onReset(event) {
