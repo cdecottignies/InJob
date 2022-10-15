@@ -9,18 +9,18 @@ const advertisementsController = require("../controllers/advertisements.controll
 var router = require("express").Router();
 
 // Create a new Advertisements
-router.post("/", [ verifyToken, isAdmin, validateCreateAdvertisement ], advertisementsController.create);
+router.post("/admin/", [ verifyToken, isAdmin, validateCreateAdvertisement ], advertisementsController.create);
 
 // Retrieve all Advertisements
 router.get("/", advertisementsController.findAll);
 
 // Update a Advertisements with id
-router.put("/:id", [ verifyToken, isAdmin, validateUpdateAdvertisement ], advertisementsController.update);
+router.put("/admin/:id", [ verifyToken, isAdmin, validateUpdateAdvertisement ], advertisementsController.update);
 
 // Delete a Advertisements with id
-router.delete("/:token/:id", [ verifyToken, isAdmin, validateDeleteAdvertisement ], advertisementsController.delete);
+router.delete("/admin/:token/:id", [ verifyToken, isAdmin, validateDeleteAdvertisement ], advertisementsController.delete);
 
 // Delete all Advertisements
-router.delete("/:token", [ verifyToken, isAdmin ], advertisementsController.deleteAll);
+router.delete("/admin/:token", [ verifyToken, isAdmin ], advertisementsController.deleteAll);
 
 module.exports = router;
