@@ -33,7 +33,7 @@ export default class Api {
         return new Promise((resolve, reject) => {
             try {
                 axios
-                    .post(`${this.url}advertisements`,key)
+                    .post(`${this.url}advertisements`, key)
                     .then((response) => { resolve(response.data) })
             } catch (e) {
                 reject(e)
@@ -45,18 +45,18 @@ export default class Api {
         return new Promise((resolve, reject) => {
             try {
                 axios
-                    .delete(`${this.url}advertisements`,key)
+                    .delete(`${this.url}advertisements`, key)
                     .then((response) => { resolve(response.data) })
             } catch (e) {
                 reject(e)
             }
         })
     }
-    UpdateOneAdvert(id,res) {
+    UpdateOneAdvert(id, res) {
         return new Promise((resolve, reject) => {
             try {
                 axios
-                    .put(`${this.url}advertisements/${id}`,res)
+                    .put(`${this.url}advertisements/${id}`, res)
                     .then((response) => { resolve(response.data) })
             } catch (e) {
                 reject(e)
@@ -81,7 +81,8 @@ export default class Api {
             try {
                 axios
                     .post(`${this.url}auth/signin`, objet, /*{ withCredentials: true }*/)
-                    .then((response) => {resolve(response.data)
+                    .then((response) => {
+                        resolve(response.data)
                     })
             } catch (e) {
                 reject(e)
@@ -151,7 +152,29 @@ export default class Api {
         return new Promise((resolve, reject) => {
             try {
                 axios
-                    .put(`${this.url}users`,key)
+                    .put(`${this.url}users`, key)
+                    .then((response) => { resolve(response.data) })
+            } catch (e) {
+                reject(e)
+            }
+        })
+    }
+    AddOneUser(key) {
+        return new Promise((resolve, reject) => {
+            try {
+                axios
+                    .post(`${this.url}users`, key)
+                    .then((response) => { resolve(response.data) })
+            } catch (e) {
+                reject(e)
+            }
+        })
+    } 
+    UpdateOneUser(id,key) {
+        return new Promise((resolve, reject) => {
+            try {
+                axios
+                    .post(`${this.url}users/${id}`, key)
                     .then((response) => { resolve(response.data) })
             } catch (e) {
                 reject(e)
