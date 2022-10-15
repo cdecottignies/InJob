@@ -73,8 +73,8 @@ validateUpdateAdvertisement = async (req, res, next) => {
 }
 
 validateDeleteAdvertisement = async (req, res, next) => {
-  if (advertValidator.deleteAdvertisement.validate(req.body).error) {
-      res.send(advertValidator.deleteAdvertisement.validate(req.body).error.details);
+  if (advertValidator.deleteAdvertisement.validate(req.params).error) {
+      res.send(advertValidator.deleteAdvertisement.validate(req.params).error.details);
     }  else {
       next();
     }
@@ -109,6 +109,7 @@ validateUpdateCompanie = async (req, res, next) => {
 }
 
 validateDeleteCompanie = async (req, res, next) => {
+  console.log(req.params);
   delete req.body.userId
   if (companieValidator.deleteCompanie.validate({ id: req.params.id}).error) {
       res.send(companieValidator.deleteCompanie.validate({ id: req.params.id}).error.details);
