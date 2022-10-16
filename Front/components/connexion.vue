@@ -22,7 +22,7 @@
             required
           ></b-form-input>
         </b-form-group>
-        <b-form-group id="input-group-2" label="Password" label-for="input-2">
+        <b-form-group id="input-group-2" label="Password with 8cara, 1[A-Z] and 1[0-9]:" label-for="input-2">
           <b-form-input
             id="input-2"
             type="password"
@@ -79,7 +79,6 @@
 </template>
 <script>
 import Api from "@/services/ServiceMysql";
-//import cookie from "../index.vue";
 import { setCookie, removeCookie, getCookie } from "tiny-cookie";
 const api = new Api();
 export default {
@@ -108,7 +107,6 @@ export default {
       this.form.lastname = "";
       this.form.password = null;
       this.form.phone = null;
-      // Trick to reset/clear native browser form validation state
       this.show = false;
       this.$nextTick(() => {
         this.show = true;
@@ -127,7 +125,6 @@ export default {
         email: this.form.email,
         password: this.form.password,
       };
-      //var message = "";
       api.signin(objet).then((result) => {
         console.log(result);
         setCookie("access_token", result.access_token, {
@@ -140,7 +137,6 @@ export default {
       });
     },
     register() {
-      console.log(this.form);
       api.Register(this.form).then((result) => {
         console.log("register");
       });

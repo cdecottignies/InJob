@@ -4,12 +4,8 @@
       <div class="card AffichageAdvert mx-5">
         <h2 class="card-text text-center">{{ value.title }}</h2>
         <h4>
-          {{
-            "contract: " +
-            value.contractType +
-            " place: " +
-            JSON.stringify(value.place)
-          }}
+          {{ "contract: " + value.contractType }}<br />
+          {{ " city: " + value.place.city + " street: " + value.place.street }}
         </h4>
         <p>{{ value.descShort }}</p>
         <div>
@@ -110,6 +106,7 @@ export default {
       advertlist: null,
       idapply: "",
       tokenbool: getCookie("access_token"),
+
       form: {
         email: "",
         firstName: "",
@@ -122,6 +119,7 @@ export default {
     this.GetAllAdvert();
   },
   methods: {
+    // get all advert
     GetAllAdvert() {
       api.GetAllAdvert().then((result) => {
         this.advertlist = result.map((result) => ({
@@ -140,6 +138,7 @@ export default {
         }));
       });
     },
+    // check if access_token exist and use route connected or anonymous
     onSubmit(event) {
       event.preventDefault();
       console.log(this.idapply);
@@ -161,12 +160,14 @@ export default {
         this.show = true;
       });
     },
+    // anonymous method with form to apply one advert
     anonymousResponse(id) {
       this.form.advertId = id;
       api.anonymousResponseAdvert(this.form).then((result) => {
         console.log(result);
       });
     },
+    // connected method to apply one advert
     userResponse(id) {
       var res = {
         advertId: id,

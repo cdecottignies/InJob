@@ -143,20 +143,17 @@ export default {
   methods: {
     onSubmit(event) {
       event.preventDefault();
-      console.log(this.idapply);
       if (getCookie("access_token") != null) {
         this.userResponse(this.idapply);
       } else {
         anonymousResponse(this.idapply);
       }
-      //alert(JSON.stringify(this.form));
     },
     onReset(event) {
       event.preventDefault();
-      // Reset our form values
+      // reset form
       this.form.email = "";
       this.form.name = "";
-      // Trick to reset/clear native browser form validation state
       this.show = false;
       this.$nextTick(() => {
         this.show = true;
@@ -189,12 +186,14 @@ export default {
       }
     },
   },
+  // not connected method to apply one advert
   anonymousResponse(id) {
     this.form.id = id;
     api.anonymousResponseAdvert(this.form).then((result) => {
       console.log(result);
     });
   },
+  // connected method to apply one advert
   userResponse(id) {
     var res = {
       advertId: id,

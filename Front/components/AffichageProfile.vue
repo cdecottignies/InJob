@@ -54,18 +54,22 @@ export default {
   },
   mounted() {},
   methods: {
+    // update user
     updateUser(key) {
       api.UpdateUser(key).then((result) => {
-        console.log(result);
+        console.log("updated user");
       });
     },
+
     onSubmit(event) {
       event.preventDefault();
+      /// check if connected or not
       if (getCookie("access_token") != null) {
         this.form.token = getCookie("access_token");
         this.updateUser(this.form);
+      } else {
+        alert("not connected");
       }
-      //alert(JSON.stringify(this.form));
     },
     onReset(event) {
       event.preventDefault();

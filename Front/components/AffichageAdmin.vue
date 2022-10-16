@@ -175,7 +175,7 @@
 
             <b-form-group
               id="input-group-5"
-              label="password with 8cara, 1[A-Z]and 1[0-9]"
+              label="password with 8cara, 1[A-Z]and 1[0-9] (ONLY ADD)"
               label-for="input-5"
             >
               <b-form-input
@@ -356,6 +356,7 @@ export default {
     this.GetAllAdvert();
   },
   methods: {
+    //retrieve the row selected or init the row if selected or not
     onRowSelected(items) {
       if (items != 0) {
         this.selected = items;
@@ -389,7 +390,7 @@ export default {
       } else if (this.tableactivate == 3) {
         this.selected = [
           {
-            //id: "",
+            id: "",
             advertisementId: "",
             userId: "",
           },
@@ -407,21 +408,7 @@ export default {
         ];
       }
     },
-
-    selectAllRows() {
-      this.$refs.selectableTable.selectAllRows();
-    },
-    clearSelected() {
-      this.$refs.selectableTable.clearSelected();
-    },
-    selectThirdRow() {
-      // Rows are indexed from 0, so the third row is index 2
-      this.$refs.selectableTable.selectRow(2);
-    },
-    unselectThirdRow() {
-      // Rows are indexed from 0, so the third row is index 2
-      this.$refs.selectableTable.unselectRow(2);
-    },
+    // init the table with all advertisement
     GetAllAdvert() {
       this.tableactivate = 1;
       this.selected = [
@@ -456,6 +443,7 @@ export default {
         this.list = advertlist;
       });
     },
+    // init the table with all User
     GetAllUser() {
       this.tableactivate = 2;
       this.selected = [
@@ -484,12 +472,12 @@ export default {
         this.list = userlist;
       });
     },
-
+    // init the table with all Applicants
     GetAllApplicants() {
       this.tableactivate = 3;
       this.selected = [
         {
-          //id: "",
+          id: "",
           advertisementId: "",
           userId: "",
         },
@@ -500,11 +488,11 @@ export default {
           advertisementId: result.advertisementId,
           userId: result.userId,
           createdAt: result.createdAt,
-          updatedAt: result.updatedAt,
         }));
         this.list = applicantlist;
       });
     },
+    // init the table with all companies
     GetAllCompanies() {
       this.tableactivate = 4;
       this.selected = [
@@ -533,19 +521,21 @@ export default {
     },
 
     addOneAdvert(key) {
+      // need to split for create the object place
       var str = this.selected[0].place;
       var split = str.split(",");
       console.log("split");
       console.log(split);
       var place = {
-        city: split[1],
-        street: split[2],
+        city: split[0],
+        street: split[1],
       };
       this.selected[0].place = place;
       api.AddOneAdvert(key).then((result) => {});
       this.selected[0].place = "";
     },
     updateOneAdvert(id, res) {
+      // need to split for create the object Place if not created
       var str = this.selected[0].place;
       if (typeof str != "object") {
         var split = str.split('"');
@@ -598,11 +588,13 @@ export default {
         alert("deleted companie " + id);
       });
     },
+    // onSubmit submit update or add for all tables
     onSubmit(event) {
       event.preventDefault();
       this.selected[0].token = this.token;
       switch (this.tableactivate) {
         case 1:
+          //check if update or add with selected
           if (this.selected[0].id != null) {
             console.log("UpdateAdvert");
             this.updateOneAdvert(this.selected[0].id, this.selected[0]);
@@ -643,6 +635,7 @@ export default {
           break;
       }
     },
+    // link of all delete methods
     Delete() {
       this.selected[0].token = this.token;
       switch (this.tableactivate) {
