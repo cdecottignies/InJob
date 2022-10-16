@@ -78,20 +78,7 @@ export default class Api {
             }
         })
     }
-    // delete one advertissement
-    DeleteOneAdvert(id, token) {
-
-
-        return new Promise((resolve, reject) => {
-            try {
-                axios
-                    .delete(`${this.url}advertisements/admin/${token}/${id}`)
-                    .then((response) => { resolve(response.data) })
-            } catch (e) {
-                reject(e)
-            }
-        })
-    }
+    //update one advertisement
     UpdateOneAdvert(id, res) {
         return new Promise((resolve, reject) => {
             try {
@@ -103,6 +90,19 @@ export default class Api {
             }
         })
     }
+    // delete one advertissement
+    DeleteOneAdvert(id, token) {
+        return new Promise((resolve, reject) => {
+            try {
+                axios
+                    .delete(`${this.url}advertisements/admin/${token}/${id}`)
+                    .then((response) => { resolve(response.data) })
+            } catch (e) {
+                reject(e)
+            }
+        })
+    }
+    // user connected submit to a advertisement
     userResponseAdvert(key) {
         return new Promise((resolve, reject) => {
             try {
@@ -114,6 +114,7 @@ export default class Api {
             }
         })
     }
+    // user not connect submit to a advertisement with form
     anonymousResponseAdvert(key) {
         return new Promise((resolve, reject) => {
             try {
@@ -137,6 +138,7 @@ export default class Api {
             }
         })
     }
+
     UpdateUser(key) {
         return new Promise((resolve, reject) => {
             try {
@@ -193,7 +195,7 @@ export default class Api {
             }
         })
     }
-    AddOneApplicants(key) {
+    AddOneApplicant(key) {
         return new Promise((resolve, reject) => {
             try {
                 axios
@@ -204,7 +206,7 @@ export default class Api {
             }
         })
     }
-    UpdateOneApplicants(id, key) {
+    UpdateOneApplicant(id, key) {
         return new Promise((resolve, reject) => {
             try {
                 axios
@@ -215,7 +217,7 @@ export default class Api {
             }
         })
     }
-    DeleteOneApplicants(id, token) {
+    DeleteOneApplicant(id, token) {
 
         return new Promise((resolve, reject) => {
             try {
@@ -227,6 +229,7 @@ export default class Api {
             }
         })
     }
+
     GetAllCompanies() {
         return new Promise((resolve, reject) => {
             try {
@@ -238,7 +241,7 @@ export default class Api {
             }
         })
     }
-    AddOneCompanies(key) {
+    AddOneCompanie(key) {
         return new Promise((resolve, reject) => {
             try {
                 axios
@@ -249,7 +252,7 @@ export default class Api {
             }
         })
     }
-    UpdateOneCompanies(id, key) {
+    UpdateOneCompanie(id, key) {
         return new Promise((resolve, reject) => {
             try {
                 axios
@@ -260,8 +263,7 @@ export default class Api {
             }
         })
     }
-    DeleteOneCompanies(id, token) {
-
+    DeleteOneCompanie(id, token) {
         return new Promise((resolve, reject) => {
             try {
                 axios
