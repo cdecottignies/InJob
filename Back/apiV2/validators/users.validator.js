@@ -40,7 +40,7 @@ exports.updateUserAsAdmin = Joi.object().keys({
     lastName: Joi.string(),
     email: Joi.string().email(),
     // WIP
-    // password: Joi.string().regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/).required(),
+    password: Joi.string(),
     phone: Joi.string(),
     isAdmin: Joi.boolean(),
 });
