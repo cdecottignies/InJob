@@ -389,7 +389,7 @@ export default {
       } else if (this.tableactivate == 3) {
         this.selected = [
           {
-            id: "",
+            //id: "",
             advertisementId: "",
             userId: "",
           },
@@ -489,7 +489,7 @@ export default {
       this.tableactivate = 3;
       this.selected = [
         {
-          id: "",
+          //id: "",
           advertisementId: "",
           userId: "",
         },
@@ -579,10 +579,10 @@ export default {
       api.AddOneApplicant(key).then((result) => {});
     },
     updateOneApplicant(id, res) {
-      api.updateOneApplicant(id, res).then((result) => {});
+      api.UpdateOneApplicant(id, res).then((result) => {});
     },
     deleteOneApplicant(id) {
-      api.deleteOneApplicant(id, this.token).then((result) => {
+      api.DeleteOneApplicant(id, this.token).then((result) => {
         alert("deleted Applicant " + id);
       });
     },
