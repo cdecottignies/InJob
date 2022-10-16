@@ -1,0 +1,58 @@
+# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
+
+name: Deploy new version of InJob Doc
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build:
+
+    runs-on: self-hosted
+
+    strategy:
+      matrix:
+        node-version: [16.x]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+
+    steps:
+    # - uses: actions/checkout@v2
+
+    # - name: Use Node.js ${{ matrix.node-version }}
+    #   uses: actions/setup-node@v2
+    #   with:
+    #     node-version: ${{ matrix.node-version }}
+    #     cache: "npm"
+
+    # - name: Install dependencies
+    #   run: npm ci
+
+    # - name: Build
+    #   run: npm run build --if-present
+      
+    # - name: Test
+    #   run: npm test --if-present
+
+    # - uses: mr-smithers-excellent/docker-build-push@v5
+    # # --target development -t InjobDocs:latest . those params doesnt work with command Build
+    # # I have to find another way to passa param
+    #   name: Build && push Docker image
+    #   with:
+    #     tags: latest
+    #     image: musubi42/injob_doc
+    #     registry: docker.io
+    #     username: ${{ secrets.DOCKER_USERNAME }}
+    #     password: ${{ secrets.DOCKER_PASSWORD }}
+
+    # jde
+    - name: Move the code from the action-runner to the InJobDocJS Folder
+      run: bash /home/debian/.local/bin/InJob_CD_MV_Docs.sh
+
+    - name: Build the docker image
+      run: bash /home/debian/.local/bin/InJob_CD_Build_Docs.sh
+
+    # Now I need to use this image to deploy the new version
+    - name: Start the container from the newly created image, at the earlier step
+      run: bash /home/debian/.local/bin/InJob_CD_Up_Docs.sh
