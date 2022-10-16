@@ -51,39 +51,66 @@
           >
           <b-button v-b-modal="`modal-${advert.id}`" variant="warning">Apply</b-button>
 
-            <b-modal :id="`modal-${advert.id}`" hide-footer title="Send to the advertisement">
+        <b-modal
+              :id="`modal-${advert.id}`"
+              title="Send to the advertisement"
+              hide-footer
+            >
               <p class="my-4">Apply</p>
-              <b-form @submit="onSubmit" @reset="onReset">
-                <b-form-group
-                  id="input-group-1"
-                  label="Email address:"
-                  label-for="input-1"
-                  description="We'll never share your email with anyone else."
-                >
-                  <b-form-input
-                    id="input-1"
-                    v-model="form.email"
-                    type="email"
-                    placeholder="Enter email"
-                    required
-                  ></b-form-input>
-                </b-form-group>
+              <b-form @reset="onReset">
+                <div v-if="tokenbool == null">
+                  <b-form-group
+                    id="input-group-1"
+                    label="Email address:"
+                    label-for="input-1"
+                    description="We'll never share your email with anyone else."
+                  >
+                    <b-form-input
+                      id="input-1"
+                      v-model="form.email"
+                      type="email"
+                      placeholder="Enter email"
+                      required
+                    ></b-form-input>
+                  </b-form-group>
 
-                <b-form-group
-                  id="input-group-2"
-                  label="Your Name:"
-                  label-for="input-2"
-                >
-                  <b-form-input
-                    id="input-2"
-                    v-model="form.name"
-                    placeholder="Enter name"
-                    required
-                  ></b-form-input>
-                </b-form-group>
+                  <b-form-group
+                    id="input-group-2"
+                    label="Your Firstname:"
+                    label-for="input-2"
+                  >
+                    <b-form-input
+                      id="input-2"
+                      v-model="form.firstName"
+                      placeholder="Enter firstname"
+                      required
+                    ></b-form-input></b-form-group
+                  ><b-form-group
+                    id="input-group-3"
+                    label="Your Lastname:"
+                    label-for="input-3"
+                  >
+                    <b-form-input
+                      id="input-3"
+                      v-model="form.lastName"
+                      placeholder="Enter lastname"
+                      required
+                    ></b-form-input> </b-form-group
+                  ><b-form-group
+                    id="input-group-4"
+                    label="Your Phone:"
+                    label-for="input-4"
+                  >
+                    <b-form-input
+                      id="input-4"
+                      v-model="form.phone"
+                      placeholder="Enter phone"
+                      required
+                    ></b-form-input>
+                  </b-form-group>
+                </div>
+                <!-- <b-button v-on:click="sub" variant="primary">Submit</b-button> -->
               </b-form>
-                <b-button type="reset" variant="danger">Reset</b-button>
-                <b-button type="submit" variant="primary">Submit</b-button>
             </b-modal>
           <b-collapse :id="`collapse-${advert.id}`" class="mt-2">
             <p class="card-text">
@@ -112,27 +139,24 @@ export default {
   name: "SearchAdvert",
   data() {
     return {
+
       search: "",
       searchbool: false,
       advert: null,
+      idapply: "",
+
       tokenbool: getCookie("access_token"),
       idapply: "",
       form: {
         email: "",
-        name: "",
+        firstName: "",
+        lastName: "",
+        advertId: "",
+        phone: "",
       },
     };
   },
-  mounted() {},
   methods: {
-    onSubmit(event) {
-      event.preventDefault();
-      if (getCookie("access_token") != null) {
-        this.userResponse(this.idapply);
-      } else {
-        anonymousResponse(this.idapply);
-      }
-    },
     onReset(event) {
       event.preventDefault();
       // reset form
@@ -183,10 +207,18 @@ export default {
       advertId: id,
       token: getCookie("access_token"),
     };
-    console.log(res);
     api.userResponseAdvert(res).then((result) => {
       console.log(result);
     });
+  },
+  //error not working because handler  undefined
+  onsubmit(event) {
+    event.preventDefault();
+    if (getCookie("access_token") != null) {
+      this.userResponse(this.idapply);
+    } else {
+      this.anonymousResponse(this.idapply);
+    }
   },
 };
 </script>

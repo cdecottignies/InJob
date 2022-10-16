@@ -105,7 +105,6 @@ export default {
       advertlist: null,
       idapply: "",
       tokenbool: getCookie("access_token"),
-
       form: {
         email: "",
         firstName: "",
