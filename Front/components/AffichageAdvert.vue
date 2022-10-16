@@ -122,6 +122,7 @@ export default {
     this.GetAllAdvert();
   },
   methods: {
+    // get all advert
     GetAllAdvert() {
       api.GetAllAdvert().then((result) => {
         this.advertlist = result.map((result) => ({
@@ -140,6 +141,7 @@ export default {
         }));
       });
     },
+    // check if access_token exist and use route connected or anonymous
     onSubmit(event) {
       event.preventDefault();
       console.log(this.idapply);
@@ -161,12 +163,14 @@ export default {
         this.show = true;
       });
     },
+    // anonymous method with form to apply one advert
     anonymousResponse(id) {
       this.form.advertId = id;
       api.anonymousResponseAdvert(this.form).then((result) => {
         console.log(result);
       });
     },
+    // connected method to apply one advert
     userResponse(id) {
       var res = {
         advertId: id,
