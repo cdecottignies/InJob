@@ -16,7 +16,7 @@ exports.findByPK = Joi.object().keys({
 })
 
 exports.updateCompanie = Joi.object().keys({
-    id: Joi.string(),
+    id: Joi.number(),
     name: Joi.string(),
     siret: Joi.string().length(14),
     numEmploye: Joi.number(),

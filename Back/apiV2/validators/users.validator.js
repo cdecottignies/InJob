@@ -25,7 +25,7 @@ exports.findOneUser = Joi.object().keys({
 });
 
 exports.updateUser = Joi.object().keys({
-    id: Joi.string(),
+    id: Joi.number(),
     userId: Joi.number().required(),
     firstName: Joi.string(),
     lastName: Joi.string(),
@@ -34,6 +34,8 @@ exports.updateUser = Joi.object().keys({
 });
 
 exports.updateUserAsAdmin = Joi.object().keys({
+    id: Joi.number(),
+    companieId: Joi.number(),
     firstName: Joi.string(),
     lastName: Joi.string(),
     email: Joi.string().email(),
