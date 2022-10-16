@@ -11,25 +11,21 @@ exports.apply = (req, res) => {
       userId: req.body.userId // from authJwt.verifyToken
     };
   
-    if (validator.apply.validate(req.body).error) {
-      res.send(validator.apply.validate(req.body).error.details);
-    }  else {
-      // Save the applied job of the user in database
-      Applicants.create(applicants)
-      .then(data => {
-          res
-          .status(200)
-          .send({message: "You have successfully applied to this job."});
-      })
-      .catch(err => {
-          res
-          .status(500)
-          .send({
-              message:
-              err.message || "Some error occurred while adding the Ad to the User."
-          });
-      });
-    }
+    // Save the applied job of the user in database
+    Applicants.create(applicants)
+    .then(data => {
+        res
+        .status(200)
+        .send({message: "You have successfully applied to this job."});
+    })
+    .catch(err => {
+        res
+        .status(500)
+        .send({
+            message:
+            err.message || "Some error occurred while Applying."
+        });
+    });
   };
 
   exports.applyAnonymously = (req, res) => {
@@ -39,25 +35,36 @@ exports.apply = (req, res) => {
       userId: req.body.userId
     };
   
-    if (validator.applyAnonymously.validate(apply).error) {
-      res.send(validator.applyAnonymously.validate(apply).error.details);
-    }  else {
-      // Save the applied job of the anonymous user in database
-      Applicants.create(apply)
-      .then(data => {
-          res
-          .status(201)
-          .send(data);
-      })
-      .catch(err => {
-          res
-          .status(500)
-          .send({
-              message:
-              err.message || "Some error occurred while adding the Ad to the User."
-          });
-      });
-    }
+    // Save the applied job of the anonymous user in database
+    Applicants.create(apply)
+    .then(data => {
+        res
+        .status(201)
+        .send(data);
+    })
+    .catch(err => {
+        res
+        .status(500)
+        .send({
+            message:
+            err.message || "Some error occurred while Applying."
+        });
+    });
+  };
+
+  exports.findAll = (req, res) => {
+    Applicants.findAll()
+    .then(data => {
+        res.send(data);
+    })
+    .catch(err => {
+        res
+        .status(500)
+        .send({
+            message:
+            err.message || "Some error occurred while retrieving applicants."
+        });
+    });
   };
 
 // Delete an User with the specified id in the request
@@ -74,7 +81,7 @@ exports.delete = (req, res) => {
         res
         .status(500)
         .send({
-          message: `Cannot delete Tutorial with id=${id}. Maybe Tutorial was not found!`
+          message: `Cannot delete Applicant with id=${id}. Maybe Applicant was not found!`
         });
       }
     })
@@ -82,8 +89,24 @@ exports.delete = (req, res) => {
       res
       .status(500)
       .send({
-        message: "Could not delete Tutorial with id=" + id
+        message: "Could not delete Applicantion with id=" + id
       });
     });
 };
+
+exports.deleteAll = (req, res) => {
+  Applicants.destroy({
+    where: {},
+    truncate: false
+  })
+    .then(nums => {
+      res.send({ message: `${nums} Applicants were deleted successfully!` });
+    })
+    .catch(err => {
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while removing all applicants."
+      });
+    });
+}
 
