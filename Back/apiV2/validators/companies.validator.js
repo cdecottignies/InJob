@@ -22,7 +22,8 @@ exports.updateCompanie = Joi.object().keys({
     numEmploye: Joi.number(),
     desc: Joi.string(),
     link: Joi.string(),
-    logo: Joi.string()
+    logo: Joi.string(),
+    createdAt: Joi.string()
 });
 
 exports.deleteCompanie = Joi.object().keys({

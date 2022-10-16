@@ -43,6 +43,7 @@ exports.updateUserAsAdmin = Joi.object().keys({
     password: Joi.string(),
     phone: Joi.string(),
     isAdmin: Joi.boolean(),
+    createdAt: Joi.string(),
 });
 
 exports.deleteUser = Joi.object().keys({
