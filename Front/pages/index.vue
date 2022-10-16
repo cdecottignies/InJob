@@ -13,6 +13,7 @@
             <b-navbar-nav>
               <b-nav-item>
                 <b-button
+                  variant="warning"
                   v-if="cookie"
                   v-on:click="
                     (connex = false), (profile = false), (admin = true)
@@ -24,6 +25,7 @@
             <b-navbar-nav>
               <b-nav-item
                 ><b-button
+                  variant="warning"
                   v-if="cookie"
                   v-on:click="
                     ((connex = false), (profile = true)), (admin = false)
@@ -35,6 +37,7 @@
 
             <b-navbar-nav class="ml-auto">
               <b-button
+                variant="warning"
                 v-on:click="(connex = true), (admin = false), (profile = false)"
                 size="sm"
                 >connexion</b-button

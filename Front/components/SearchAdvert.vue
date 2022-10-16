@@ -14,7 +14,7 @@
           >
         </b-nav-form>
       </div>
-      <div>
+      <!-- <div>
         <b-dropdown class="mx-1" variant="warning" right text="Experiences">
           <b-dropdown-item>0</b-dropdown-item>
           <b-dropdown-item>1</b-dropdown-item>
@@ -32,7 +32,7 @@
           <b-dropdown-item>1</b-dropdown-item>
           <b-dropdown-item>2+</b-dropdown-item>
         </b-dropdown>
-      </div>
+      </div> -->
     </div>
     <div v-if="searchbool">
       <div class="card AffichageAdvert mx-5">
@@ -47,10 +47,9 @@
         </h4>
         <p>{{ advert.descShort }}</p>
         <div>
-          <b-button v-b-toggle="`collapse-${advert.id}`"
-            >learn more</b-button
+          <b-button variant="warning" v-b-toggle="`collapse-${advert.id}`">learn more</b-button
           >
-          <b-button v-b-modal="`modal-${advert.id}`">Apply</b-button>
+          <b-button v-b-modal="`modal-${advert.id}`" variant="warning">Apply</b-button>
 
             <b-modal :id="`modal-${advert.id}`" hide-footer title="Send to the advertisement">
               <p class="my-4">Apply</p>
@@ -108,21 +107,6 @@ import { getCookie } from "tiny-cookie";
 
 const api = new Api();
 
-// var advert = {
-//   id: "",
-//   title: "",
-//   descShort: "",
-//   descLong: "",
-//   wages: "",
-//   place: "",
-//   degree: "",
-//   workingTime: "",
-//   workingLocation: "",
-//   contractType: "",
-//   contractStart: "",
-//   createdAt: "",
-//   published: "",
-// };
 export default {
   components: { AffichageAdvert },
   name: "SearchAdvert",

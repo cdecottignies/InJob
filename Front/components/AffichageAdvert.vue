@@ -9,14 +9,16 @@
         </h4>
         <p>{{ value.descShort }}</p>
         <div>
-          <b-button v-b-toggle="`collapse-${value.id}`">learn more</b-button>
+          <b-button v-b-toggle="`collapse-${value.id}`" variant="warning"
+            >learn more</b-button
+          >
+          <b-button
+            v-on:click="idapply = value.id"
+            v-b-modal="`modal-${value.id}`"
+            variant="warning"
+            >Apply</b-button
+          >
           <div>
-            <b-button
-              v-on:click="idapply = value.id"
-              v-b-modal="`modal-${value.id}`"
-              >Apply</b-button
-            >
-
             <b-modal
               :id="`modal-${value.id}`"
               title="Send to the advertisement"
@@ -76,9 +78,6 @@
                   </b-form-group>
                 </div>
                 <b-button type="submit" variant="primary">Submit</b-button>
-                <div v-if="tokenbool == null">
-                  <b-button type="reset" variant="danger">Reset</b-button>
-                </div>
               </b-form>
             </b-modal>
           </div>
@@ -141,7 +140,6 @@ export default {
     // check if access_token exist and use route connected or anonymous
     onSubmit(event) {
       event.preventDefault();
-      console.log(this.idapply);
       if (getCookie("access_token") != null) {
         this.userResponse(this.idapply);
       } else {
@@ -151,10 +149,6 @@ export default {
     },
     onReset(event) {
       event.preventDefault();
-      // Reset our form values
-      this.form.email = "";
-      this.form.name = "";
-      // Trick to reset/clear native browser form validation state
       this.show = false;
       this.$nextTick(() => {
         this.show = true;
@@ -173,7 +167,6 @@ export default {
         advertId: id,
         token: getCookie("access_token"),
       };
-      console.log(res);
       api.userResponseAdvert(res).then((result) => {
         console.log(result);
       });

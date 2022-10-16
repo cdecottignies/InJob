@@ -4,17 +4,17 @@
       <b-button v-on:click="GetAllAdvert()" variant="primary"
         >Advertissements</b-button
       >
-      <b-button v-on:click="GetAllUser()" variant="secondary">Users</b-button>
-      <b-button v-on:click="GetAllApplicants()" variant="success"
+      <b-button v-on:click="GetAllUser()" variant="primary">Users</b-button>
+      <b-button v-on:click="GetAllApplicants()" variant="primary"
         >Applicants</b-button
       >
-      <b-button v-on:click="GetAllCompanies()" variant="success"
+      <b-button v-on:click="GetAllCompanies()" variant="primary"
         >Compagnies</b-button
       >
     </div>
     <br />
     <div>
-      <b-button v-b-modal.modal-1 variant="warning">Add/Update</b-button>
+      <b-button v-b-modal.modal-1 variant="danger">Add/Update</b-button>
       <b-button v-on:click="Delete()" variant="danger">Delete</b-button>
       <b-modal id="modal-1" title="change Data" hide-footer>
         <div v-if="this.tableactivate == 1">
