@@ -8,6 +8,7 @@ const findAllApplicants = applicant.findAllApplicants;
 const checkIfAlreadyApplied = applicant.checkIfAlreadyApplied;
 const validateApplyToAdvert = validate.validateApplyToAdvert;
 const validateApplyAnonymouslyToAdvert = validate.validateApplyAnonymouslyToAdvert;
+const validateUpdateApplication = validate.validateUpdateApplication;
 const validateDeleteApplication = validate.validateDeleteApplication;
 const applicantsController = require("../controllers/applicants.controller.js");
 const usersController = require("../controllers/users.controller.js");
@@ -23,6 +24,9 @@ router.post("/anonymously", [ validateApplyAnonymouslyToAdvert, checkDuplicatePh
 // Get all applicants of all ads, for all users
 // router.get("/admin/:token", [ verifyToken, isAdmin, findAllApplicants ], usersController.findAllWithApplicants);
 router.get("/admin/:token", [ verifyToken, isAdmin ], applicantsController.findAll);
+
+// Update one applicant
+router.put("/admin/:id", [ verifyToken, isAdmin, validateUpdateApplication ], applicantsController.update);
 
 // Delete an applicant, for an ad, for a user
 router.delete("/admin/:token/:id", [ verifyToken, isAdmin, validateDeleteApplication ], applicantsController.delete); 

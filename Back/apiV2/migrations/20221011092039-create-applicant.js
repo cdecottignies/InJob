@@ -12,7 +12,7 @@ module.exports = {
       advertisementId: {
         type: Sequelize.INTEGER
       },
-      userId: {
+      userid: {
         type: Sequelize.INTEGER
       },
       createdAt: {

@@ -136,6 +136,15 @@ validateApplyAnonymouslyToAdvert = async (req, res, next) => {
     }
 }
 
+validateUpdateApplication = async (req, res, next) => {
+  delete req.body.userId
+  if (applicantValidator.updateApplication.validate(req.body).error) {
+      res.send(applicantValidator.updateApplication.validate(req.body).error.details);
+    }  else {
+      next();
+    }
+}
+
 validateDeleteApplication = async (req, res, next) => {
   if (applicantValidator.deleteApplication.validate({ id: req.params.id}).error) {
       res.send(applicantValidator.deleteApplication.validate({ id: req.params.id}).error.details);
@@ -161,5 +170,6 @@ module.exports = {
   validateDeleteCompanie,
   validateApplyToAdvert,
   validateApplyAnonymouslyToAdvert,
+  validateUpdateApplication,
   validateDeleteApplication
 };

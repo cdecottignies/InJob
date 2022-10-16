@@ -15,6 +15,12 @@ exports.applyAnonymouslyToAdvert = Joi.object().keys({
     advertId: Joi.number().required()
 });
 
+exports.updateApplication = Joi.object().keys({
+    id: Joi.number(),
+    advertId: Joi.number(),
+    userid: Joi.number()
+})
+
 exports.deleteApplication = Joi.object().keys({
     id: Joi.number().required()
 });

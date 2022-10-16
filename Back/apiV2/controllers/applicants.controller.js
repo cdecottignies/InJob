@@ -53,9 +53,14 @@ exports.apply = (req, res) => {
   };
 
   exports.findAll = (req, res) => {
-    Applicants.findAll()
+    Applicants.findAll({
+      attributes: { include: ['id'] }
+    })
     .then(data => {
-        res.send(data);
+      // console.log(data);
+        res
+          .status(200)
+          .send(data);
     })
     .catch(err => {
         res
@@ -66,6 +71,27 @@ exports.apply = (req, res) => {
         });
     });
   };
+
+// Update an advertisement by the id in the request
+exports.update = (req, res) => {
+  let id = req.params.id
+  
+  Applicants.update({
+    advertisementId: req.body.advertId,
+    userid: req.body.userid,
+  },
+  { where: { id: id }})
+  .then(() => { 
+    res
+      .status(200)
+      .send({ message: `Application with id=${id} sucessfully updated.`})
+  })
+  .catch(err => {
+    res
+      .status(500)
+      .json(err) 
+  });
+};
 
 // Delete an User with the specified id in the request
 exports.delete = (req, res) => {

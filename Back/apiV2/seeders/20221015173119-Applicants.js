@@ -6,25 +6,25 @@ module.exports = {
      await queryInterface.bulkInsert('Applicants', [
       {
       advertisementId: 1,
-      userId: 1,
+      userid: 1,
       createdAt: new Date(),
       updatedAt: new Date()
      },
      {
       advertisementId: 2,
-      userId: 1,
+      userid: 1,
       createdAt: new Date(),
       updatedAt: new Date()
      },
      {
       advertisementId: 3,
-      userId: 1,
+      userid: 1,
       createdAt: new Date(),
       updatedAt: new Date()
      },
      {
       advertisementId: 1,
-      userId: 2,
+      userid: 2,
       createdAt: new Date(),
       updatedAt: new Date()
      },
