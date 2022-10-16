@@ -1,6 +1,7 @@
 const userValidator = require("../validators/index").users;
 const advertValidator = require("../validators/index").advertisements;
 const companieValidator = require("../validators/index").companies;
+const applicantValidator = require("../validators/index").applicants;
 
 
 // User validation
@@ -109,10 +110,35 @@ validateUpdateCompanie = async (req, res, next) => {
 }
 
 validateDeleteCompanie = async (req, res, next) => {
-  console.log(req.params);
   delete req.body.userId
   if (companieValidator.deleteCompanie.validate({ id: req.params.id}).error) {
       res.send(companieValidator.deleteCompanie.validate({ id: req.params.id}).error.details);
+    }  else {
+      next();
+    }
+}
+
+
+// Applicants
+validateApplyToAdvert = async (req, res, next) => {
+  if (applicantValidator.applyToAdvert.validate(req.body).error) {
+      res.send(applicantValidator.applyToAdvert.validate(req.body).error.details);
+    }  else {
+      next();
+    }
+}
+
+validateApplyAnonymouslyToAdvert = async (req, res, next) => {
+  if (applicantValidator.applyAnonymouslyToAdvert.validate(req.body).error) {
+      res.send(applicantValidator.applyAnonymouslyToAdvert.validate(req.body).error.details);
+    }  else {
+      next();
+    }
+}
+
+validateDeleteApplication = async (req, res, next) => {
+  if (applicantValidator.deleteApplication.validate({ id: req.params.id}).error) {
+      res.send(applicantValidator.deleteApplication.validate({ id: req.params.id}).error.details);
     }  else {
       next();
     }
@@ -132,5 +158,8 @@ module.exports = {
   validateCreateCompanie,
   validateFindByPK,
   validateUpdateCompanie,
-  validateDeleteCompanie
+  validateDeleteCompanie,
+  validateApplyToAdvert,
+  validateApplyAnonymouslyToAdvert,
+  validateDeleteApplication
 };
