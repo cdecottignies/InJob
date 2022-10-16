@@ -18,7 +18,7 @@
       <b-button v-on:click="Delete()" variant="danger">Delete</b-button>
       <b-modal id="modal-1" title="change Data" hide-footer>
         <div v-if="this.tableactivate == 1">
-          <b-form @submit="onSubmit" @reset="onReset" v-if="show">
+          <b-form @submit="onSubmit">
             <b-form-group id="input-group-2" label="title" label-for="input-2">
               <b-form-input
                 id="input-2"
@@ -137,7 +137,7 @@
           </b-form>
         </div>
         <div v-else-if="this.tableactivate == 2">
-          <b-form @submit="onSubmit" @reset="onReset" v-if="show">
+          <b-form @submit="onSubmit">
             <b-form-group
               id="input-group-2"
               label="firstName"
@@ -222,6 +222,90 @@
             <b-button type="submit" variant="primary">Submit</b-button>
           </b-form>
         </div>
+        <div v-else-if="this.tableactivate == 3">
+          <b-form @submit="onSubmit">
+            <b-form-group
+              id="input-group-1"
+              label="advertisementId"
+              label-for="input-1"
+            >
+              <b-form-input
+                id="input-1"
+                v-model="selected[0].advertisementId"
+                placeholder="enter advertisementId"
+                required
+              ></b-form-input>
+            </b-form-group>
+
+            <b-form-group id="input-group-2" label="userId" label-for="input-2">
+              <b-form-input
+                id="input-2"
+                v-model="selected[0].userId"
+                placeholder="Enter userId:"
+                required
+              ></b-form-input>
+            </b-form-group>
+            <b-button type="submit" variant="primary">Submit</b-button>
+          </b-form>
+        </div>
+        <div v-else-if="this.tableactivate == 4">
+          <b-form @submit="onSubmit">
+            <b-form-group id="input-group-1" label="name" label-for="input-1">
+              <b-form-input
+                id="input-1"
+                v-model="selected[0].name"
+                placeholder="enter name"
+                required
+              ></b-form-input>
+            </b-form-group>
+
+            <b-form-group id="input-group-2" label="siret" label-for="input-2">
+              <b-form-input
+                id="input-2"
+                v-model="selected[0].siret"
+                placeholder="enter siret"
+                required
+              ></b-form-input>
+            </b-form-group>
+            <b-form-group
+              id="input-group-3"
+              label="numEmploye"
+              label-for="input-3"
+            >
+              <b-form-input
+                id="input-3"
+                v-model="selected[0].numEmploye"
+                placeholder="enter numEmploye"
+                required
+              ></b-form-input>
+            </b-form-group>
+            <b-form-group id="input-group-4" label="desc" label-for="input-4">
+              <b-form-input
+                id="input-4"
+                v-model="selected[0].desc"
+                placeholder="enter desc"
+                required
+              ></b-form-input>
+            </b-form-group>
+            <b-form-group id="input-group-5" label="link" label-for="input-5">
+              <b-form-input
+                id="input-5"
+                v-model="selected[0].link"
+                placeholder="enter link"
+                required
+              ></b-form-input>
+            </b-form-group>
+            <b-form-group id="input-group-6" label="logo" label-for="input-6">
+              <b-form-input
+                id="input-6"
+                v-model="selected[0].logo"
+                placeholder="enter logo"
+                required
+              ></b-form-input>
+            </b-form-group>
+            <b-button type="submit" variant="primary">Submit</b-button>
+          </b-form>
+        </div>
       </b-modal>
     </div>
 
@@ -246,9 +330,9 @@ export default {
   name: "AffichageAdmin",
   data() {
     return {
-      show: true,
       list: null,
       tableactivate: 1,
+      token: getCookie("access_token"),
       selectMode: "single",
       userlist: null,
       selected: [
@@ -265,7 +349,6 @@ export default {
           contractStart: "",
         },
       ],
-      token: getCookie("access_token"),
     };
   },
   mounted() {
@@ -306,7 +389,7 @@ export default {
       } else if (this.tableactivate == 3) {
         this.selected = [
           {
-            id: "",
+            //id: "",
             advertisementId: "",
             userId: "",
           },
@@ -406,7 +489,7 @@ export default {
       this.tableactivate = 3;
       this.selected = [
         {
-          id: "",
+          //id: "",
           advertisementId: "",
           userId: "",
         },
@@ -448,15 +531,11 @@ export default {
         this.list = compagnieslist;
       });
     },
-    deleteOneAdvert(id) {
-      api.DeleteOneAdvert(id, this.token).then((result) => {});
-    },
-    AddOneAdvert(key) {
-      this.selected[0].token = this.token;
-      this.selected[0].companieId = 10;
-      var str = this.selected[0].place;
 
+    addOneAdvert(key) {
+      var str = this.selected[0].place;
       var split = str.split(",");
+      console.log("split");
       console.log(split);
       var place = {
         city: split[1],
@@ -466,111 +545,106 @@ export default {
       api.AddOneAdvert(key).then((result) => {});
       this.selected[0].place = "";
     },
-
-    UpdateAdvert(id, res) {
-      this.selected[0].token = this.token;
+    updateOneAdvert(id, res) {
       var str = this.selected[0].place;
       if (typeof str != "object") {
         var split = str.split('"');
-        console.log(res);
+        console.log(split);
         var place = {
           city: split[3],
           street: split[7],
         };
         this.selected[0].place = place;
-        console.log(this.selected[0].place);
       }
-      // console.log(this.selected[0].place.city);
-      api.UpdateOneAdvert(id, res).then((result) => {
-        //alert(result.data);
-      });
+      api.UpdateOneAdvert(id, res).then((result) => {});
+      this.selected[0].place = "";
+    },
+    deleteOneAdvert(id) {
+      api.DeleteOneAdvert(id, this.token).then((result) => {});
+      alert("deleted Advert " + id);
     },
 
-    AddOneUser(key) {
-      this.selected[0].token = this.token;
-
+    addOneUser(key) {
       api.AddOneUser(key).then((result) => {});
     },
-    UpdateOneUser(id, res) {
-      this.selected[0].token = this.token;
-      this.selected[0].companieId = 10;
-
+    updateOneUser(id, res) {
       api.UpdateOneUser(id, res).then((result) => {});
-    },
-    deleteOneApplicant(id, token) {
-      api.deleteOneAdvert(id, token).then((result) => {
-        alert(result);
-      });
-      this.GetAllAdvert();
-    },
-    AddOneUser(key) {
-      this.selected[0].token = this.token;
-
-      api.AddOneUser(key).then((result) => {});
     },
     deleteOneUser(id) {
       api.DeleteOneUser(id, this.token).then((result) => {});
+      alert("deleted User " + id);
     },
-    UpdateApplicant(id, res) {
-      this.selected[0].token = this.token;
-      this.selected[0].companieId = 10;
 
-      api.UpdateOneUser(id, res).then((result) => {});
+    addOneApplicant(key) {
+      api.AddOneApplicant(key).then((result) => {});
     },
-    deleteOneApplicant(id, token) {
-      api.deleteOneApplicant(id, token).then((result) => {
-        alert(result);
+    updateOneApplicant(id, res) {
+      api.UpdateOneApplicant(id, res).then((result) => {});
+    },
+    deleteOneApplicant(id) {
+      api.DeleteOneApplicant(id, this.token).then((result) => {
+        alert("deleted Applicant " + id);
       });
-      this.GetAllAdvert();
     },
 
+    addOneCompanie(key) {
+      api.AddOneCompanie(key).then((result) => {});
+    },
+    updateOneCompanie(id, res) {
+      api.UpdateOneCompanie(id, res).then((result) => {});
+    },
+    deleteOneCompanie(id) {
+      api.DeleteOneCompanie(id, this.token).then((result) => {
+        alert("deleted companie " + id);
+      });
+    },
     onSubmit(event) {
       event.preventDefault();
+      this.selected[0].token = this.token;
       switch (this.tableactivate) {
         case 1:
           if (this.selected[0].id != null) {
             console.log("UpdateAdvert");
-            this.UpdateAdvert(this.selected[0].id, this.selected[0]);
+            this.updateOneAdvert(this.selected[0].id, this.selected[0]);
           } else {
             console.log("AddOneAdvert");
-            this.AddOneAdvert(this.selected[0]);
+            this.addOneAdvert(this.selected[0]);
           }
           break;
         case 2:
           if (this.selected[0].id != null) {
             console.log("UpdateUser");
-            this.UpdateOneUser(this.selected[0].id, this.selected[0]);
+            this.updateOneUser(this.selected[0].id, this.selected[0]);
           } else {
             console.log("AddOneUser");
-            this.AddOneUser(this.selected[0]);
+            this.addOneUser(this.selected[0]);
           }
           break;
         case 3:
           if (this.selected[0].id != null) {
             console.log("UpdateApplicant");
-            this.UpdateApplicant(this.selected[0].id, this.selected[0]);
+            this.updateOneApplicant(this.selected[0].id, this.selected[0]);
           } else {
             console.log("AddApplicant");
-            this.AddApplicant(this.selected[0]);
+            this.addOneApplicant(this.selected[0]);
           }
           break;
         case 4:
           if (this.selected[0].id != null) {
             console.log("UpdateCompanies");
-            this.UpdateCompanie(this.selected[0].id, this.selected[0]);
+            this.updateOneCompanie(this.selected[0].id, this.selected[0]);
           } else {
             console.log("AddCompanies");
-            this.AddOneCompanies(this.selected[0]);
+            this.addOneCompanie(this.selected[0]);
           }
           break;
 
         default:
           break;
       }
-
-      //alert(JSON.stringify(this.form));
     },
     Delete() {
+      this.selected[0].token = this.token;
       switch (this.tableactivate) {
         case 1:
           this.deleteOneAdvert(this.selected[0].id);
@@ -579,22 +653,15 @@ export default {
           this.deleteOneUser(this.selected[0].id);
           break;
         case 3:
+          this.deleteOneApplicant(this.selected[0].id);
           break;
         case 4:
+          this.deleteOneCompanie(this.selected[0].id);
           break;
         default:
+          alert("error delete tableactivate > 4");
           break;
       }
-    },
-    onReset(event) {
-      event.preventDefault();
-      // Reset our form values
-
-      // Trick to reset/clear native browser form validation state
-      this.show = false;
-      this.$nextTick(() => {
-        this.show = true;
-      });
     },
   },
 };
