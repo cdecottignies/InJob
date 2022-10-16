@@ -14,12 +14,10 @@ exports.createUser = Joi.object().keys({
 });
 
 exports.createAnonymousUser = Joi.object().keys({
-    companieId: Joi.number().required(),
     firstName: Joi.string().required(),
     lastName: Joi.string().required(),
     email: Joi.string().email().required(),  
     phone: Joi.string().required(),
-    userId: Joi.number().required(),
 });
 
 exports.findOneUser = Joi.object().keys({
@@ -27,6 +25,7 @@ exports.findOneUser = Joi.object().keys({
 });
 
 exports.updateUser = Joi.object().keys({
+    id: Joi.string(),
     userId: Joi.number().required(),
     firstName: Joi.string(),
     lastName: Joi.string(),
