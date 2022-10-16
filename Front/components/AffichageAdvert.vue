@@ -4,12 +4,8 @@
       <div class="card AffichageAdvert mx-5">
         <h2 class="card-text text-center">{{ value.title }}</h2>
         <h4>
-          {{
-            "contract: " +
-            value.contractType +
-            " place: " +
-            JSON.stringify(value.place)
-          }}
+          {{ "contract: " + value.contractType }}<br />
+          {{ " city: " + value.place.city + " street: " + value.place.street }}
         </h4>
         <p>{{ value.descShort }}</p>
         <div>
@@ -110,6 +106,7 @@ export default {
       advertlist: null,
       idapply: "",
       tokenbool: getCookie("access_token"),
+
       form: {
         email: "",
         firstName: "",

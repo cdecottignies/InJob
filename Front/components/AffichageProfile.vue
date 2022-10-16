@@ -57,7 +57,7 @@ export default {
     // update user
     updateUser(key) {
       api.UpdateUser(key).then((result) => {
-        console.log(result);
+        console.log("updated user");
       });
     },
 
@@ -67,8 +67,9 @@ export default {
       if (getCookie("access_token") != null) {
         this.form.token = getCookie("access_token");
         this.updateUser(this.form);
+      } else {
+        alert("not connected");
       }
-      alert("not connected");
     },
     onReset(event) {
       event.preventDefault();

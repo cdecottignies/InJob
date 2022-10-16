@@ -22,7 +22,7 @@
             required
           ></b-form-input>
         </b-form-group>
-        <b-form-group id="input-group-2" label="Password" label-for="input-2">
+        <b-form-group id="input-group-2" label="Password with 8cara, 1[A-Z] and 1[0-9]:" label-for="input-2">
           <b-form-input
             id="input-2"
             type="password"
