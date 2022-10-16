@@ -106,7 +106,6 @@ exports.findOne = (req, res) => {
 // Update a User by the id contain in the token
 exports.update = (req, res) => {
     const id = req.body.userId;
-    console.log(req.body);
 
     Users.update({
       firstName: req.body.firstName,
