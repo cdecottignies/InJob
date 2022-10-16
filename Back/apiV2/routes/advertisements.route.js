@@ -8,11 +8,41 @@ const advertisementsController = require("../controllers/advertisements.controll
 
 var router = require("express").Router();
 
+
+
+
+ /**
+  * @swagger
+  * tags:
+  *   name: Books
+  *   description: The books managing API
+  */
+
+/**
+ * @swagger
+ * /books:
+ *   get:
+ *     summary: Returns the list of all the books
+ *     tags: [Books]
+ *     responses:
+ *       200:
+ *         description: The list of the books
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Book'
+ */
+
 // Create a new Advertisements
 router.post("/admin/", [ verifyToken, isAdmin, validateCreateAdvertisement ], advertisementsController.create);
 
 // Retrieve all Advertisements
 router.get("/", advertisementsController.findAll);
+
+// Retrieve one Advertisement by ID
+router.get("/:id", advertisementsController.findOne);
 
 // Update a Advertisements with id
 router.put("/admin/:id", [ verifyToken, isAdmin, validateUpdateAdvertisement ], advertisementsController.update);
