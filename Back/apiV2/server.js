@@ -4,7 +4,9 @@ const Joi = require('joi');
 const cors = require("cors");
 require('dotenv').config()
 const cookieParser = require('cookie-parser');
-
+// const swaggerJsDoc = require('swagger-jsdoc');
+// const swaggerUi = require('swagger-ui-express');
+const swaggerDocs = require('./utils/swagger');
 
 
 const PORT = process.env.PORT || 8090;
@@ -30,6 +32,9 @@ app.use('/api/companies', routes.companies);
 app.use('/api/users', routes.users);
 app.use('/api/auth', routes.auth);
 app.use('/api/applicants', routes.applicants);
+
+// Swagger
+swaggerDocs(app, PORT)
 
 // Start the server
 app.listen(PORT, () => console.log(`Listening on port: ${PORT}`))

@@ -11,7 +11,41 @@ const users = require("../controllers/users.controller.js");
 
 var router = require("express").Router();
 
-// Create a new User
+ /**
+  * @swagger
+  * tags:
+  *   name: User
+  *   description: The users managing API
+  */
+
+/**
+ * @swagger
+ * /users/admin:
+ *   post:
+ *     tags: [User]
+ *     security:
+ *       - Authorization: []
+ *     summary: Create a new user
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             items:
+ *               $ref: '#/components/schemas/Users'
+ *               type: object
+ *               properties:
+ *                 updatedAt: 45678
+ *     responses:
+ *       201:
+ *         description: A newly created user
+ *         content:
+ *           applicantion/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Users'
+ *       500: 
+ *         description: Some error occured while creating the User
+ */
 router.post("/admin/", [ verifyToken, isAdmin, validateCreateUser, checkDuplicatePhoneOrEmail ], users.create);
 
 // Retrieve all Users
